@@ -66,6 +66,9 @@ class FashionShop {
 			case 3:
 				searchOrder();
 				break;
+			case 6:
+				deleteOrder();
+				break;
 		}
 	}
 
@@ -280,22 +283,25 @@ class FashionShop {
 
 	public static void searchCustomer() {
 		clearConsole();
-		System.out.println("\n    _____                     _        _____          _                           "); 
+		System.out.println("\n    _____                     _        _____          _                           ");
 		System.out.println("   / ____|                   | |      / ____|        | |                          ");
-		System.out.println("  | (___   ___  __ _ _ __ ___| |__   | |    _   _ ___| |_ ___  _ __ ___   ___ _ __"); 
-		System.out.println("   \\___ \\ / _ \\/ _` | '__/ __| '_ \\  | |   | | | / __| __/ _ \\| '_ ` _ \\ / _ \\ '__|");
-		System.out.println("   ____) |  __/ (_| | | | (__| | | | | |___| |_| \\__ \\ || (_) | | | | | |  __/ |  "); 
-		System.out.println("  |_____/ \\___|\\__,_|_|  \\___|_| |_|  \\_____\\__,_|___/\\__\\___/|_| |_| |_|\\___|_|  "); 
-		System.out.println("\n-------------------------------------------------------------------------------------\n\n");
-	
+		System.out.println("  | (___   ___  __ _ _ __ ___| |__   | |    _   _ ___| |_ ___  _ __ ___   ___ _ __");
+		System.out
+				.println("   \\___ \\ / _ \\/ _` | '__/ __| '_ \\  | |   | | | / __| __/ _ \\| '_ ` _ \\ / _ \\ '__|");
+		System.out.println("   ____) |  __/ (_| | | | (__| | | | | |___| |_| \\__ \\ || (_) | | | | | |  __/ |  ");
+		System.out
+				.println("  |_____/ \\___|\\__,_|_|  \\___|_| |_|  \\_____\\__,_|___/\\__\\___/|_| |_| |_|\\___|_|  ");
+		System.out
+				.println("\n-------------------------------------------------------------------------------------\n\n");
+
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Enter Customer Phone Number : ");
 		String searchInputTP = scanner.nextLine();
-	
+
 		boolean found = false;
 		double totalAmount = 0;
 		boolean[] processed = new boolean[tpNumberMainArray.length];
-	
+
 		for (int i = 0; i < tpNumberMainArray.length; i++) {
 			if (tpNumberMainArray[i].equals(searchInputTP) && !processed[i]) {
 				if (!found) {
@@ -305,26 +311,27 @@ class FashionShop {
 					System.out.println("\t|               |               |               |");
 					found = true;
 				}
-	
+
 				int totalQty = qtyMainArray[i];
 				double amountForSize = amountMainArray[i];
 				processed[i] = true;
-	
+
 				for (int j = i + 1; j < tpNumberMainArray.length; j++) {
-					if (tpNumberMainArray[j].equals(searchInputTP) && sizeMainArray[j].equals(sizeMainArray[i]) && !processed[j]) {
+					if (tpNumberMainArray[j].equals(searchInputTP) && sizeMainArray[j].equals(sizeMainArray[i])
+							&& !processed[j]) {
 						totalQty += qtyMainArray[j];
 						amountForSize += amountMainArray[j];
 						processed[j] = true;
 					}
 				}
-	
+
 				System.out.println("\t|\t" + sizeMainArray[i] + "\t|\t" + totalQty + "\t|\t" + amountForSize + "\t|");
 				System.out.println("\t|               |               |               |");
-	
+
 				totalAmount += amountForSize;
 			}
 		}
-	
+
 		if (found) {
 			System.out.println("\t+---------------+---------------+---------------+");
 			System.out.println("\t|\tTotal Amount\t\t|\t" + totalAmount + "\t|");
@@ -339,7 +346,7 @@ class FashionShop {
 			reDirection(config, "searchCustomer");
 		}
 	}
-	
+
 	public static void searchOrder() {
 		clearConsole();
 		System.out.println("    _____                     _        ____          _           ");
@@ -378,6 +385,97 @@ class FashionShop {
 		reDirection(config, "searchOrder");
 	}
 
+	public static void deleteOrder() {
+		clearConsole();
+		System.out.println("   _____       _      _          ____          _           ");
+		System.out.println("  |  __ \\     | |    | |        / __ \\        | |          ");
+		System.out.println("  | |  | | ___| | ___| |_ ___  | |  | |_ __ __| | ___ _ __ ");
+		System.out.println("  | |  | |/ _ \\ |/ _ \\ __/ _ \\ | |  | | '__/ _` |/ _ \\ '__|");
+		System.out.println("  | |__| |  __/ |  __/ ||  __/ | |__| | | | (_| |  __/ |   ");
+		System.out.println("  |_____/ \\___|_|\\___|\\__\\___|  \\____/|_|  \\__,_|\\___|_|   ");
+		System.out.println("\n------------------------------------------------------------\n\n");
+
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Enter Order ID: ");
+		String searchInputOID = scanner.nextLine();
+		boolean orderFound = false;
+		int foundIndex = -1;
+
+		for (int i = 0; i < orderIdMainArray.length; i++) {
+			if (orderIdMainArray[i].equals(searchInputOID)) {
+				foundIndex = i;
+				orderFound = true;
+				System.out.println("\nPhone Number : " + tpNumberMainArray[i]);
+				System.out.println("Size         : " + sizeMainArray[i]);
+				System.out.println("QTY          : " + qtyMainArray[i]);
+				System.out.println("Amount       : " + amountMainArray[i]);
+				System.out.println("Status       : " + statusMainArray[i]);
+				break;
+			}
+		}
+
+		if (!orderFound) {
+			System.out.println("\nOrder ID not found in the system!");
+			deleteOrder();
+		} else {
+			confirmDelete(foundIndex);
+			System.out.print("\n\nDo you want to delete another order? (Y/N) : ");
+			char config = scanner.next().charAt(0);
+			reDirection(config, "deleteOrder");
+		}
+	}
+
+	public static void confirmDelete(int index) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("\n\nDo you want to delete this order? (Y/N) : ");
+		char configPlace = scanner.next().charAt(0);
+	
+		if (configPlace == 'Y' || configPlace == 'y') {
+			System.out.print("\n\tOrder Deleted..!");
+			shortenArrays(index);
+		} else if (configPlace == 'N' || configPlace == 'n') {
+			deleteOrder();
+		} else {
+			System.out.print("\033[3A");
+			System.out.print("\033[0J");
+			confirmDelete(index);
+		}
+	}
+
+	public static void shortenArrays(int index) {
+		String[] tempOID = new String[orderIdMainArray.length - 1];
+		String[] tempSize = new String[sizeMainArray.length - 1];
+		int[] tempQty = new int[qtyMainArray.length - 1];
+		double[] tempAmount = new double[amountMainArray.length - 1];
+		String[] tempTPNum = new String[tpNumberMainArray.length - 1];
+		String[] tempStatus = new String[statusMainArray.length - 1];
+	
+		for (int j = 0; j < index; j++) {
+			tempOID[j] = orderIdMainArray[j];
+			tempSize[j] = sizeMainArray[j];
+			tempQty[j] = qtyMainArray[j];
+			tempAmount[j] = amountMainArray[j];
+			tempTPNum[j] = tpNumberMainArray[j];
+			tempStatus[j] = statusMainArray[j];
+		}
+	
+		for (int j = index + 1; j < orderIdMainArray.length; j++) {
+			tempOID[j - 1] = orderIdMainArray[j];
+			tempSize[j - 1] = sizeMainArray[j];
+			tempQty[j - 1] = qtyMainArray[j];
+			tempAmount[j - 1] = amountMainArray[j];
+			tempTPNum[j - 1] = tpNumberMainArray[j];
+			tempStatus[j - 1] = statusMainArray[j];
+		}
+	
+		orderIdMainArray = tempOID;
+		sizeMainArray = tempSize;
+		qtyMainArray = tempQty;
+		amountMainArray = tempAmount;
+		tpNumberMainArray = tempTPNum;
+		statusMainArray = tempStatus;
+	}
+
 	public static void reDirection(char config, String configId) {
 		if (config == 'Y' || config == 'y') {
 			switch (configId) {
@@ -392,6 +490,9 @@ class FashionShop {
 					break;
 				case "searchOrder":
 					searchOrder();
+					break;
+				case "deleteOrder":
+					deleteOrder();
 					break;
 				default:
 					System.out.println("Redirecting to home page.");
