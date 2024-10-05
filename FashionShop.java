@@ -228,7 +228,7 @@ class FashionShop {
 		reDirection(config, "searchOrder");
 	}
 
-	public static void reports(){
+	public static void reports() {
 		clearConsole();
 		System.out.println("   _____                       _       ");
 		System.out.println("  |  __ \\                     | |      ");
@@ -239,7 +239,7 @@ class FashionShop {
 		System.out.println("             | |                         ");
 		System.out.println("             |_|                         ");
 		System.out.println("-----------------------------------------\n\n");
-		
+
 		System.out.println("\t[1] Customer Reports\n");
 		System.out.println("\t[2] Item Reports\n");
 		System.out.println("\t[3] Order Reports\n");
@@ -248,7 +248,7 @@ class FashionShop {
 		System.out.print("\nInput Option : ");
 		int reportsOption = scanner.nextInt();
 
-		switch(reportsOption){
+		switch (reportsOption) {
 			case 1:
 				customerReports();
 				break;
@@ -306,15 +306,19 @@ class FashionShop {
 
 	public static void customerReports() {
 		clearConsole();
-		System.out.println("    _____          _                              _____                       _       "); 
+		System.out.println("    _____          _                              _____                       _       ");
 		System.out.println("   / ____|        | |                            |  __ \\                     | |      ");
 		System.out.println("  | |    _   _ ___| |_ ___  _ __ ___   ___ _ __  | |__) |___ _ __   ___  _ __| |_ ___ ");
-		System.out.println("  | |   | | | / __| __/ _ \\| '_ ` _ \\ / _ \\ '__| |  _  // _ \\ '_ \\ / _ \\| '__| __/ __|");
-		System.out.println("  | |___| |_| \\__ \\ || (_) | | | | | |  __/ |    | | \\ \\  __/ |_) | (_) | |  | |_\\__ \\");
-		System.out.println("   \\_____\\__,_|___/\\__\\___/|_| |_| |_|\\___|_|    |_|  \\_\\___| .__/ \\___/|_|   \\__|___/");
+		System.out.println(
+				"  | |   | | | / __| __/ _ \\| '_ ` _ \\ / _ \\ '__| |  _  // _ \\ '_ \\ / _ \\| '__| __/ __|");
+		System.out.println(
+				"  | |___| |_| \\__ \\ || (_) | | | | | |  __/ |    | | \\ \\  __/ |_) | (_) | |  | |_\\__ \\");
+		System.out.println(
+				"   \\_____\\__,_|___/\\__\\___/|_| |_| |_|\\___|_|    |_|  \\_\\___| .__/ \\___/|_|   \\__|___/");
 		System.out.println("                                                            | |                       ");
 		System.out.println("                                                            |_|                       ");
-		System.out.println("----------------------------------------------------------------------------------------\n\n");
+		System.out.println(
+				"----------------------------------------------------------------------------------------\n\n");
 
 	}
 
@@ -333,15 +337,15 @@ class FashionShop {
 
 	public static void orderReports() {
 		clearConsole();
-System.out.println("    ____          _             _____                       _       ");
-System.out.println("   / __ \\        | |           |  __ \\                     | |      ");
-System.out.println("  | |  | |_ __ __| | ___ _ __  | |__) |___ _ __   ___  _ __| |_ ___ ");
-System.out.println("  | |  | | '__/ _` |/ _ \\ '__| |  _  // _ \\ '_ \\ / _ \\| '__| __/ __|");
-System.out.println("  | |__| | | | (_| |  __/ |    | | \\ \\  __/ |_) | (_) | |  | |_\\__ \\");
-System.out.println("   \\____/|_|  \\__,_|\\___|_|    |_|  \\_\\___| .__/ \\___/|_|   \\__|___/");
-System.out.println("                                          | |                       ");
-System.out.println("                                          |_|                       ");
-System.out.println("-------------------------------------------------------------------------\n\n");
+		System.out.println("    ____          _             _____                       _       ");
+		System.out.println("   / __ \\        | |           |  __ \\                     | |      ");
+		System.out.println("  | |  | |_ __ __| | ___ _ __  | |__) |___ _ __   ___  _ __| |_ ___ ");
+		System.out.println("  | |  | | '__/ _` |/ _ \\ '__| |  _  // _ \\ '_ \\ / _ \\| '__| __/ __|");
+		System.out.println("  | |__| | | | (_| |  __/ |    | | \\ \\  __/ |_) | (_) | |  | |_\\__ \\");
+		System.out.println("   \\____/|_|  \\__,_|\\___|_|    |_|  \\_\\___| .__/ \\___/|_|   \\__|___/");
+		System.out.println("                                          | |                       ");
+		System.out.println("                                          |_|                       ");
+		System.out.println("-------------------------------------------------------------------------\n\n");
 	}
 
 	public static void confirmOrder() {
