@@ -319,11 +319,29 @@ class FashionShop {
 	}
 
 	public static void itemReports() {
-		
+		clearConsole();
+		System.out.println("   _____ _                   _____                       _       ");
+		System.out.println("  |_   _| |                 |  __ \\                     | |      ");
+		System.out.println("    | | | |_ ___ _ __ ___   | |__) |___ _ __   ___  _ __| |_ ___ ");
+		System.out.println("    | | | __/ _ \\ '_ ` _ \\  |  _  // _ \\ '_ \\ / _ \\| '__| __/ __|");
+		System.out.println("   _| |_| ||  __/ | | | | | | | \\ \\  __/ |_) | (_) | |  | |_\\__ \\");
+		System.out.println("  |_____|\\__\\___|_| |_| |_| |_|  \\_\\___| .__/ \\___/|_|   \\__|___/");
+		System.out.println("                                       | |                      ");
+		System.out.println("                                       |_|                      ");
+		System.out.println("---------------------------------------------------------------------\n\n");
 	}
 
 	public static void orderReports() {
-		
+		clearConsole();
+System.out.println("    ____          _             _____                       _       ");
+System.out.println("   / __ \\        | |           |  __ \\                     | |      ");
+System.out.println("  | |  | |_ __ __| | ___ _ __  | |__) |___ _ __   ___  _ __| |_ ___ ");
+System.out.println("  | |  | | '__/ _` |/ _ \\ '__| |  _  // _ \\ '_ \\ / _ \\| '__| __/ __|");
+System.out.println("  | |__| | | | (_| |  __/ |    | | \\ \\  __/ |_) | (_) | |  | |_\\__ \\");
+System.out.println("   \\____/|_|  \\__,_|\\___|_|    |_|  \\_\\___| .__/ \\___/|_|   \\__|___/");
+System.out.println("                                          | |                       ");
+System.out.println("                                          |_|                       ");
+System.out.println("-------------------------------------------------------------------------\n\n");
 	}
 
 	public static void confirmOrder() {
