@@ -72,6 +72,9 @@ class FashionShop {
 			case 6:
 				deleteOrder();
 				break;
+			default:
+				homePage();
+				break;
 		}
 	}
 
@@ -138,55 +141,69 @@ class FashionShop {
 				.println("\n-------------------------------------------------------------------------------------\n\n");
 
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("Enter Customer Phone Number : ");
+		System.out.print("Enter Customer Phone Number: ");
 		String searchInputTP = scanner.nextLine();
 
 		boolean found = false;
 		double totalAmount = 0;
-		boolean[] processed = new boolean[tpNumberMainArray.length];
+
+		String[] processedSizes = new String[tpNumberMainArray.length];
+		int[] totalQtyForSize = new int[tpNumberMainArray.length];
+		double[] totalAmountForSize = new double[tpNumberMainArray.length];
+		int processedCount = 0;
 
 		for (int i = 0; i < tpNumberMainArray.length; i++) {
-			if (tpNumberMainArray[i].equals(searchInputTP) && !processed[i]) {
+			boolean isMatch = true;
+			for (int j = 0; j < searchInputTP.length(); j++) {
+				if (searchInputTP.charAt(j) != tpNumberMainArray[i].charAt(j)) {
+					isMatch = false;
+					break;
+				}
+			}
+
+			if (isMatch) {
 				if (!found) {
 					System.out.println("\n\t+---------------+---------------+---------------+");
 					System.out.println("\t|\tSize\t|\tQTY\t|\tAmount\t|");
 					System.out.println("\t+---------------+---------------+---------------+");
-					System.out.println("\t|               |               |               |");
 					found = true;
 				}
 
-				int totalQty = qtyMainArray[i];
-				double amountForSize = amountMainArray[i];
-				processed[i] = true;
-
-				for (int j = i + 1; j < tpNumberMainArray.length; j++) {
-					if (tpNumberMainArray[j].equals(searchInputTP) && sizeMainArray[j].equals(sizeMainArray[i])
-							&& !processed[j]) {
-						totalQty += qtyMainArray[j];
-						amountForSize += amountMainArray[j];
-						processed[j] = true;
+				boolean sizeAlreadyProcessed = false;
+				int index = -1;
+				for (int k = 0; k < processedCount; k++) {
+					if (processedSizes[k].equals(sizeMainArray[i])) {
+						sizeAlreadyProcessed = true;
+						index = k;
+						break;
 					}
 				}
 
-				System.out.println("\t|\t" + sizeMainArray[i] + "\t|\t" + totalQty + "\t|\t" + amountForSize + "\t|");
-				System.out.println("\t|               |               |               |");
+				if (sizeAlreadyProcessed) {
+					totalQtyForSize[index] += qtyMainArray[i];
+					totalAmountForSize[index] += amountMainArray[i];
+				} else {
+					processedSizes[processedCount] = sizeMainArray[i];
+					totalQtyForSize[processedCount] = qtyMainArray[i];
+					totalAmountForSize[processedCount] = amountMainArray[i];
+					processedCount++;
+				}
 
-				totalAmount += amountForSize;
+				totalAmount += amountMainArray[i];
 			}
+		}
+
+		for (int i = 0; i < processedCount; i++) {
+			System.out.println("\t|\t" + processedSizes[i] + "\t|\t" + totalQtyForSize[i] + "\t|\t"
+					+ totalAmountForSize[i] + "\t|");
+			System.out.println("\t|               |               |               |");
 		}
 
 		if (found) {
 			System.out.println("\t+---------------+---------------+---------------+");
-			System.out.println("\t|\tTotal Amount\t\t|\t" + totalAmount + "\t|");
-			System.out.println("\t+-------------------------------+---------------+");
-			System.out.print("\n\nDo you want to search another customer report? (Y/N): ");
-			char config = scanner.next().charAt(0);
-			reDirection(config, "searchCustomer");
+			System.out.println("\tTotal Amount: " + totalAmount);
 		} else {
-			System.out.println("\n\tInvalid input..");
-			System.out.print("\n\nDo you want to search another customer report? (Y/N): ");
-			char config = scanner.next().charAt(0);
-			reDirection(config, "searchCustomer");
+			System.out.println("No records found for this phone number.");
 		}
 	}
 
@@ -319,6 +336,261 @@ class FashionShop {
 		System.out.println("                                                            |_|                       ");
 		System.out.println(
 				"----------------------------------------------------------------------------------------\n\n");
+
+		System.out.println("\t[1] Best in Customers\n");
+		System.out.println("\t[2] View Customers\n");
+		System.out.println("\t[3] All Customer Reports\n");
+
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("\nInput Option : ");
+		int CustomerReportsOption = scanner.nextInt();
+
+		switch (CustomerReportsOption) {
+			case 1:
+				bestInCustomers();
+				break;
+			case 2:
+				viewCustomers();
+				break;
+			case 3:
+				allCustomerReports();
+				break;
+			default:
+				System.out.println("Invalid input..");
+				break;
+		}
+	}
+
+	public static void bestInCustomers() {
+		clearConsole();
+
+		System.out.println("   ____            _     _____          _____          _                                ");
+		System.out.println("  |  _ \\          | |   |_   _|        / ____|        | |                               ");
+		System.out.println("  | |_) | ___  ___| |_    | |  _ __   | |    _   _ ___| |_ ___  _ __ ___   ___ _ __ ___ ");
+		System.out.println(
+				"  |  _ < / _ \\/ __| __|   | | | '_ \\  | |   | | | / __| __/ _ \\| '_ ` _ \\ / _ \\ '__/ __|");
+		System.out.println(
+				"  | |_) |  __/\\__ \\ |_   _| |_| | | | | |___| |_| \\__ \\ || (_) | | | | | |  __/ |  \\__ \\");
+		System.out.println(
+				"  |____/ \\___||___/\\__| |_____|_| |_|  \\_____\\__,_|___/\\__\\___/|_| |_| |_|\\___|_|  |___/");
+		System.out.println(
+				"----------------------------------------------------------------------------------------\n\n");
+
+		String[] customerIDs = new String[tpNumberMainArray.length];
+		int[] totalQty = new int[tpNumberMainArray.length];
+		double[] totalAmount = new double[tpNumberMainArray.length];
+		int uniqueCustomers = 0;
+
+		for (int i = 0; i < tpNumberMainArray.length; i++) {
+			boolean isNewCustomer = true;
+			int customerIndex = -1;
+
+			for (int j = 0; j < uniqueCustomers; j++) {
+				if (tpNumberMainArray[i].equals(customerIDs[j])) {
+					isNewCustomer = false;
+					customerIndex = j;
+					break;
+				}
+			}
+
+			if (isNewCustomer) {
+				customerIDs[uniqueCustomers] = tpNumberMainArray[i];
+				totalQty[uniqueCustomers] = qtyMainArray[i];
+				totalAmount[uniqueCustomers] = amountMainArray[i];
+				uniqueCustomers++;
+			} else {
+				totalQty[customerIndex] += qtyMainArray[i];
+				totalAmount[customerIndex] += amountMainArray[i];
+			}
+		}
+
+		for (int i = 0; i < uniqueCustomers - 1; i++) {
+			for (int j = 0; j < uniqueCustomers - i - 1; j++) {
+				if (totalAmount[j] < totalAmount[j + 1]) {
+
+					String tempID = customerIDs[j];
+					customerIDs[j] = customerIDs[j + 1];
+					customerIDs[j + 1] = tempID;
+
+					int tempQty = totalQty[j];
+					totalQty[j] = totalQty[j + 1];
+					totalQty[j + 1] = tempQty;
+
+					double tempAmount = totalAmount[j];
+					totalAmount[j] = totalAmount[j + 1];
+					totalAmount[j + 1] = tempAmount;
+				}
+			}
+
+		}
+
+		System.out.printf("\n\t+---------------+---------------+---------------+\n");
+		System.out.printf("\t| %-13s | %-13s | %-13s |\n", "Customer ID", "All QTY", "Total Amount");
+		System.out.printf("\t+---------------+---------------+---------------+\n");
+
+		for (int i = 0; i < uniqueCustomers; i++) {
+			System.out.printf("\t| %-13s | %-13d | %-13.2f |\n", customerIDs[i], totalQty[i], totalAmount[i]);
+			System.out.printf("\t+---------------+---------------+---------------+\n");
+		}
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("\nTo access the main Menu, please enter 0 : ");
+		int toMenuInput = scanner.nextInt();
+
+		if (toMenuInput == 0) {
+			homePage();
+		} else {
+			System.out.println("Invalid input..");
+		}
+	}
+
+	public static void viewCustomers() {
+		clearConsole();
+		System.out.println("  __      ___                  _____          _                                ");
+		System.out.println("  \\ \\    / (_)                / ____|        | |                               ");
+		System.out.println("   \\ \\  / / _  _____      __ | |    _   _ ___| |_ ___  _ __ ___   ___ _ __ ___ ");
+		System.out.println("    \\ \\/ / | |/ _ \\ \\ /\\ / / | |   | | | / __| __/ _ \\| '_ ` _ \\ / _ \\ '__/ __|");
+		System.out.println("     \\  /  | |  __/\\ V  V /  | |___| |_| \\__ \\ || (_) | | | | | |  __/ |  \\__ \\");
+		System.out.println("      \\/   |_|\\___| \\_/\\_/    \\_____\\__,_|___/\\__\\___/|_| |_| |_|\\___|_|  |___/");
+		System.out.println("-----------------------------------------------------------------------------------\n\n");
+
+		String[] customerIDs = new String[tpNumberMainArray.length];
+		int[] totalQty = new int[tpNumberMainArray.length];
+		double[] totalAmount = new double[tpNumberMainArray.length];
+		int uniqueCustomers = 0;
+
+		for (int i = 0; i < tpNumberMainArray.length; i++) {
+			boolean isNewCustomer = true;
+			int customerIndex = -1;
+
+			for (int j = 0; j < uniqueCustomers; j++) {
+				if (tpNumberMainArray[i].equals(customerIDs[j])) {
+					isNewCustomer = false;
+					customerIndex = j;
+					break;
+				}
+			}
+
+			if (isNewCustomer) {
+				customerIDs[uniqueCustomers] = tpNumberMainArray[i];
+				totalQty[uniqueCustomers] = qtyMainArray[i];
+				totalAmount[uniqueCustomers] = amountMainArray[i];
+				uniqueCustomers++;
+			} else {
+				totalQty[customerIndex] += qtyMainArray[i];
+				totalAmount[customerIndex] += amountMainArray[i];
+			}
+		}
+
+		System.out.printf("\n\t+---------------+---------------+---------------+\n");
+		System.out.printf("\t| %-13s | %-13s | %-13s |\n", "Customer ID", "All QTY", "Total Amount");
+		System.out.printf("\t+---------------+---------------+---------------+\n");
+
+		for (int i = 0; i < uniqueCustomers; i++) {
+			System.out.printf("\t| %-13s | %-13d | %-13.2f |\n", customerIDs[i], totalQty[i], totalAmount[i]);
+			System.out.printf("\t+---------------+---------------+---------------+\n");
+		}
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("\nTo access the main Menu, please enter 0 : ");
+		int toMenuInput = scanner.nextInt();
+
+		if (toMenuInput == 0) {
+			homePage();
+		} else {
+			System.out.println("Invalid input..");
+		}
+	}
+
+	public static void allCustomerReports() {
+		clearConsole();
+		System.out.println(
+				"            _ _    _____          _                                  _____                       _       ");
+		System.out.println(
+				"      /\\   | | |  / ____|        | |                                |  __ \\                     | |      ");
+		System.out.println(
+				"     /  \\  | | | | |    _   _ ___| |_ ___  _ __ ___   ___ _ __ ___  | |__) |___ _ __   ___  _ __| |_ ___ ");
+		System.out.println(
+				"    / /\\ \\ | | | | |   | | | / __| __/ _ \\| '_ ` _ \\ / _ \\ '__/ __| |  _  // _ \\ '_ \\ / _ \\| '__| __/ __|");
+		System.out.println(
+				"   / ____ \\| | | | |___| |_| \\__ \\ || (_) | | | | | |  __/ |  \\__ \\ | | \\ \\  __/ |_) | (_) | |  | |_\\__ \\");
+		System.out.println(
+				"  /_/    \\_\\_|_|  \\_____\\__,_|___/\\__\\___/|_| |_| |_|\\___|_|  |___/ |_|  \\_\\___| .__/ \\___/|_|   \\__|___/");
+		System.out.println(
+				"                                                                                | |                      ");
+		System.out.println(
+				"                                                                                |_|                      ");
+		System.out.println(
+				"-------------------------------------------------------------------------------------------------------------\n\n");
+
+		String[] customerIDs = new String[tpNumberMainArray.length];
+		int[] qtyXS = new int[tpNumberMainArray.length];
+		int[] qtyS = new int[tpNumberMainArray.length];
+		int[] qtyM = new int[tpNumberMainArray.length];
+		int[] qtyL = new int[tpNumberMainArray.length];
+		int[] qtyXL = new int[tpNumberMainArray.length];
+		int[] qtyXXL = new int[tpNumberMainArray.length];
+		double[] totalAmount = new double[tpNumberMainArray.length];
+		int uniqueCustomers = 0;
+
+		for (int i = 0; i < tpNumberMainArray.length; i++) {
+			boolean isNewCustomer = true;
+			int customerIndex = -1;
+
+			for (int j = 0; j < uniqueCustomers; j++) {
+				if (tpNumberMainArray[i].equals(customerIDs[j])) {
+					isNewCustomer = false;
+					customerIndex = j;
+					break;
+				}
+			}
+
+			if (isNewCustomer) {
+				customerIDs[uniqueCustomers] = tpNumberMainArray[i];
+				customerIndex = uniqueCustomers;
+				uniqueCustomers++;
+			}
+
+			switch (sizeMainArray[i]) {
+				case "XS":
+					qtyXS[customerIndex] += qtyMainArray[i];
+					break;
+				case "S":
+					qtyS[customerIndex] += qtyMainArray[i];
+					break;
+				case "M":
+					qtyM[customerIndex] += qtyMainArray[i];
+					break;
+				case "L":
+					qtyL[customerIndex] += qtyMainArray[i];
+					break;
+				case "XL":
+					qtyXL[customerIndex] += qtyMainArray[i];
+					break;
+				case "XXL":
+					qtyXXL[customerIndex] += qtyMainArray[i];
+					break;
+			}
+			totalAmount[customerIndex] += amountMainArray[i];
+		}
+
+		System.out.printf("\n\t+---------------+----+----+----+----+----+-----+--------------+\n");
+		System.out.printf("\t| Phone Number  | XS | S  | M  | L  | XL | XXL|  Total Amount |\n");
+		System.out.printf("\t+---------------+----+----+----+----+----+-----+--------------+\n");
+
+		for (int i = 0; i < uniqueCustomers; i++) {
+			System.out.printf("\t| %-13s | %-2d | %-2d | %-2d | %-2d | %-2d | %-3d | %-12.2f |\n",
+					customerIDs[i], qtyXS[i], qtyS[i], qtyM[i], qtyL[i], qtyXL[i], qtyXXL[i], totalAmount[i]);
+			System.out.printf("\t+---------------+----+----+----+----+----+-----+--------------+\n");
+		}
+
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("\nTo access the main Menu, please enter 0 : ");
+		int toMenuInput = scanner.nextInt();
+
+		if (toMenuInput == 0) {
+			homePage();
+		} else {
+			System.out.println("Invalid input..");
+		}
 
 	}
 
