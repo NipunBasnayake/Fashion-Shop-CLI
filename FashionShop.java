@@ -605,6 +605,188 @@ class FashionShop {
 		System.out.println("                                       | |                      ");
 		System.out.println("                                       |_|                      ");
 		System.out.println("---------------------------------------------------------------------\n\n");
+
+		System.out.println("\t[1] Best Selling Categories Sorted by QTY\n");
+		System.out.println("\t[2] Best Selling Categories Sorted by Amount\n");
+
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("\nInput Option : ");
+		int ItemReportsOption = scanner.nextInt();
+
+		switch (ItemReportsOption) {
+			case 1:
+				sortedByQTY();
+				break;
+			case 2:
+				sortedByAmount();
+				break;
+			default:
+				System.out.println("Invalid input..");
+				break;
+		}
+
+	}
+
+	public static void sortedByQTY() {
+		clearConsole();
+		System.out.println("    _____            _           _   ____           ____ _________     __");
+		System.out.println("   / ____|          | |         | | |  _ \\         / __ \\__   __\\ \\   / /");
+		System.out.println("  | (___   ___  _ __| |_ ___  __| | | |_) |_   _  | |  | | | |   \\ \\_/ / ");
+		System.out.println("   \\___ \\ / _ \\| '__| __/ _ \\/ _` | |  _ <| | | | | |  | | | |    \\   /  ");
+		System.out.println("   ____) | (_) | |  | ||  __/ (_| | | |_) | |_| | | |__| | | |     | |   ");
+		System.out.println("  |_____/ \\___/|_|   \\__\\___|\\__,_| |____/ \\__, |  \\___\\_\\ |_|     |_|   ");
+		System.out.println("                                            __/ |                        ");
+		System.out.println("                                           |___/                         ");
+		System.out.println("---------------------------------------------------------------------------\n\n");
+
+		String[] uniqueSizes = new String[sizeMainArray.length];
+		int[] totalQty = new int[sizeMainArray.length];
+		double[] totalAmount = new double[sizeMainArray.length];
+		int uniqueSizesCount = 0;
+
+		for (int i = 0; i < sizeMainArray.length; i++) {
+			boolean isNewSize = true;
+			int sizeIndex = -1;
+
+			for (int j = 0; j < uniqueSizesCount; j++) {
+				if (sizeMainArray[i].equals(uniqueSizes[j])) {
+					isNewSize = false;
+					sizeIndex = j;
+					break;
+				}
+			}
+
+			if (isNewSize) {
+				uniqueSizes[uniqueSizesCount] = sizeMainArray[i];
+				totalQty[uniqueSizesCount] = qtyMainArray[i];
+				totalAmount[uniqueSizesCount] = amountMainArray[i];
+				uniqueSizesCount++;
+			} else {
+				totalQty[sizeIndex] += qtyMainArray[i];
+				totalAmount[sizeIndex] += amountMainArray[i];
+			}
+		}
+
+		for (int i = 0; i < uniqueSizesCount - 1; i++) {
+			for (int j = 0; j < uniqueSizesCount - i - 1; j++) {
+				if (totalQty[j] < totalQty[j + 1]) {
+
+					String tempSize = uniqueSizes[j];
+					uniqueSizes[j] = uniqueSizes[j + 1];
+					uniqueSizes[j + 1] = tempSize;
+
+					int tempQty = totalQty[j];
+					totalQty[j] = totalQty[j + 1];
+					totalQty[j + 1] = tempQty;
+
+					double tempAmount = totalAmount[j];
+					totalAmount[j] = totalAmount[j + 1];
+					totalAmount[j + 1] = tempAmount;
+				}
+			}
+		}
+
+		// Display the results
+		System.out.printf("\n\t+---------------+---------------+---------------+\n");
+		System.out.printf("\t| %-13s | %-13s | %-13s |\n", "Size", "Total QTY", "Total Amount");
+		System.out.printf("\t+---------------+---------------+---------------+\n");
+
+		for (int i = 0; i < uniqueSizesCount; i++) {
+			System.out.printf("\t| %-13s | %-13d | %-13.2f |\n", uniqueSizes[i], totalQty[i], totalAmount[i]);
+			System.out.printf("\t+---------------+---------------+---------------+\n");
+		}
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("\nTo access the main Menu, please enter 0 : ");
+		int toMenuInput = scanner.nextInt();
+
+		if (toMenuInput == 0) {
+			homePage();
+		} else {
+			System.out.println("Invalid input..");
+			sortedByQTY();
+		}
+	}
+
+	public static void sortedByAmount() {
+		clearConsole();
+		System.out.println("    _____            _           _   ____                                               _   ");
+		System.out.println("   / ____|          | |         | | |  _ \\            /\\                               | |  ");
+		System.out.println("  | (___   ___  _ __| |_ ___  __| | | |_) |_   _     /  \\   _ __ ___   ___  _   _ _ __ | |_ ");
+		System.out.println("   \\___ \\ / _ \\| '__| __/ _ \\/ _` | |  _ <| | | |   / /\\ \\ | '_ ` _ \\ / _ \\| | | | '_ \\| __|");
+		System.out.println("   ____) | (_) | |  | ||  __/ (_| | | |_) | |_| |  / ____ \\| | | | | | (_) | |_| | | | | |_ ");
+		System.out.println("  |_____/ \\___/|_|   \\__\\___|\\__,_| |____/ \\__, | /_/    \\_\\_| |_| |_|\\___/ \\__,_|_| |_|\\__|");
+		System.out.println("                                            __/ |                                           ");
+		System.out.println("                                           |___/                                            ");
+		System.out.println("----------------------------------------------------------------------------------------------\n\n");
+
+		String[] uniqueSizes = new String[sizeMainArray.length];
+		int[] totalQty = new int[sizeMainArray.length];
+		double[] totalAmount = new double[sizeMainArray.length];
+		int uniqueSizesCount = 0;
+
+		for (int i = 0; i < sizeMainArray.length; i++) {
+			boolean isNewSize = true;
+			int sizeIndex = -1;
+
+
+			for (int j = 0; j < uniqueSizesCount; j++) {
+				if (sizeMainArray[i].equals(uniqueSizes[j])) {
+					isNewSize = false;
+					sizeIndex = j;
+					break;
+				}
+			}
+
+			if (isNewSize) {
+				uniqueSizes[uniqueSizesCount] = sizeMainArray[i];
+				totalQty[uniqueSizesCount] = qtyMainArray[i];
+				totalAmount[uniqueSizesCount] = amountMainArray[i];
+				uniqueSizesCount++;
+			} else {
+				totalQty[sizeIndex] += qtyMainArray[i];
+				totalAmount[sizeIndex] += amountMainArray[i];
+			}
+		}
+
+		for (int i = 0; i < uniqueSizesCount - 1; i++) {
+			for (int j = 0; j < uniqueSizesCount - i - 1; j++) {
+				if (totalAmount[j] < totalAmount[j + 1]) {
+
+					String tempSize = uniqueSizes[j];
+					uniqueSizes[j] = uniqueSizes[j + 1];
+					uniqueSizes[j + 1] = tempSize;
+
+					int tempQty = totalQty[j];
+					totalQty[j] = totalQty[j + 1];
+					totalQty[j + 1] = tempQty;
+
+					double tempAmount = totalAmount[j];
+					totalAmount[j] = totalAmount[j + 1];
+					totalAmount[j + 1] = tempAmount;
+				}
+			}
+		}
+
+		System.out.printf("\n\t+---------------+---------------+---------------+\n");
+		System.out.printf("\t| %-13s | %-13s | %-13s |\n", "Size", "Total QTY", "Total Amount");
+		System.out.printf("\t+---------------+---------------+---------------+\n");
+
+		for (int i = 0; i < uniqueSizesCount; i++) {
+			System.out.printf("\t| %-13s | %-13d | %-13.2f |\n", uniqueSizes[i], totalQty[i], totalAmount[i]);
+			System.out.printf("\t+---------------+---------------+---------------+\n");
+		}
+
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("\nTo access the main Menu, please enter 0 : ");
+		int toMenuInput = scanner.nextInt();
+
+		if (toMenuInput == 0) {
+			homePage();
+		} else {
+			System.out.println("Invalid input..");
+			sortedByQTY();
+		}
+
 	}
 
 	public static void orderReports() {
