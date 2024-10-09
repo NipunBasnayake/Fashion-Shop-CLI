@@ -375,7 +375,7 @@ class FashionShop {
 		if (toMenuInput == 0) {
 			homePage();
 		} else {
-			System.out.println("Invalid input..");
+			bestInCustomers();
 		}
 
 	}
@@ -430,7 +430,7 @@ class FashionShop {
 		if (toMenuInput == 0) {
 			homePage();
 		} else {
-			System.out.println("Invalid input..");
+			viewCustomers();
 		}
 	}
 
@@ -446,63 +446,61 @@ class FashionShop {
 		System.out.println("                                                                                |_|                      ");
 		System.out.println("-------------------------------------------------------------------------------------------------------------\n");
 
-		String[] customerIDs = new String[tpNumberMainArray.length];
-		int[] qtyXS = new int[tpNumberMainArray.length];
-		int[] qtyS = new int[tpNumberMainArray.length];
-		int[] qtyM = new int[tpNumberMainArray.length];
-		int[] qtyL = new int[tpNumberMainArray.length];
-		int[] qtyXL = new int[tpNumberMainArray.length];
-		int[] qtyXXL = new int[tpNumberMainArray.length];
-		double[] totalAmount = new double[tpNumberMainArray.length];
+		String[][] customerData = new String[tpNumberMainArray.length][8];
 		int uniqueCustomers = 0;
-
+		
 		for (int i = 0; i < tpNumberMainArray.length; i++) {
 			boolean isNewCustomer = true;
 			int customerIndex = -1;
 
 			for (int j = 0; j < uniqueCustomers; j++) {
-				if (tpNumberMainArray[i].equals(customerIDs[j])) {
+				if (tpNumberMainArray[i].equals(customerData[j][0])) {
 					isNewCustomer = false;
 					customerIndex = j;
 					break;
 				}
 			}
+
 			if (isNewCustomer) {
-				customerIDs[uniqueCustomers] = tpNumberMainArray[i];
+				customerData[uniqueCustomers][0] = tpNumberMainArray[i];
+				for (int k = 1; k <= 6; k++) {
+					customerData[uniqueCustomers][k] = "0";
+				}
+				customerData[uniqueCustomers][7] = "0.0";
 				customerIndex = uniqueCustomers;
 				uniqueCustomers++;
 			}
-			switch (sizeMainArray[i]) {
-				case "XS":
-					qtyXS[customerIndex] += qtyMainArray[i];
-					break;
-				case "S":
-					qtyS[customerIndex] += qtyMainArray[i];
-					break;
-				case "M":
-					qtyM[customerIndex] += qtyMainArray[i];
-					break;
-				case "L":
-					qtyL[customerIndex] += qtyMainArray[i];
-					break;
-				case "XL":
-					qtyXL[customerIndex] += qtyMainArray[i];
-					break;
-				case "XXL":
-					qtyXXL[customerIndex] += qtyMainArray[i];
-					break;
-			}
-			totalAmount[customerIndex] += amountMainArray[i];
+
+			int currentQty = Integer.parseInt(customerData[customerIndex][1]);
+			if (sizeMainArray[i].equalsIgnoreCase("XS")) {
+				customerData[customerIndex][1] = Integer.toString(Integer.parseInt(customerData[customerIndex][1]) + qtyMainArray[i]); 
+			} else if (sizeMainArray[i].equalsIgnoreCase("S")) {
+				customerData[customerIndex][2] = Integer.toString(Integer.parseInt(customerData[customerIndex][2]) + qtyMainArray[i]);
+			} else if (sizeMainArray[i].equalsIgnoreCase("M")) {
+				customerData[customerIndex][3] = Integer.toString(Integer.parseInt(customerData[customerIndex][3]) + qtyMainArray[i]);
+			} else if (sizeMainArray[i].equalsIgnoreCase("L")) {
+				customerData[customerIndex][4] = Integer.toString(Integer.parseInt(customerData[customerIndex][4]) + qtyMainArray[i]);
+			} else if (sizeMainArray[i].equalsIgnoreCase("XL")) {
+				customerData[customerIndex][5] = Integer.toString(Integer.parseInt(customerData[customerIndex][5]) + qtyMainArray[i]);
+			} else if (sizeMainArray[i].equalsIgnoreCase("XXL")) {
+				customerData[customerIndex][6] = Integer.toString(Integer.parseInt(customerData[customerIndex][6]) + qtyMainArray[i]);
+			}			
+
+			customerData[customerIndex][7] = Double.toString(Double.parseDouble(customerData[customerIndex][7]) + amountMainArray[i]);
 		}
+		
+
 		System.out.printf("\t+---------------+----+----+----+----+----+-----+---------------+\n");
 		System.out.printf("\t| Phone Number  | XS | S  | M  | L  | XL | XXL |  Total Amount |\n");
 		System.out.printf("\t+---------------+----+----+----+----+----+-----+---------------+\n");
 
 		for (int i = 0; i < uniqueCustomers; i++) {
 			System.out.printf("\t|               |    |    |    |    |    |     |               |\n");
-			System.out.printf("\t| %-13s | %-2d | %-2d | %-2d | %-2d | %-2d | %-3d |   %-12.2f|\n",
-					customerIDs[i], qtyXS[i], qtyS[i], qtyM[i], qtyL[i], qtyXL[i], qtyXXL[i], totalAmount[i]);
+			System.out.printf("\t| %-13s | %-2s | %-2s | %-2s | %-2s | %-2s | %-3s |   %-12.2f|\n",
+				customerData[i][0], customerData[i][1], customerData[i][2], customerData[i][3], 
+				customerData[i][4], customerData[i][5], customerData[i][6], Double.parseDouble(customerData[i][7]));
 		}
+
 		System.out.printf("\t+---------------+----+----+----+----+----+-----+---------------+\n");
 
 		Scanner scanner = new Scanner(System.in);
@@ -512,8 +510,9 @@ class FashionShop {
 		if (toMenuInput == 0) {
 			homePage();
 		} else {
-			System.out.println("Invalid input..");
+			allCustomerReports();
 		}
+
 	}
 
 	public static void itemReports() {
@@ -546,7 +545,6 @@ class FashionShop {
 				itemReports();
 				break;
 		}
-
 	}
 
 	public static void sortedByQTY() {
@@ -704,7 +702,7 @@ class FashionShop {
 			homePage();
 		} else {
 			System.out.println("Invalid input..");
-			sortedByQTY();
+			sortedByAmount();
 		}
 
 	}
@@ -736,7 +734,6 @@ class FashionShop {
 				ordersByAmount();
 				break;
 			default:
-				System.out.println("Invalid input..");
 				orderReports();
 				break;
 		}
@@ -801,7 +798,6 @@ class FashionShop {
 			System.out.println("Invalid input..");
 			viewOrders();
 		}
-
 	}
 
 	public static void ordersByAmount() {
@@ -868,7 +864,6 @@ class FashionShop {
 			System.out.println("Invalid input..");
 			sortedByAmount();
 		}
-
 	}
 
 	public static void orderStatus() {
@@ -1129,10 +1124,10 @@ class FashionShop {
 		cusPhoneNumber = scanner.nextLine();
 
 		if (cusPhoneNumber.length() != 10 || cusPhoneNumber.charAt(0) != '0') {
-			System.out.println("\t Invalid Number.. Try again");
+			System.out.println("\n\t Invalid Number.. Try again");
 			System.out.print("\n\nDo you want to enter phone number again? (y/n) : ");
 			char config = scanner.next().charAt(0);
-			reDirection(config, "placeOrderConfig");
+			reDirection(config, "enterAgainPhoneNumber");
 		}
 	}
 
@@ -1246,7 +1241,7 @@ class FashionShop {
 		} else if (config == 'N' || config == 'n') {
 			homePage();
 		} else {
-			System.out.println("\n\nInvalid input!");
+			homePage();
 		}
 	}
 
