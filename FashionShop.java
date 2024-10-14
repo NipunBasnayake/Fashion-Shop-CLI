@@ -81,7 +81,7 @@ class FashionShop {
 
 		Scanner scanner = new Scanner(System.in);
 
-		String orderID = generateOrderID(orderNumber);
+		String orderID = generateOrderID();
 		System.out.println("Order ID: " + orderID);
 		getPhoneNumber();
 		getSize();
@@ -148,6 +148,7 @@ class FashionShop {
 				}
 				boolean sizeAlreadyProcessed = false;
 				int index = -1;
+
 				for (int k = 0; k < processedCount; k++) {
 					if (processedSizes[k].equals(sizeMainArray[i])) {
 						sizeAlreadyProcessed = true;
@@ -333,6 +334,7 @@ class FashionShop {
 		for (int i = 0; i < tpNumberMainArray.length; i++) {
 			boolean isNewCustomer = true;
 			int customerIndex = -1;
+			
 			for (int j = 0; j < uniqueCustomers; j++) {
 				if (tpNumberMainArray[i].equals(customerData[j][0])) {
 					isNewCustomer = false;
@@ -1062,7 +1064,7 @@ class FashionShop {
 		for (int j = 0; j < statusMainArray.length; j++) {
 			tempStatus[j] = statusMainArray[j];
 		}
-		tempOID[tempOID.length - 1] = generateOrderID(orderNumber);
+		tempOID[tempOID.length - 1] = generateOrderID();
 		tempSize[tempSize.length - 1] = tShirtSize;
 		tempQty[tempQty.length - 1] = qty;
 		tempAmount[tempAmount.length - 1] = amount;
@@ -1099,7 +1101,7 @@ class FashionShop {
 		return tempStatus;
 	}
 
-	public static String generateOrderID(int orderNumber) {
+	public static String generateOrderID() {
 		int tempOrderNumber = orderNumber;
 
 		int[] tempNumOrder = new int[5];
@@ -1219,6 +1221,8 @@ class FashionShop {
 					placeOrder();
 					break;
 				case "enterAgainPhoneNumber":
+					System.out.print("\033[7A");
+					System.out.print("\033[0J");
 					getPhoneNumber();
 					break;
 				case "searchCustomer":
