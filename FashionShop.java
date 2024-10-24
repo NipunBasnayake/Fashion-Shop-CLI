@@ -341,14 +341,14 @@ class FashionShop {
 
 		boolean found = false;
 
-		for (int i = 0; i < orderIdMainArray.length; i++) {
-			if (orderIdMainArray[i].equals(searchInputOID)) {
+		for (int i = 0; i < ordersMainArray.length; i++) {
+			if (ordersMainArray[i].getOrderId().equals(searchInputOID)) {
 				found = true;
-				System.out.println("\nPhone Number : " + tpNumberMainArray[i]);
-				System.out.println("Size         : " + sizeMainArray[i]);
-				System.out.println("QTY          : " + qtyMainArray[i]);
-				System.out.println("Amount       : " + amountMainArray[i]);
-				System.out.println("Status       : " + statusMainArray[i]);
+				System.out.println("\nPhone Number : " + ordersMainArray[i].getTpNumber());
+				System.out.println("Size         : " + ordersMainArray[i].getSize());
+				System.out.println("QTY          : " + ordersMainArray[i].getQuantity());
+				System.out.println("Amount       : " + ordersMainArray[i].getAmount());
+				System.out.println("Status       : " + ordersMainArray[i].getStatus());
 				break;
 			}
 		}
