@@ -1151,22 +1151,23 @@ class FashionShop {
 
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Enter Order ID: ");
-		String searchInputOID = scanner.nextLine();
+		String sOrderStatusOID = scanner.nextLine();
 		boolean orderFound = false;
 		int foundIndex = -1;
 
-		for (int i = 0; i < orderIdMainArray.length; i++) {
-			if (orderIdMainArray[i].equals(searchInputOID)) {
+		for (int i = 0; i < ordersMainArray.length; i++) {
+			if (ordersMainArray[i].getOrderId().equals(sOrderStatusOID)) {
+				System.out.println("\nPhone Number : " + ordersMainArray[i].getTpNumber());
+				System.out.println("Size         : " + ordersMainArray[i].getSize());
+				System.out.println("QTY          : " + ordersMainArray[i].getQuantity());
+				System.out.println("Amount       : " + ordersMainArray[i].getAmount());
+				System.out.println("Status       : " + ordersMainArray[i].getStatus());
 				foundIndex = i;
 				orderFound = true;
-				System.out.println("\nPhone Number : " + tpNumberMainArray[i]);
-				System.out.println("Size         : " + sizeMainArray[i]);
-				System.out.println("QTY          : " + qtyMainArray[i]);
-				System.out.println("Amount       : " + amountMainArray[i]);
-				System.out.println("Status       : " + statusMainArray[i]);
 				break;
 			}
 		}
+
 		if (!orderFound) {
 			System.out.println("\nOrder ID not found in the system!");
 			deleteOrder();
@@ -1276,35 +1277,25 @@ class FashionShop {
 	}
 
 	public static void shortenArrays(int index) {
-		String[] tempOID = new String[orderIdMainArray.length - 1];
-		String[] tempSize = new String[sizeMainArray.length - 1];
-		int[] tempQty = new int[qtyMainArray.length - 1];
-		double[] tempAmount = new double[amountMainArray.length - 1];
-		String[] tempTPNum = new String[tpNumberMainArray.length - 1];
-		String[] tempStatus = new String[statusMainArray.length - 1];
+		Orders[] tempOrders = new Orders[ordersMainArray.length + 1];
 
 		for (int j = 0; j < index; j++) {
-			tempOID[j] = orderIdMainArray[j];
-			tempSize[j] = sizeMainArray[j];
-			tempQty[j] = qtyMainArray[j];
-			tempAmount[j] = amountMainArray[j];
-			tempTPNum[j] = tpNumberMainArray[j];
-			tempStatus[j] = statusMainArray[j];
+			tempOrders[j].setOrderId(ordersMainArray[j].getOrderId());
+			tempOrders[j].setSize(ordersMainArray[j].getSize());
+			tempOrders[j].setQuantity(ordersMainArray[j].getQuantity());
+			tempOrders[j].setAmount(ordersMainArray[j].getAmount());
+			tempOrders[j].setTpNumber(ordersMainArray[j].getTpNumber());
+			tempOrders[j].setStatus(ordersMainArray[j].getStatus());
 		}
 		for (int j = index + 1; j < orderIdMainArray.length; j++) {
-			tempOID[j - 1] = orderIdMainArray[j];
-			tempSize[j - 1] = sizeMainArray[j];
-			tempQty[j - 1] = qtyMainArray[j];
-			tempAmount[j - 1] = amountMainArray[j];
-			tempTPNum[j - 1] = tpNumberMainArray[j];
-			tempStatus[j - 1] = statusMainArray[j];
+			tempOrders[j-1].setOrderId(ordersMainArray[j].getOrderId());
+			tempOrders[j-1].setSize(ordersMainArray[j].getSize());
+			tempOrders[j-1].setQuantity(ordersMainArray[j].getQuantity());
+			tempOrders[j-1].setAmount(ordersMainArray[j].getAmount());
+			tempOrders[j-1].setTpNumber(ordersMainArray[j].getTpNumber());
+			tempOrders[j-1].setStatus(ordersMainArray[j].getStatus());
 		}
-		orderIdMainArray = tempOID;
-		sizeMainArray = tempSize;
-		qtyMainArray = tempQty;
-		amountMainArray = tempAmount;
-		tpNumberMainArray = tempTPNum;
-		statusMainArray = tempStatus;
+		ordersMainArray = tempOrders;
 	}
 
 	public static void reDirection(char config, String configId) {
