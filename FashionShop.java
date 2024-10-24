@@ -962,10 +962,15 @@ class FashionShop {
 		System.out.printf("\t| %-13s | %-13s | %-13s | %-13s | %-13s | %-13s |\n", "Order ID", "Customer ID", "Size", "Quantity", "Amount", "Status");
 		System.out.printf("\t+---------------+---------------+---------------+---------------+---------------+---------------+\n");
 
-		for(int i=orderIdMainArray.length-1; i>=0; i--){
+		for (Orders order : ordersMainArray) {
 			System.out.printf("\t| %-13s | %-13s | %-13s | %-13d | %-13.2f | %-13s |\n",
-					orderIdMainArray[i], tpNumberMainArray[i], sizeMainArray[i],
-					qtyMainArray[i], amountMainArray[i], statusMainArray[i]);
+				order.getOrderId(),
+				order.getTpNumber(),
+				order.getSize(),
+				order.getQuantity(),
+				order.getAmount(),
+				order.getStatus()
+			);
 		}
 
 		System.out.printf("\t+---------------+---------------+---------------+---------------+---------------+---------------+\n");
