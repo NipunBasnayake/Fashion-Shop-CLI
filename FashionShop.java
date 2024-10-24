@@ -958,10 +958,10 @@ class FashionShop {
 		System.out.println("     \\  /  | |  __/\\ V  V /  | |__| | | | (_| |  __/ |  \\__ \\");
 		System.out.println("      \\/   |_|\\___| \\/\\_/     \\____/|_|  \\__,_|\\___|_|  |___/");
 		System.out.println("---------------------------------------------------------------\n");
+		
 		System.out.printf("\n\t+---------------+---------------+---------------+---------------+---------------+---------------+\n");
 		System.out.printf("\t| %-13s | %-13s | %-13s | %-13s | %-13s | %-13s |\n", "Order ID", "Customer ID", "Size", "Quantity", "Amount", "Status");
 		System.out.printf("\t+---------------+---------------+---------------+---------------+---------------+---------------+\n");
-
 		for (Orders order : ordersMainArray) {
 			System.out.printf("\t| %-13s | %-13s | %-13s | %-13d | %-13.2f | %-13s |\n",
 				order.getOrderId(),
@@ -969,10 +969,8 @@ class FashionShop {
 				order.getSize(),
 				order.getQuantity(),
 				order.getAmount(),
-				order.getStatus()
-			);
+				order.getStatus());
 		}
-
 		System.out.printf("\t+---------------+---------------+---------------+---------------+---------------+---------------+\n");
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("\nTo access the main Menu, please enter 0: ");
@@ -998,48 +996,34 @@ class FashionShop {
 		System.out.println("                                          |___/                                            ");
 		System.out.println("---------------------------------------------------------------------------------------------\n");
 
-		for (int i = 0; i < amountMainArray.length - 1; i++) {
-			for (int j = 0; j < amountMainArray.length - i - 1; j++) {
-				if (amountMainArray[j] < amountMainArray[j + 1]) {
+    Orders[] sortedOrders = new Orders[ordersMainArray.length];
+    for (int i = 0; i < ordersMainArray.length; i++) {
+        sortedOrders[i] = ordersMainArray[i];
+    }
+    
+    for (int i = 0; i < sortedOrders.length - 1; i++) {
+        for (int j = 0; j < sortedOrders.length - 1 - i; j++) {
+            if (sortedOrders[j].getAmount() < sortedOrders[j + 1].getAmount()) {
+                Orders temp = sortedOrders[j];
+                sortedOrders[j] = sortedOrders[j + 1];
+                sortedOrders[j + 1] = temp;
+            }
+        }
+    }
 
-					double tempAmount = amountMainArray[j];
-					amountMainArray[j] = amountMainArray[j + 1];
-					amountMainArray[j + 1] = tempAmount;
-
-					String tempOrderId = orderIdMainArray[j];
-					orderIdMainArray[j] = orderIdMainArray[j + 1];
-					orderIdMainArray[j + 1] = tempOrderId;
-
-					String tempSize = sizeMainArray[j];
-					sizeMainArray[j] = sizeMainArray[j + 1];
-					sizeMainArray[j + 1] = tempSize;
-
-					int tempQty = qtyMainArray[j];
-					qtyMainArray[j] = qtyMainArray[j + 1];
-					qtyMainArray[j + 1] = tempQty;
-
-					String tempStatus = statusMainArray[j];
-					statusMainArray[j] = statusMainArray[j + 1];
-					statusMainArray[j + 1] = tempStatus;
-
-					String tempCustomerId = tpNumberMainArray[j];
-					tpNumberMainArray[j] = tpNumberMainArray[j + 1];
-					tpNumberMainArray[j + 1] = tempCustomerId;
-				}
-			}
-		}
-		System.out.printf(
-				"\n\t+---------------+---------------+---------------+---------------+---------------+---------------+\n");
-		System.out.printf("\t| %-13s | %-13s | %-13s | %-13s | %-13s | %-13s |\n", "Order ID", "Customer ID", "Size",
-				"Quantity", "Amount", "Status");
+		System.out.printf("\n\t+---------------+---------------+---------------+---------------+---------------+---------------+\n");
+		System.out.printf("\t| %-13s | %-13s | %-13s | %-13s | %-13s | %-13s |\n", "Order ID", "Customer ID", "Size", "Quantity", "Amount", "Status");
 		System.out.printf("\t+---------------+---------------+---------------+---------------+---------------+---------------+\n");
-
-		for (int i = 0; i < orderIdMainArray.length; i++) {
-			System.out.printf("\t| %-13s | %-13s | %-13s | %-13d | %-13.2f | %-13s |\n", orderIdMainArray[i],
-					tpNumberMainArray[i], sizeMainArray[i], qtyMainArray[i], amountMainArray[i], statusMainArray[i]);
+		for (Orders order : sortedOrders) {
+			System.out.printf("\t| %-13s | %-13s | %-13s | %-13d | %-13.2f | %-13s |\n",
+				order.getOrderId(),
+				order.getTpNumber(),
+				order.getSize(),
+				order.getQuantity(),
+				order.getAmount(),
+				order.getStatus());
 		}
 		System.out.printf("\t+---------------+---------------+---------------+---------------+---------------+---------------+\n");
-
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("\nTo access the main Menu, please enter 0: ");
 		int toMenuInput = scanner.nextInt();
