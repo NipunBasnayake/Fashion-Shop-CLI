@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Order {
+class Orders {
     private String orderId;
     private String size;
     private int quantity;
@@ -8,7 +8,11 @@ class Order {
     private String tpNumber;
     private String status;
 
-    public Order(String orderId, String size, int quantity, double amount, String tpNumber, String status) {
+	public Orders(){
+
+	}
+
+    public Orders(String orderId, String size, int quantity, double amount, String tpNumber, String status) {
         this.orderId = orderId;
         this.size = size;
         this.quantity = quantity;
@@ -85,7 +89,7 @@ class FashionShop {
 	static String[] tpNumberMainArray = new String[0];
 	static String[] statusMainArray = new String[0];
 
-	static Order[] orders = new Order[0];
+	static Orders[] ordersMainArray = new Orders[0];
 
 	public static void main(String args[]) {
 		homePage();
@@ -184,6 +188,89 @@ class FashionShop {
 		System.out.print("\n\nDo you want to place another order? (y/n) : ");
 		char config = scanner.next().charAt(0);
 		reDirection(config, "placeOrderConfig");
+	}
+
+	public static void confirmOrder() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("\n\nDo you want to place this order? (y/n) : ");
+		char configPlace = scanner.next().charAt(0);
+
+		if (configPlace == 'Y' || configPlace == 'y') {
+			System.out.print("\n\tOrder Placed..!");
+			extendArrays();
+		} else if (configPlace == 'N' || configPlace == 'n') {
+			placeOrder();
+		} else {
+			System.out.print("\033[3A");
+			System.out.print("\033[0J");
+			confirmOrder();
+		}
+	}
+
+	public static void extendArrays() {
+		// String[] tempOID = new String[orderIdMainArray.length + 1];
+		// String[] tempSize = new String[sizeMainArray.length + 1];
+		// int[] tempQty = new int[qtyMainArray.length + 1];
+		// double[] tempAmount = new double[amountMainArray.length + 1];
+		// String[] tempTPNum = new String[tpNumberMainArray.length + 1];
+		// String[] tempStatus = new String[statusMainArray.length + 1];
+
+		// for (int j = 0; j < orderIdMainArray.length; j++) {
+		// 	tempOID[j] = orderIdMainArray[j];
+		// }
+		// for (int j = 0; j < sizeMainArray.length; j++) {
+		// 	tempSize[j] = sizeMainArray[j];
+		// }
+		// for (int j = 0; j < qtyMainArray.length; j++) {
+		// 	tempQty[j] = qtyMainArray[j];
+		// }
+		// for (int j = 0; j < amountMainArray.length; j++) {
+		// 	tempAmount[j] = amountMainArray[j];
+		// }
+		// for (int j = 0; j < tpNumberMainArray.length; j++) {
+		// 	tempTPNum[j] = tpNumberMainArray[j];
+		// }
+		// for (int j = 0; j < statusMainArray.length; j++) {
+		// 	tempStatus[j] = statusMainArray[j];
+		// }
+		// tempOID[tempOID.length - 1] = generateOrderID();
+		// tempSize[tempSize.length - 1] = tShirtSize;
+		// tempQty[tempQty.length - 1] = qty;
+		// tempAmount[tempAmount.length - 1] = amount;
+		// tempTPNum[tempTPNum.length - 1] = cusPhoneNumber;
+		// tempStatus[tempStatus.length - 1] = statusCheck(PROCESSING);
+
+		// orderIdMainArray = tempOID;
+		// sizeMainArray = tempSize;
+		// qtyMainArray = tempQty;
+		// amountMainArray = tempAmount;
+		// tpNumberMainArray = tempTPNum;
+		// statusMainArray = tempStatus;
+		
+		Orders[] tempOrders = new Orders[ordersMainArray.length + 1];
+
+		for (int i = 0; i < ordersMainArray.length; i++) {
+			tempOrders[i] = ordersMainArray[i];
+		}
+
+		Orders newOrder = new Orders();
+
+		newOrder.setOrderId(generateOrderID());
+		newOrder.setSize(tShirtSize);
+		newOrder.setQuantity(qty);
+		newOrder.setAmount(amount);
+		newOrder.setTpNumber(cusPhoneNumber);
+		newOrder.setStatus(statusCheck(PROCESSING));
+
+		tempOrders[tempOrders.length - 1] = newOrder;
+		ordersMainArray = tempOrders;
+
+		// System.out.println(ordersMainArray[0].getOrderId());
+		// System.out.println(ordersMainArray[0].getSize());
+		// System.out.println(ordersMainArray[0].getQuantity());
+		// System.out.println(ordersMainArray[0].getAmount());
+		// System.out.println(ordersMainArray[0].getTpNumber());
+		// System.out.println(ordersMainArray[0].getStatus());
 	}
 
 	public static void searchCustomer() {
@@ -1060,70 +1147,6 @@ class FashionShop {
 			char config = scanner.next().charAt(0);
 			reDirection(config, "deleteOrder");
 		}
-	}
-
-	public static void confirmOrder() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("\n\nDo you want to place this order? (y/n) : ");
-		char configPlace = scanner.next().charAt(0);
-
-		if (configPlace == 'Y' || configPlace == 'y') {
-			System.out.print("\n\tOrder Placed..!");
-			extendArrays();
-		} else if (configPlace == 'N' || configPlace == 'n') {
-			placeOrder();
-		} else {
-			System.out.print("\033[3A");
-			System.out.print("\033[0J");
-			confirmOrder();
-		}
-	}
-
-	public static void extendArrays() {
-		String[] tempOID = new String[orderIdMainArray.length + 1];
-		String[] tempSize = new String[sizeMainArray.length + 1];
-		int[] tempQty = new int[qtyMainArray.length + 1];
-		double[] tempAmount = new double[amountMainArray.length + 1];
-		String[] tempTPNum = new String[tpNumberMainArray.length + 1];
-		String[] tempStatus = new String[statusMainArray.length + 1];
-
-		for (int j = 0; j < orderIdMainArray.length; j++) {
-			tempOID[j] = orderIdMainArray[j];
-		}
-		for (int j = 0; j < sizeMainArray.length; j++) {
-			tempSize[j] = sizeMainArray[j];
-		}
-		for (int j = 0; j < qtyMainArray.length; j++) {
-			tempQty[j] = qtyMainArray[j];
-		}
-		for (int j = 0; j < amountMainArray.length; j++) {
-			tempAmount[j] = amountMainArray[j];
-		}
-		for (int j = 0; j < tpNumberMainArray.length; j++) {
-			tempTPNum[j] = tpNumberMainArray[j];
-		}
-		for (int j = 0; j < statusMainArray.length; j++) {
-			tempStatus[j] = statusMainArray[j];
-		}
-		tempOID[tempOID.length - 1] = generateOrderID();
-		tempSize[tempSize.length - 1] = tShirtSize;
-		tempQty[tempQty.length - 1] = qty;
-		tempAmount[tempAmount.length - 1] = amount;
-		tempTPNum[tempTPNum.length - 1] = cusPhoneNumber;
-		tempStatus[tempStatus.length - 1] = statusCheck(PROCESSING);
-
-		orderIdMainArray = tempOID;
-		sizeMainArray = tempSize;
-		qtyMainArray = tempQty;
-		amountMainArray = tempAmount;
-		tpNumberMainArray = tempTPNum;
-		statusMainArray = tempStatus;
-
-		// System.out.println(Arrays.toString(orderIdMainArray));
-		// System.out.println(Arrays.toString(sizeMainArray));
-		// System.out.println(Arrays.toString(qtyMainArray));
-		// System.out.println(Arrays.toString(amountMainArray));
-		// System.out.println(Arrays.toString(tpNumberMainArray));
 	}
 
 	public static String statusCheck(int statusNumber) {
