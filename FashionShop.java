@@ -192,13 +192,6 @@ class FashionShop {
 	static final int DELIVERING = 1;
 	static final int DELIVERED = 2;
 
-	static String[] orderIdMainArray = new String[0];
-	static String[] sizeMainArray = new String[0];
-	static int[] qtyMainArray = new int[0];
-	static double[] amountMainArray = new double[0];
-	static String[] tpNumberMainArray = new String[0];
-	static String[] statusMainArray = new String[0];
-
 	static Orders[] ordersMainArray = new Orders[0];
 
 	public static void main(String args[]) {
@@ -1287,7 +1280,7 @@ class FashionShop {
 			tempOrders[j].setTpNumber(ordersMainArray[j].getTpNumber());
 			tempOrders[j].setStatus(ordersMainArray[j].getStatus());
 		}
-		for (int j = index + 1; j < orderIdMainArray.length; j++) {
+		for (int j = index + 1; j < ordersMainArray.length; j++) {
 			tempOrders[j-1].setOrderId(ordersMainArray[j].getOrderId());
 			tempOrders[j-1].setSize(ordersMainArray[j].getSize());
 			tempOrders[j-1].setQuantity(ordersMainArray[j].getQuantity());
