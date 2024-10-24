@@ -1043,110 +1043,99 @@ class FashionShop {
 		System.out.println("  | |  | |_ __ __| | ___ _ __  | (___ | |_ __ _| |_ _   _ ___ ");
 		System.out.println("  | |  | | '__/ _` |/ _ \\ '__|  \\___ \\| __/ _` | __| | | / __|");
 		System.out.println("  | |__| | | | (_| |  __/ |     ____) | || (_| | |_| |_| \\__ \\");
-		System.out.println("   \\____/|_|  \\_,_|\\___|_|    |_____/ \\__\\__,_|\\__|\\__,_|___/");
+		System.out.println("   \\____/|_|  \\___|\\___|_|    |_____/ \\__\\__,_|\\__|\\__,_|___/");
 		System.out.println("\n--------------------------------------------------------------\n\n");
 
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Enter Order ID: ");
 		String sOrderStatusOID = scanner.nextLine();
 		String status = "";
-		int element = 0;
+		int element = -1;
 
-		for (int i = 0; i < orderIdMainArray.length; i++) {
-			if (orderIdMainArray[i].equals(sOrderStatusOID)) {
-				System.out.println("\nPhone Number : " + tpNumberMainArray[i]);
-				System.out.println("Size         : " + sizeMainArray[i]);
-				System.out.println("QTY          : " + qtyMainArray[i]);
-				System.out.println("Amount       : " + amountMainArray[i]);
+		for (int i = 0; i < ordersMainArray.length; i++) {
+			if (ordersMainArray[i].getOrderId().equals(sOrderStatusOID)) {
+				System.out.println("\nPhone Number : " + ordersMainArray[i].getTpNumber());
+				System.out.println("Size         : " + ordersMainArray[i].getSize());
+				System.out.println("QTY          : " + ordersMainArray[i].getQuantity());
+				System.out.println("Amount       : " + ordersMainArray[i].getAmount());
 				element = i;
-				status = statusMainArray[i];
+				status = ordersMainArray[i].getStatus();
 				System.out.println("Status       : " + status);
 				break;
-			} else {
-				System.out.print("\n\nDo you want to search another Order ID? (y/n) : ");
-				char config = scanner.next().charAt(0);
-				reDirection(config, "orderStatus");
 			}
 		}
-		if (status.equalsIgnoreCase("processing")) {
-			System.out.print("\n\nDo you want to change this order status? (y/n) : ");
-			String confirmInput = scanner.nextLine();
 
-			if (confirmInput.equalsIgnoreCase("Y")) {
-				System.out.println("\n\t[1] Order Dilivering\n");
-				System.out.println("\t[2] Order Dilivered\n");
-
-				System.out.print("\nEnter Option : ");
-				int processingOption = scanner.nextInt();
-
-				switch (processingOption) {
-					case 1:
-						statusMainArray[element] = "Delivering";
-						break;
-					case 2:
-						statusMainArray[element] = "Delivered";
-						break;
-					default:
-						System.out.println("Invalid Input..");
-						System.out.print("\n\nDo you want to change another order status? (y/n) : ");
-						char config = scanner.next().charAt(0);
-						reDirection(config, "orderStatus");
-						break;
-				}
-				System.out.println("Order status successfully changed to " + statusMainArray[element]);
-				System.out.print("\nTo access the main Menu, please enter 0 : ");
-				int toMenuInput = scanner.nextInt();
-
-				if (toMenuInput == 0) {
-					homePage();
-				} else {
-					System.out.println("Invalid input..");
-				}
-			} 
-			else if (confirmInput.equalsIgnoreCase("N")) {
-				orderStatus();
-			}
-
-		} else if (status.equalsIgnoreCase("delivering")) {
-			System.out.print("\nDo you want to change this order status? (y/n)");
-			String confirmInput = scanner.nextLine();
-
-			if (confirmInput.equalsIgnoreCase("Y")) {
-				System.out.println("\n\t[1] Order Delivered\n\n");
-
-				System.out.print("\nEnter Option : ");
-				int processingOption = scanner.nextInt();
-
-				switch (processingOption) {
-					case 1:
-						statusMainArray[element] = "Delivered";
-						break;
-					default:
-						System.out.println("Invalid Input..");
-						System.out.print("\n\nDo you want to change another order status? (y/n) : ");
-						char config = scanner.next().charAt(0);
-						reDirection(config, "orderStatus");
-						break;
-				}
-				System.out.println("Order status successfully changed to " + statusMainArray[element]);
-				System.out.print("\nTo access the main Menu, please enter 0 : ");
-				int toMenuInput = scanner.nextInt();
-
-				if (toMenuInput == 0) {
-					homePage();
-				} else {
-					System.out.println("Invalid input..");
-				}
-			} else if (confirmInput.equalsIgnoreCase("N")) {
-				orderStatus();
-			}
-
-		} else if (status.equalsIgnoreCase("delivered")) {
-			System.out.println("\n\tCan't change this order status, Order already delivered..!\n");
-			System.out.println("Invalid Input..");
-			System.out.print("\n\nDo you want to change another order status? (y/n) : ");
+		if (element == -1) {
+			System.out.println("\nOrder ID not found.");
+			System.out.print("\nDo you want to search another Order ID? (y/n) : ");
 			char config = scanner.next().charAt(0);
 			reDirection(config, "orderStatus");
+			return;
+		}
+
+		if (status.equalsIgnoreCase("processing")) {
+			System.out.print("\nDo you want to change this order status? (y/n) : ");
+			String confirmInput = scanner.nextLine();
+
+			if (confirmInput.equalsIgnoreCase("Y")) {
+				System.out.println("\n\t[1] Order Delivering");
+				System.out.println("\t[2] Order Delivered");
+
+				System.out.print("\nEnter Option : ");
+				int processingOption = scanner.nextInt();
+				scanner.nextLine();
+
+				switch (processingOption) {
+					case 1:
+						ordersMainArray[element].setStatus("Delivering");
+						break;
+					case 2:
+						ordersMainArray[element].setStatus("Delivered");
+						break;
+					default:
+						System.out.println("Invalid Input..");
+						System.out.print("\nDo you want to change another order status? (y/n) : ");
+						char config = scanner.next().charAt(0);
+						reDirection(config, "orderStatus");
+						return;
+				}
+				System.out.println("Order status successfully changed to " + ordersMainArray[element].getStatus());
+			}
+		} else if (status.equalsIgnoreCase("delivering")) {
+			System.out.print("\nDo you want to change this order status? (y/n) : ");
+			String confirmInput = scanner.nextLine();
+
+			if (confirmInput.equalsIgnoreCase("Y")) {
+				System.out.println("\n\t[1] Order Delivered");
+
+				System.out.print("\nEnter Option : ");
+				int processingOption = scanner.nextInt();
+				scanner.nextLine();
+
+				if (processingOption == 1) {
+					ordersMainArray[element].setStatus("Delivered");
+				} else {
+					System.out.println("Invalid Input..");
+					System.out.print("\nDo you want to change another order status? (y/n) : ");
+					char config = scanner.next().charAt(0);
+					reDirection(config, "orderStatus");
+					return;
+				}
+				System.out.println("Order status successfully changed to " + ordersMainArray[element].getStatus());
+			}
+		} else if (status.equalsIgnoreCase("delivered")) {
+			System.out.println("\n\tCan't change this order status, Order already delivered!");
+		}
+
+		System.out.print("\nTo access the main Menu, please enter 0 : ");
+		while (!scanner.hasNextInt()) {
+			System.out.println("Invalid input, please enter 0 to go back to the main Menu.");
+			scanner.next();
+		}
+		int toMenuInput = scanner.nextInt();
+
+		if (toMenuInput == 0) {
+			homePage();
 		}
 	}
 
