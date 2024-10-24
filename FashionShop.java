@@ -71,6 +71,7 @@ class Orders {
         this.status = status;
     }
 }
+
 class Customer {
     private String tpNumber;
     private int totalQuantity;
@@ -146,6 +147,38 @@ class Customer {
 
     public int[] getSizeQuantities() {
         return sizeQuantities;
+    }
+}
+
+class Items {
+    private String size;
+    private int totalQuantity;
+    private double totalAmount;
+
+    public Items(String size, int totalQuantity, double totalAmount) {
+        this.size = size;
+        this.totalQuantity = totalQuantity;
+        this.totalAmount = totalAmount;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void addQuantity(int quantity) {
+        this.totalQuantity += quantity;
+    }
+
+    public void addAmount(double amount) {
+        this.totalAmount += amount;
     }
 }
 
@@ -755,50 +788,40 @@ class FashionShop {
 		System.out.println("                                           |___/                         ");
 		System.out.println("---------------------------------------------------------------------------\n");
 
-		String[] uniqueSizes = new String[sizeMainArray.length];
-		int[] totalQty = new int[sizeMainArray.length];
-		double[] totalAmount = new double[sizeMainArray.length];
+		Items[] items = new Items[ordersMainArray.length];
 		int uniqueSizesCount = 0;
-
-		for (int i = 0; i < sizeMainArray.length; i++) {
+		
+		for (Orders order : ordersMainArray) {
+			String size = order.getSize();
+			int qty = order.getQuantity();
+			double amount = order.getAmount();
+		
 			boolean isNewSize = true;
 			int sizeIndex = -1;
-
-			for (int j = 0; j < uniqueSizesCount; j++) {
-				if (sizeMainArray[i].equals(uniqueSizes[j])) {
+		
+			for (int i = 0; i < uniqueSizesCount; i++) {
+				if (items[i].getSize().equals(size)) {
 					isNewSize = false;
-					sizeIndex = j;
+					sizeIndex = i;
 					break;
 				}
 			}
-
+		
 			if (isNewSize) {
-				uniqueSizes[uniqueSizesCount] = sizeMainArray[i];
-				totalQty[uniqueSizesCount] = qtyMainArray[i];
-				totalAmount[uniqueSizesCount] = amountMainArray[i];
+				items[uniqueSizesCount] = new Items(size, qty, amount);
 				uniqueSizesCount++;
 			} else {
-				totalQty[sizeIndex] += qtyMainArray[i];
-				totalAmount[sizeIndex] += amountMainArray[i];
+				items[sizeIndex].addQuantity(qty);
+				items[sizeIndex].addAmount(amount);
 			}
 		}
 
 		for (int i = 0; i < uniqueSizesCount - 1; i++) {
 			for (int j = 0; j < uniqueSizesCount - i - 1; j++) {
-
-				if (totalQty[j] < totalQty[j + 1]) {
-
-					String tempSize = uniqueSizes[j];
-					uniqueSizes[j] = uniqueSizes[j + 1];
-					uniqueSizes[j + 1] = tempSize;
-
-					int tempQty = totalQty[j];
-					totalQty[j] = totalQty[j + 1];
-					totalQty[j + 1] = tempQty;
-
-					double tempAmount = totalAmount[j];
-					totalAmount[j] = totalAmount[j + 1];
-					totalAmount[j + 1] = tempAmount;
+				if (items[j].getTotalQuantity() < items[j + 1].getTotalQuantity()) {
+					Items temp = items[j];
+					items[j] = items[j + 1];
+					items[j + 1] = temp;
 				}
 			}
 		}
@@ -806,10 +829,9 @@ class FashionShop {
 		System.out.printf("\n\t+---------------+---------------+---------------+\n");
 		System.out.printf("\t| %-13s | %-13s | %-13s |\n", "Size", "Total QTY", "Total Amount");
 		System.out.printf("\t+---------------+---------------+---------------+\n");
-
 		for (int i = 0; i < uniqueSizesCount; i++) {
 			System.out.printf("\t|               |               |               |\n");
-			System.out.printf("\t| %-13s | %-13d | %-13.2f |\n", uniqueSizes[i], totalQty[i], totalAmount[i]);
+ 			System.out.printf("\t| %-13s | %-13d | %-13.2f |\n", items[i].getSize(), items[i].getTotalQuantity(), items[i].getTotalAmount());
 		}
 		System.out.printf("\t+---------------+---------------+---------------+\n");
 		Scanner scanner = new Scanner(System.in);
