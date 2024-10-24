@@ -208,45 +208,6 @@ class FashionShop {
 	}
 
 	public static void extendArrays() {
-		// String[] tempOID = new String[orderIdMainArray.length + 1];
-		// String[] tempSize = new String[sizeMainArray.length + 1];
-		// int[] tempQty = new int[qtyMainArray.length + 1];
-		// double[] tempAmount = new double[amountMainArray.length + 1];
-		// String[] tempTPNum = new String[tpNumberMainArray.length + 1];
-		// String[] tempStatus = new String[statusMainArray.length + 1];
-
-		// for (int j = 0; j < orderIdMainArray.length; j++) {
-		// 	tempOID[j] = orderIdMainArray[j];
-		// }
-		// for (int j = 0; j < sizeMainArray.length; j++) {
-		// 	tempSize[j] = sizeMainArray[j];
-		// }
-		// for (int j = 0; j < qtyMainArray.length; j++) {
-		// 	tempQty[j] = qtyMainArray[j];
-		// }
-		// for (int j = 0; j < amountMainArray.length; j++) {
-		// 	tempAmount[j] = amountMainArray[j];
-		// }
-		// for (int j = 0; j < tpNumberMainArray.length; j++) {
-		// 	tempTPNum[j] = tpNumberMainArray[j];
-		// }
-		// for (int j = 0; j < statusMainArray.length; j++) {
-		// 	tempStatus[j] = statusMainArray[j];
-		// }
-		// tempOID[tempOID.length - 1] = generateOrderID();
-		// tempSize[tempSize.length - 1] = tShirtSize;
-		// tempQty[tempQty.length - 1] = qty;
-		// tempAmount[tempAmount.length - 1] = amount;
-		// tempTPNum[tempTPNum.length - 1] = cusPhoneNumber;
-		// tempStatus[tempStatus.length - 1] = statusCheck(PROCESSING);
-
-		// orderIdMainArray = tempOID;
-		// sizeMainArray = tempSize;
-		// qtyMainArray = tempQty;
-		// amountMainArray = tempAmount;
-		// tpNumberMainArray = tempTPNum;
-		// statusMainArray = tempStatus;
-		
 		Orders[] tempOrders = new Orders[ordersMainArray.length + 1];
 
 		for (int i = 0; i < ordersMainArray.length; i++) {
@@ -284,64 +245,67 @@ class FashionShop {
 		System.out.println("\n-------------------------------------------------------------------------------------\n\n");
 
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("Enter Customer Phone Number: ");
-		String searchInputTP = scanner.nextLine();
-		
-		boolean found = false;
-		double totalAmount = 0;
-		
-		String[] processedSizes = new String[tpNumberMainArray.length];
-		int[] totalQtyForSize = new int[tpNumberMainArray.length];
-		double[] totalAmountForSize = new double[tpNumberMainArray.length];
-		int processedCount = 0;
-		
-		for (int i = 0; i < tpNumberMainArray.length; i++) {
-			if (tpNumberMainArray[i].equals(searchInputTP)) {
-				if (!found) {
-					System.out.println("\n\t+---------------+---------------+---------------+");
-					System.out.println("\t|\tSize\t|\tQTY\t|\tAmount\t|");
-					System.out.println("\t+---------------+---------------+---------------+");
-					found = true;
-				}
-				boolean sizeAlreadyProcessed = false;
-				int index = -1;
+        System.out.print("Enter Customer Phone Number: ");
+        String searchInputTP = scanner.nextLine();
 
-				for (int k = 0; k < processedCount; k++) {
-					if (processedSizes[k].equals(sizeMainArray[i])) {
-						sizeAlreadyProcessed = true;
-						index = k;
-						break;
-					}
-				}
-				if (sizeAlreadyProcessed) {
-					totalQtyForSize[index] += qtyMainArray[i];
-					totalAmountForSize[index] += amountMainArray[i];
-				} else {
-					processedSizes[processedCount] = sizeMainArray[i];
-					totalQtyForSize[processedCount] = qtyMainArray[i];
-					totalAmountForSize[processedCount] = amountMainArray[i];
-					processedCount++;
-				}
-				totalAmount += amountMainArray[i];
-			}
-		}
-		for (int i = 0; i < processedCount - 1; i++) {
-			for (int j = 0; j < processedCount - i - 1; j++) {
-				if (totalAmountForSize[j] < totalAmountForSize[j + 1]) {
-					String tempSize = processedSizes[j];
-					processedSizes[j] = processedSizes[j + 1];
-					processedSizes[j + 1] = tempSize;
+        boolean found = false;
+        double totalAmount = 0;
+
+        String[] processedSizes = new String[ordersMainArray.length];
+        int[] totalQtyForSize = new int[ordersMainArray.length];
+        double[] totalAmountForSize = new double[ordersMainArray.length];
+        int processedCount = 0;
+
+        for (int i = 0; i < ordersMainArray.length; i++) {
+            if (ordersMainArray[i].getTpNumber().equals(searchInputTP)) {
+                if (!found) {
+                    System.out.println("\n\t+---------------+---------------+---------------+");
+                    System.out.println("\t|\tSize\t|\tQTY\t|\tAmount\t|");
+                    System.out.println("\t+---------------+---------------+---------------+");
+					System.out.println("\t|               |               |               |");
+                    found = true;
+                }
+                boolean sizeAlreadyProcessed = false;
+                int index = -1;
+
+                for (int k = 0; k < processedCount; k++) {
+                    if (processedSizes[k].equals(ordersMainArray[i].getSize())) {
+                        sizeAlreadyProcessed = true;
+                        index = k;
+                        break;
+                    }
+                }
+                if (sizeAlreadyProcessed) {
+                    totalQtyForSize[index] += ordersMainArray[i].getQuantity();
+                    totalAmountForSize[index] += ordersMainArray[i].getAmount();
+                } else {
+                    processedSizes[processedCount] = ordersMainArray[i].getSize();
+                    totalQtyForSize[processedCount] = ordersMainArray[i].getQuantity();
+                    totalAmountForSize[processedCount] = ordersMainArray[i].getAmount();
+                    processedCount++;
+                }
+                totalAmount += ordersMainArray[i].getAmount();
+            }
+        }
 		
-					int tempQty = totalQtyForSize[j];
-					totalQtyForSize[j] = totalQtyForSize[j + 1];
-					totalQtyForSize[j + 1] = tempQty;
-		
-					double tempAmount = totalAmountForSize[j];
-					totalAmountForSize[j] = totalAmountForSize[j + 1];
-					totalAmountForSize[j + 1] = tempAmount;
-				}
-			}
-		}
+        for (int i = 0; i < processedCount - 1; i++) {
+            for (int j = 0; j < processedCount - i - 1; j++) {
+                if (totalAmountForSize[j] < totalAmountForSize[j + 1]) {
+
+                    String tempSize = processedSizes[j];
+                    processedSizes[j] = processedSizes[j + 1];
+                    processedSizes[j + 1] = tempSize;
+
+                    int tempQty = totalQtyForSize[j];
+                    totalQtyForSize[j] = totalQtyForSize[j + 1];
+                    totalQtyForSize[j + 1] = tempQty;
+
+                    double tempAmount = totalAmountForSize[j];
+                    totalAmountForSize[j] = totalAmountForSize[j + 1];
+                    totalAmountForSize[j + 1] = tempAmount;
+                }
+            }
+        }
 		
 		for (int i = 0; i < processedCount; i++) {
 			System.out.println("\t|\t" + processedSizes[i] + "\t|\t" + totalQtyForSize[i] + "\t|\t" + totalAmountForSize[i] + "\t|");
@@ -359,8 +323,6 @@ class FashionShop {
 		} else if (userChoice.equalsIgnoreCase("n")) {
 			homePage();
 		}
-		
-
 	}
 
 	public static void searchOrder() {
