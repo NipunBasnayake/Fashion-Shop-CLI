@@ -71,7 +71,37 @@ class Orders {
         this.status = status;
     }
 }
+class Customer {
+    private String tpNumber;
+    private int totalQuantity;
+    private double totalAmount;
 
+    public Customer(String tpNumber, int totalQuantity, double totalAmount) {
+        this.tpNumber = tpNumber;
+        this.totalQuantity = totalQuantity;
+        this.totalAmount = totalAmount;
+    }
+
+    public String getTpNumber() {
+        return tpNumber;
+    }
+
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void addQuantity(int quantity) {
+        this.totalQuantity += quantity;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void addAmount(double amount) {
+        this.totalAmount += amount;
+    }
+}
 class FashionShop {
 	static int orderNumber = 1;
 	static String tShirtSize = "";
@@ -447,46 +477,85 @@ class FashionShop {
 		System.out.println("----------------------------------------------------------------------------------------\n");
 
 
-		String[][] customerData = new String[tpNumberMainArray.length][3];
+		// String[][] customerData = new String[tpNumberMainArray.length][3];
+		Customer[] customers = new Customer[ordersMainArray.length];
 		int uniqueCustomers = 0;
 
-		for (int i = 0; i < tpNumberMainArray.length; i++) {
-			boolean isNewCustomer = true;
-			int customerIndex = -1;
+		// for (int i = 0; i < tpNumberMainArray.length; i++) {
+		// 	boolean isNewCustomer = true;
+		// 	int customerIndex = -1;
 			
-			for (int j = 0; j < uniqueCustomers; j++) {
-				if (tpNumberMainArray[i].equals(customerData[j][0])) {
-					isNewCustomer = false;
-					customerIndex = j;
-					break;
-				}
-			}
-			if (isNewCustomer) {
-				customerData[uniqueCustomers][0] = tpNumberMainArray[i];
-				customerData[uniqueCustomers][1] = String.valueOf(qtyMainArray[i]);
-				customerData[uniqueCustomers][2] = String.valueOf(amountMainArray[i]);
-				uniqueCustomers++;
-			} else {
-				customerData[customerIndex][1] = String.valueOf(Integer.parseInt(customerData[customerIndex][1]) + qtyMainArray[i]);
-				customerData[customerIndex][2] = String.valueOf(Double.parseDouble(customerData[customerIndex][2]) + amountMainArray[i]);
-			}
-		}
+		// 	for (int j = 0; j < uniqueCustomers; j++) {
+		// 		if (tpNumberMainArray[i].equals(customerData[j][0])) {
+		// 			isNewCustomer = false;
+		// 			customerIndex = j;
+		// 			break;
+		// 		}
+		// 	}
+		// 	if (isNewCustomer) {
+		// 		customerData[uniqueCustomers][0] = tpNumberMainArray[i];
+		// 		customerData[uniqueCustomers][1] = String.valueOf(qtyMainArray[i]);
+		// 		customerData[uniqueCustomers][2] = String.valueOf(amountMainArray[i]);
+		// 		uniqueCustomers++;
+		// 	} else {
+		// 		customerData[customerIndex][1] = String.valueOf(Integer.parseInt(customerData[customerIndex][1]) + qtyMainArray[i]);
+		// 		customerData[customerIndex][2] = String.valueOf(Double.parseDouble(customerData[customerIndex][2]) + amountMainArray[i]);
+		// 	}
+		// }
+
+		for (Orders order : ordersMainArray) {
+            String tpNumber = order.getTpNumber();
+            int qty = order.getQuantity();
+            double amount = order.getAmount();
+
+            boolean isNewCustomer = true;
+            int customerIndex = -1;
+
+            for (int i = 0; i < uniqueCustomers; i++) {
+                if (customers[i].getTpNumber().equals(tpNumber)) {
+                    isNewCustomer = false;
+                    customerIndex = i;
+                    break;
+                }
+            }
+
+            if (isNewCustomer) {
+                customers[uniqueCustomers] = new Customer(tpNumber, qty, amount);
+                uniqueCustomers++;
+            } else {
+                customers[customerIndex].addQuantity(qty);
+                customers[customerIndex].addAmount(amount);
+            }
+        }
+		
+		// for (int i = 0; i < uniqueCustomers - 1; i++) {
+		// 	for (int j = 0; j < uniqueCustomers - i - 1; j++) {
+		// 		if (Double.parseDouble(customerData[j][2]) < Double.parseDouble(customerData[j + 1][2])) {
+		// 			String[] temp = customerData[j];
+		// 			customerData[j] = customerData[j + 1];
+		// 			customerData[j + 1] = temp;
+		// 		}
+		// 	}
+		// }
+
 		for (int i = 0; i < uniqueCustomers - 1; i++) {
-			for (int j = 0; j < uniqueCustomers - i - 1; j++) {
-				if (Double.parseDouble(customerData[j][2]) < Double.parseDouble(customerData[j + 1][2])) {
-					String[] temp = customerData[j];
-					customerData[j] = customerData[j + 1];
-					customerData[j + 1] = temp;
-				}
-			}
-		}
+            for (int j = 0; j < uniqueCustomers - i - 1; j++) {
+                if (customers[j].getTotalAmount() < customers[j + 1].getTotalAmount()) {
+                    Customer temp = customers[j];
+                    customers[j] = customers[j + 1];
+                    customers[j + 1] = temp;
+                }
+            }
+        }
+
 		System.out.printf("\t+---------------+---------------+---------------+\n");
 		System.out.printf("\t| %-13s | %-13s | %-13s |\n", "Customer ID", "All QTY", "Total Amount");
 		System.out.printf("\t+---------------+---------------+---------------+\n");
 
 		for (int i = 0; i < uniqueCustomers; i++) {
 			System.out.printf("\t|               |               |               |\n");
-			System.out.printf("\t| %-13s | %-13s | %-13s |\n", customerData[i][0], customerData[i][1], customerData[i][2]);
+			// System.out.printf("\t| %-13s | %-13s | %-13s |\n", customerData[i][0], customerData[i][1], customerData[i][2]);
+			System.out.printf("\t| %-13s | %-13d | %-13.2f |\n", customers[i].getTpNumber(), customers[i].getTotalQuantity(), customers[i].getTotalAmount());
 		}
 		System.out.printf("\t+---------------+---------------+---------------+\n");
 		Scanner scanner = new Scanner(System.in);
