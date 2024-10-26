@@ -21,7 +21,6 @@ class Orders {
         this.status = status;
     }
 
-	// Getters
     public String getOrderId() {
         return orderId;
     }
@@ -46,7 +45,6 @@ class Orders {
         return status;
     }
 
-    // Setters
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
@@ -1270,7 +1268,7 @@ class FashionShop {
 	}
 
 	public static void shortenArrays(int index) {
-		Orders[] tempOrders = new Orders[ordersMainArray.length + 1];
+		Orders[] tempOrders = new Orders[ordersMainArray.length - 1];
 
 		for (int j = 0; j < index; j++) {
 			tempOrders[j].setOrderId(ordersMainArray[j].getOrderId());
