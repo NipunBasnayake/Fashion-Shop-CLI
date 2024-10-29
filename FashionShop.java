@@ -1,7 +1,4 @@
-import javax.swing.*;
-import java.awt.*;
 import java.util.*;
-
 
 class Orders {
     private String orderId;
@@ -198,11 +195,8 @@ class FashionShop {
 	public static void main(String args[]) {
 		HomeWindow homeWindow = new HomeWindow();
 		homeWindow.setVisible(true);
-
-		PlaceOrderWindow placeOrderWindow = new PlaceOrderWindow();
-		placeOrderWindow.setVisible(true);
 		
-		homePage();
+		// homePage();
 	}
 
 	public static void homePage() {

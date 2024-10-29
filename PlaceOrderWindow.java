@@ -1,16 +1,20 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.util.Scanner;
 
 class PlaceOrderWindow extends JFrame {
+    static int orderNumber = 1;
+    
     private JLabel lblTitle;
-
     private JLabel lblOrderId;
     private JLabel lblPhoneNumber;
     private JLabel lblTShirtSize;
     private JLabel lblQTY;
     private JLabel lblAmount;
     
-    private JTextField txtOrderId;
+    private JLabel lblOrderID;
+
     private JTextField txtPhoneNumber;
     private JTextField txtTShirtSize;
     private JTextField txtQTY;
@@ -21,8 +25,8 @@ class PlaceOrderWindow extends JFrame {
     private JButton btnBackToHome;
 
     PlaceOrderWindow() {
-		setSize(700, 450);
-        setTitle("Fashion Shop | Place Order");
+        setSize(700, 450);
+        setTitle("Place Order | Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
@@ -31,7 +35,7 @@ class PlaceOrderWindow extends JFrame {
         lblTitle.setFont(new Font("Arial", Font.BOLD, 36));
         lblTitle.setHorizontalAlignment(JLabel.CENTER);
         lblTitle.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); 
-        add("North",lblTitle);
+        add("North", lblTitle);
 
         JPanel labelPanel = new JPanel(new GridLayout(5, 1, 5, 10));
         labelPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -53,21 +57,24 @@ class PlaceOrderWindow extends JFrame {
         JPanel txtPanel = new JPanel(new GridLayout(5, 1, 5, 10));
         txtPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        txtOrderId = new JTextField(20);
+        lblOrderID = new JLabel(generateOrderID());
+        lblOrderID.setFont(new Font("Arial", Font.PLAIN, 16));
+        txtPanel.add(lblOrderID);
+
         txtPhoneNumber = new JTextField(20);
         txtTShirtSize = new JTextField(20);
         txtQTY = new JTextField(20);
         txtAmount = new JTextField(20);
 
-        JTextField[] textFields = {txtOrderId, txtPhoneNumber, txtTShirtSize, txtQTY, txtAmount};
+        JTextField[] textFields = { txtPhoneNumber, txtTShirtSize, txtQTY, txtAmount};
         for (JTextField textField : textFields) {
             textField.setFont(new Font("Arial", Font.PLAIN, 16));
             txtPanel.add(textField);
         }
 
-        add(txtPanel, BorderLayout.CENTER);
+        add("Center", txtPanel);
 
-		JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel();
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
         btnSubmit = new JButton("Submit Order");
@@ -87,5 +94,86 @@ class PlaceOrderWindow extends JFrame {
         buttonPanel.add(btnBackToHome);
 
         add("South", buttonPanel);
+
+        btnSubmit.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+                validatePhoneNumber();
+                validateSize();
+                validateQty();
+            }
+        });
+
+        btnClear.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+                txtPhoneNumber.setText("");
+                txtTShirtSize.setText("");
+                txtQTY.setText("");
+                txtAmount.setText("");
+            }
+        });
+
+        btnBackToHome.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+                dispose();
+            }
+        });
     }
+
+    public static String generateOrderID() {
+        int tempOrderNumber = orderNumber;
+        int[] tempNumOrder = new int[5];
+        String idNum = "";
+        String tag = "ODR#";
+        String newOrderID = "";
+
+        for (int i = 4; tempOrderNumber > 0; i--) {
+            tempNumOrder[i] = tempOrderNumber % 10;
+            tempOrderNumber /= 10;
+        }
+        for (int i = 0; i < tempNumOrder.length; i++) {
+            idNum += tempNumOrder[i];
+        }
+        newOrderID = tag + idNum;
+        return newOrderID;
+    }
+
+    public void validatePhoneNumber() {
+        String cusPhoneNumber = txtPhoneNumber.getText();
+        if (cusPhoneNumber == null || cusPhoneNumber.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Phone number cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+        }else if (cusPhoneNumber.length() != 10 || cusPhoneNumber.charAt(0) != '0') {
+            JOptionPane.showMessageDialog(this, "Invalid Number.. Try again", "Error", JOptionPane.ERROR_MESSAGE);
+            txtPhoneNumber.setText("");
+        }
+    }
+
+    public void validateSize() {
+        String tShirtSize = txtTShirtSize.getText();
+    
+        if (tShirtSize == null || tShirtSize.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "T-Shirt Size cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!tShirtSize.equalsIgnoreCase("XS") && 
+            !tShirtSize.equalsIgnoreCase("S") && 
+            !tShirtSize.equalsIgnoreCase("M") && 
+            !tShirtSize.equalsIgnoreCase("L") && 
+            !tShirtSize.equalsIgnoreCase("XL") && 
+            !tShirtSize.equalsIgnoreCase("XXL")) {
+            JOptionPane.showMessageDialog(this, "Invalid size.. Try again", "Error", JOptionPane.ERROR_MESSAGE);
+            txtTShirtSize.setText("");
+        }
+    }
+
+    public void validateQty() {
+		int qty = Integer.parseInt(txtQTY.getText());
+
+		if (qty <= 0) {
+            JOptionPane.showMessageDialog(this, "Phone number cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            txtQTY.setText("");
+        }
+	}
+
+
+    
 }
