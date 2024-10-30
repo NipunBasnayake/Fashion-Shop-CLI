@@ -1,71 +1,92 @@
 import javax.swing.*;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.awt.event.*;
+import javax.swing.table.DefaultTableModel;
 
-class SearchCustomerWindow extends JFrame {
-    private JLabel lblTitle;
-    private JLabel lblCustomerId;
-    private JTextField txtCustomerId;
-    private JButton btnSearchCustomer;
-    private JTable tblSearchCustomerResults;
+public class SearchCustomerWindow extends JFrame {
+    private JButton btnBack;
+    private JLabel lblEnterID;
+    private JTextField txtCusID;
+    private JButton btnSearch;
+    private JTable table;
+    private DefaultTableModel model;
+    private JLabel totalLabel;
+    private OrdersCollection ordersCollection; 
 
-    SearchCustomerWindow() {
-        setSize(700, 450);
-        setTitle("Search Customer | Fashion Shop");
+    SearchCustomerWindow(OrdersCollection ordersCollection) {
+        this.ordersCollection = ordersCollection;
+        setSize(500, 600);
+        setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout(10, 10));
+        setLayout(new BorderLayout());
 
-        lblTitle = new JLabel("SEARCH CUSTOMER");
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 36));
-        lblTitle.setHorizontalAlignment(JLabel.CENTER);
-        lblTitle.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));  // Adjusted spacing here
-        add("North", lblTitle);
+        // ----------------- Back Button Panel -----------------
+        JPanel pnlBack = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        btnBack = new JButton("Back");
+        btnBack.setFont(new Font("Arial", Font.BOLD, 16));
+        btnBack.setPreferredSize(new Dimension(100, 35));
+        btnBack.setBackground(new Color(255, 102, 102));
+        btnBack.setForeground(Color.WHITE);
 
-        // ----------------- Search Inputs --------------------
+        btnBack.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                dispose();
+            }
+        });
 
-        lblCustomerId = new JLabel("Customer Id:");
-        lblCustomerId.setFont(new Font("Arial", Font.BOLD, 16));
+        pnlBack.add(btnBack);
+        add("North", pnlBack);
 
-        txtCustomerId = new JTextField(20);
-        txtCustomerId.setFont(new Font("Arial", Font.PLAIN, 16));
-        txtCustomerId.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Reduced padding
+        // ----------------- Search Panel -----------------
+        JPanel searchPanel = new JPanel(new FlowLayout());
+        lblEnterID = new JLabel("Enter Customer ID :");
+        txtCusID = new JTextField(15);
+        btnSearch = new JButton("Search");
 
-        btnSearchCustomer = new JButton("Search Customer");
-        btnSearchCustomer.setFont(new Font("Arial", Font.BOLD, 16));
-        btnSearchCustomer.setPreferredSize(new Dimension(170, 35)); // Adjusted button height
+        btnSearch.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                String customerId = txtCusID.getText().trim();
+                Order[] foundOrders = ordersCollection.searchCustomerID(customerId);
+        
+                model.setRowCount(0);
+        
+                if (foundOrders.length > 0) {
+                    double totalAmount = 0;
+                    for (Order foundOrder : foundOrders) {
+                        Object[] rowData = {foundOrder.getSize(), foundOrder.getQuantity(), foundOrder.getAmount()};
+                        model.addRow(rowData); 
+                        totalAmount += foundOrder.getAmount();
+                    }
+                    totalLabel.setText(String.format("Total: %.2f", totalAmount));
+                } else {
+                    JOptionPane.showMessageDialog(SearchCustomerWindow.this, "Order not found for Customer ID: " + customerId, "Error", JOptionPane.ERROR_MESSAGE);
+                    totalLabel.setText("Total: 0.00");
+                }
+            }
+        });
+        
+        searchPanel.add(lblEnterID);
+        searchPanel.add(txtCusID);
+        searchPanel.add(btnSearch);
 
-        JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        inputPanel.add(lblCustomerId);
-        inputPanel.add(txtCustomerId);
-        inputPanel.add(btnSearchCustomer);
+        // ----------------- Table Panel -----------------
+        String[] columnNames = {"Size", "QTY", "Amount"};
+        model = new DefaultTableModel(columnNames, 0);
+        table = new JTable(model);
+        table.setRowHeight(30);
+        JScrollPane tableScrollPane = new JScrollPane(table);
 
-        // ----------------- Table --------------------
+        // ----------------- Center Panel -----------------
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.add(searchPanel, BorderLayout.NORTH);
+        centerPanel.add(tableScrollPane, BorderLayout.CENTER);
+        add(centerPanel, BorderLayout.CENTER);
 
-        String[] columnNames = {"Size", "Qty", "Amount"};
-        Object[][] data = {};
-
-        tblSearchCustomerResults = new JTable(data, columnNames);
-        tblSearchCustomerResults.setFont(new Font("Arial", Font.PLAIN, 14));
-        tblSearchCustomerResults.setRowHeight(25);
-
-        JTableHeader tableHeader = tblSearchCustomerResults.getTableHeader();
-        tableHeader.setFont(new Font("Arial", Font.BOLD, 16));
-        tableHeader.setBackground(new Color(70, 130, 180));
-        tableHeader.setForeground(Color.WHITE);
-        tableHeader.setPreferredSize(new Dimension(100, 30));
-
-        JScrollPane scrollPane = new JScrollPane(tblSearchCustomerResults);
-        scrollPane.setPreferredSize(new Dimension(650, 150)); 
-
-        JPanel tablePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        tablePanel.add(scrollPane);
-
-        JPanel mainPanel = new JPanel(new GridLayout(2, 1, 0, 5)); 
-        mainPanel.add(inputPanel);
-        mainPanel.add(tablePanel);
-
-        add("Center", mainPanel);
-        setVisible(true);
+        // ----------------- Total Panel -----------------
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        totalLabel = new JLabel("");
+        bottomPanel.add(totalLabel);
+        add(bottomPanel, BorderLayout.SOUTH);
     }
 }
