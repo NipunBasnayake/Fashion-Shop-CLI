@@ -6,19 +6,21 @@ class HomeWindow extends JFrame {
     private JLabel lblTitle;
     private JLabel copyrightLabel;
     private JLabel imageLabel;
-
     private JButton btnSearch;
     private JButton btnViewReports;
     private JButton btnSetOrderStatus;
     private JButton btnDeleteOrder;
     private JButton btnPlaceOrder;
 
+    // private OrdersCollection ordersCollection;
+
     HomeWindow() {
+        OrdersCollection ordersCollection = new OrdersCollection();
         setSize(500, 600);
         setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout()); 
+        setLayout(new BorderLayout());
 
         // ----------------- Title --------------------
         JPanel pnlNorth = new JPanel();
@@ -46,17 +48,16 @@ class HomeWindow extends JFrame {
         btnViewReports.setFont(new Font("Arial", Font.BOLD, 16));
         btnSetOrderStatus.setFont(new Font("Arial", Font.BOLD, 16));
         btnDeleteOrder.setFont(new Font("Arial", Font.BOLD, 16));
-        btnPlaceOrder.setFont(new Font("Arial", Font.BOLD, 16));
-        
+        btnPlaceOrder.setFont(new Font("Arial", Font.BOLD, 20));
+
         btnSearch.setPreferredSize(new Dimension(150, 50));
         btnViewReports.setPreferredSize(new Dimension(150, 50));
         btnSetOrderStatus.setPreferredSize(new Dimension(150, 50));
         btnDeleteOrder.setPreferredSize(new Dimension(150, 50));
         btnPlaceOrder.setPreferredSize(new Dimension(150, 70));
 
-        btnPlaceOrder.setBackground(new Color(4, 203, 201));
         btnPlaceOrder.setForeground(Color.WHITE);
-
+        btnPlaceOrder.setBackground(new Color(4, 203, 201));
 
         buttonPanel.add(btnSearch);
         buttonPanel.add(btnViewReports);
@@ -78,25 +79,24 @@ class HomeWindow extends JFrame {
         // ----------------- Button Actions --------------------
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                Object[] options = {"Search Customer", "Search Order", "Cancel"};
+                Object[] options = { "Search Customer", "Search Order", "Cancel" };
                 int response = JOptionPane.showOptionDialog(
-                    null,
-                    "Please select the option",
-                    "Search Options",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[0]
-                );
+                        null,
+                        "Please select the option",
+                        "Search Options",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
 
                 switch (response) {
                     case 0:
-                        SearchCustomerWindow searchCustomerWindow = new SearchCustomerWindow();
+                    SearchCustomerWindow searchCustomerWindow = new SearchCustomerWindow(ordersCollection);
                         searchCustomerWindow.setVisible(true);
                         break;
                     case 1:
-                        SearchOrderWindow searchOrderWindow = new SearchOrderWindow();
+                        SearchOrderWindow searchOrderWindow = new SearchOrderWindow(ordersCollection);
                         searchOrderWindow.setVisible(true);
                         break;
                     case 2:
@@ -107,11 +107,12 @@ class HomeWindow extends JFrame {
                 }
             }
         });
-        
 
-
-
-
+        btnPlaceOrder.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                PlaceOrderWindow placeOrderWindow = new PlaceOrderWindow(ordersCollection);
+                placeOrderWindow.setVisible(true);
+            }
+        });
     }
 }
-
