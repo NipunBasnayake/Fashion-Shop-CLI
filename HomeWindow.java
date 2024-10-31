@@ -12,10 +12,11 @@ class HomeWindow extends JFrame {
     private JButton btnDeleteOrder;
     private JButton btnPlaceOrder;
 
-    // private OrdersCollection ordersCollection;
+    private OrdersCollection ordersCollection;
 
     HomeWindow() {
-        OrdersCollection ordersCollection = new OrdersCollection();
+        ordersCollection = new OrdersCollection();
+
         setSize(500, 600);
         setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -49,12 +50,6 @@ class HomeWindow extends JFrame {
         btnSetOrderStatus.setFont(new Font("Arial", Font.BOLD, 16));
         btnDeleteOrder.setFont(new Font("Arial", Font.BOLD, 16));
         btnPlaceOrder.setFont(new Font("Arial", Font.BOLD, 20));
-
-        btnSearch.setPreferredSize(new Dimension(150, 50));
-        btnViewReports.setPreferredSize(new Dimension(150, 50));
-        btnSetOrderStatus.setPreferredSize(new Dimension(150, 50));
-        btnDeleteOrder.setPreferredSize(new Dimension(150, 50));
-        btnPlaceOrder.setPreferredSize(new Dimension(150, 70));
 
         btnPlaceOrder.setForeground(Color.WHITE);
         btnPlaceOrder.setBackground(new Color(4, 203, 201));
@@ -92,7 +87,7 @@ class HomeWindow extends JFrame {
 
                 switch (response) {
                     case 0:
-                    SearchCustomerWindow searchCustomerWindow = new SearchCustomerWindow(ordersCollection);
+                        SearchCustomerWindow searchCustomerWindow = new SearchCustomerWindow(ordersCollection);
                         searchCustomerWindow.setVisible(true);
                         break;
                     case 1:
@@ -112,6 +107,14 @@ class HomeWindow extends JFrame {
             public void actionPerformed(ActionEvent evt) {
                 PlaceOrderWindow placeOrderWindow = new PlaceOrderWindow(ordersCollection);
                 placeOrderWindow.setVisible(true);
+            }
+        });
+
+        btnViewReports.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                ViewReportsWindow viewReportsWindow = new ViewReportsWindow(ordersCollection);
+                viewReportsWindow.setVisible(true);
+                dispose();
             }
         });
     }
