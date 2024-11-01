@@ -18,7 +18,7 @@ public class ViewReportsWindow extends JFrame {
         this.ordersCollection = ordersCollection;
 
         setSize(500, 600);
-        setTitle("Fashion Shop");
+        setTitle("View Reports");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
@@ -58,6 +58,13 @@ public class ViewReportsWindow extends JFrame {
         BestInCustomers.setForeground(Color.WHITE);
         BestInCustomers.setBounds(0, 200, 150, 35);
         add(BestInCustomers);
+        BestInCustomers.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                BestInCustomers bestInCustomers = new BestInCustomers();
+                bestInCustomers.setVisible(true);
+                dispose();
+            }
+        });
 
         AllCustomers = new JButton("All Customers");
         AllCustomers.setFont(new Font("Arial", Font.BOLD, 16));
@@ -65,6 +72,13 @@ public class ViewReportsWindow extends JFrame {
         AllCustomers.setForeground(Color.WHITE);
         AllCustomers.setBounds(0, 250, 150, 35);
         add(AllCustomers);
+        AllCustomers.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                AllCustomers allCustomers = new AllCustomers();
+                allCustomers.setVisible(true);
+                dispose();
+            }
+        });
 
         // --------------------------------
         CategorazedByQty = new JButton("Categorized By Qty");
@@ -73,6 +87,13 @@ public class ViewReportsWindow extends JFrame {
         CategorazedByQty.setForeground(Color.WHITE);
         CategorazedByQty.setBounds(170, 175, 150, 35);
         add(CategorazedByQty);
+        CategorazedByQty.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+                CategorazedByQty categorazedByQty = new CategorazedByQty();
+                categorazedByQty.setVisible(true);
+                dispose();
+            }
+        });
 
         CategorazedByAmount = new JButton("Categorized By Amount");
         CategorazedByAmount.setFont(new Font("Arial", Font.BOLD, 16));
@@ -80,6 +101,13 @@ public class ViewReportsWindow extends JFrame {
         CategorazedByAmount.setForeground(Color.WHITE);
         CategorazedByAmount.setBounds(170, 225, 150, 35);
         add(CategorazedByAmount);
+        CategorazedByAmount.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+                CategorazedByAmount categorazedByAmount = new CategorazedByAmount();
+                categorazedByAmount.setVisible(true);
+                dispose();
+            }
+        });
 
         // --------------------------------
         OrderByAmount = new JButton("Order By Amount");
@@ -88,6 +116,13 @@ public class ViewReportsWindow extends JFrame {
         OrderByAmount.setForeground(Color.WHITE);
         OrderByAmount.setBounds(340, 175, 150, 35);
         add(OrderByAmount);
+        OrderByAmount.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+                OrderByAmount orderByAmount = new OrderByAmount();
+                orderByAmount.setVisible(true);
+                dispose();
+            }
+        });
 
         AllOrders = new JButton("All Orders");
         AllOrders.setFont(new Font("Arial", Font.BOLD, 16));
@@ -95,5 +130,12 @@ public class ViewReportsWindow extends JFrame {
         AllOrders.setForeground(Color.WHITE);
         AllOrders.setBounds(340, 225, 150, 35);
         add(AllOrders);
+        AllOrders.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+                AllOrders allOrders = new AllOrders();
+                allOrders.setVisible(true);
+                dispose();
+            }
+        });
     }
 }

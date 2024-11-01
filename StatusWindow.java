@@ -2,13 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-class ViewCustomers extends JFrame{
+class StatusWindow extends JFrame{
     private JButton btnBack;
     private OrdersCollection ordersCollection;
 
-    ViewCustomers(){
-        setSize(500, 600);
-        setTitle("View Customers");
+    StatusWindow(OrdersCollection ordersCollection){
+        setSize(500,600);
+        setTitle("Change Status");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
@@ -22,15 +22,9 @@ class ViewCustomers extends JFrame{
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 dispose();
-                ViewReportsWindow viewReportsWindow = new ViewReportsWindow(ordersCollection);
-                viewReportsWindow.setVisible(true);
+                HomeWindow homeWindow = new HomeWindow();
+                homeWindow.setVisible(true);
             }
         });
-
-
-
-
-
     }
-    
 }

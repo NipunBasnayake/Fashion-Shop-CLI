@@ -117,5 +117,13 @@ class HomeWindow extends JFrame {
                 dispose();
             }
         });
+
+        btnSetOrderStatus.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                StatusWindow statusWindow = new StatusWindow(ordersCollection);
+                statusWindow.setVisible(true);
+                dispose();
+            }
+        });
     }
 }

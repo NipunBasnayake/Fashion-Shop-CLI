@@ -1,14 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
-class ViewCustomers extends JFrame{
+class CategorazedByAmount extends JFrame{
     private JButton btnBack;
     private OrdersCollection ordersCollection;
 
-    ViewCustomers(){
+    CategorazedByAmount(){
         setSize(500, 600);
-        setTitle("View Customers");
+        setTitle("Categorazed By Amount");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
@@ -21,16 +20,11 @@ class ViewCustomers extends JFrame{
         add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                dispose();
+                
                 ViewReportsWindow viewReportsWindow = new ViewReportsWindow(ordersCollection);
                 viewReportsWindow.setVisible(true);
+                dispose();
             }
         });
-
-
-
-
-
     }
-    
 }

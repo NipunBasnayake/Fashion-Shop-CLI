@@ -1,14 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
-class ViewCustomers extends JFrame{
+class BestInCustomers extends JFrame{
     private JButton btnBack;
     private OrdersCollection ordersCollection;
 
-    ViewCustomers(){
+    BestInCustomers(){
         setSize(500, 600);
-        setTitle("View Customers");
+        setTitle("Best In Customers");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
@@ -26,11 +25,5 @@ class ViewCustomers extends JFrame{
                 viewReportsWindow.setVisible(true);
             }
         });
-
-
-
-
-
     }
-    
 }
