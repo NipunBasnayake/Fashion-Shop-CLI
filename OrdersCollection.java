@@ -37,5 +37,25 @@ class OrdersCollection {
         return foundOrders;
     }
     
+    public Order[] searchOrderID(String orderID) {
+        int count = 0;
+        for (Order order : orderArray) {
+            if (order.getOrderId().equalsIgnoreCase(orderID)) {
+                count++;
+            }
+        }
+        if (count == 0) {
+            return new Order[0];
+        }
+        Order[] foundOrders = new Order[count];
+        int index = 0;
+        for (Order order : orderArray) {
+            if (order.getOrderId().equalsIgnoreCase(orderID)) {
+                foundOrders[index++] = order;
+            }
+        }
+        return foundOrders;
+    }
+    
 
 }

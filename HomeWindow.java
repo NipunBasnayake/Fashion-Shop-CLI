@@ -12,71 +12,27 @@ class HomeWindow extends JFrame {
     private JButton btnDeleteOrder;
     private JButton btnPlaceOrder;
 
-    // private OrdersCollection ordersCollection;
-
-    HomeWindow() {
-        OrdersCollection ordersCollection = new OrdersCollection();
-        setSize(500, 600);
+    HomeWindow(OrdersCollection ordersCollection) {
+        setSize(500, 550);
         setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        setLayout(null);
 
         // ----------------- Title --------------------
-        JPanel pnlNorth = new JPanel();
-        pnlNorth.setBackground(new Color(51, 102, 255));
-        pnlNorth.setLayout(new BorderLayout());
-
-        lblTitle = new JLabel("FASHION SHOP", JLabel.CENTER);
+        lblTitle = new JLabel("Fashion Shop", JLabel.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 36));
         lblTitle.setForeground(Color.WHITE);
-        lblTitle.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        pnlNorth.add(lblTitle, BorderLayout.CENTER);
-        add(pnlNorth, BorderLayout.NORTH);
-
+        lblTitle.setBackground(new Color(51, 102, 255));
+        lblTitle.setOpaque(true);
+        lblTitle.setBounds(0, 0, 500, 50);
+        add(lblTitle);
+        
         // ----------------- Buttons --------------------
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
-
         btnSearch = new JButton("Search");
-        btnViewReports = new JButton("Reports");
-        btnSetOrderStatus = new JButton("Status");
-        btnDeleteOrder = new JButton("Delete");
-        btnPlaceOrder = new JButton("Place Order");
-
         btnSearch.setFont(new Font("Arial", Font.BOLD, 16));
-        btnViewReports.setFont(new Font("Arial", Font.BOLD, 16));
-        btnSetOrderStatus.setFont(new Font("Arial", Font.BOLD, 16));
-        btnDeleteOrder.setFont(new Font("Arial", Font.BOLD, 16));
-        btnPlaceOrder.setFont(new Font("Arial", Font.BOLD, 20));
-
-        btnSearch.setPreferredSize(new Dimension(150, 50));
-        btnViewReports.setPreferredSize(new Dimension(150, 50));
-        btnSetOrderStatus.setPreferredSize(new Dimension(150, 50));
-        btnDeleteOrder.setPreferredSize(new Dimension(150, 50));
-        btnPlaceOrder.setPreferredSize(new Dimension(150, 70));
-
-        btnPlaceOrder.setForeground(Color.WHITE);
-        btnPlaceOrder.setBackground(new Color(4, 203, 201));
-
-        buttonPanel.add(btnSearch);
-        buttonPanel.add(btnViewReports);
-        buttonPanel.add(btnSetOrderStatus);
-        buttonPanel.add(btnDeleteOrder);
-        buttonPanel.add(btnPlaceOrder);
-        add("West", buttonPanel);
-
-        // ----------------- Image --------------------
-        imageLabel = new JLabel(new ImageIcon("fashion_image.jpg"));
-        imageLabel.setBounds(200, 80, 150, 300);
-        add("Center", imageLabel);
-
-        // ----------------- Footer Label --------------------
-        copyrightLabel = new JLabel("Copyrights © Nipun 2024", SwingConstants.CENTER);
-        copyrightLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        add("South", copyrightLabel);
-
-        // ----------------- Button Actions --------------------
+        btnSearch.setBounds(50, 80, 200, 50);
+        add(btnSearch);
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 Object[] options = { "Search Customer", "Search Order", "Cancel" };
@@ -92,11 +48,11 @@ class HomeWindow extends JFrame {
 
                 switch (response) {
                     case 0:
-                    SearchCustomerWindow searchCustomerWindow = new SearchCustomerWindow(ordersCollection);
+                        SearchCustomerWindow searchCustomerWindow = new SearchCustomerWindow(ordersCollection);
                         searchCustomerWindow.setVisible(true);
                         break;
                     case 1:
-                        SearchOrderWindow searchOrderWindow = new SearchOrderWindow();
+                        SearchOrderWindow searchOrderWindow = new SearchOrderWindow(ordersCollection);
                         searchOrderWindow.setVisible(true);
                         break;
                     case 2:
@@ -108,11 +64,53 @@ class HomeWindow extends JFrame {
             }
         });
 
-        btnPlaceOrder.addActionListener(new ActionListener() {
+        btnViewReports = new JButton("Reports");
+        btnViewReports.setFont(new Font("Arial", Font.BOLD, 16));
+        btnViewReports.setBounds(50, 150, 200, 50);
+        add(btnViewReports);
+        btnViewReports.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                PlaceOrderWindow placeOrderWindow = new PlaceOrderWindow(ordersCollection);
-                placeOrderWindow.setVisible(true);
+                new ViewReportsWindow(ordersCollection).setVisible(true);
+                dispose();
             }
         });
+
+        btnSetOrderStatus = new JButton("Status");
+        btnSetOrderStatus.setFont(new Font("Arial", Font.BOLD, 16));
+        btnSetOrderStatus.setBounds(50, 220, 200, 50);
+        add(btnSetOrderStatus);
+        btnSetOrderStatus.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                new StatusWindow(ordersCollection).setVisible(true);
+                dispose();
+            }
+        });
+
+        btnDeleteOrder = new JButton("Delete");
+        btnDeleteOrder.setFont(new Font("Arial", Font.BOLD, 16));
+        btnDeleteOrder.setBounds(50, 290, 200, 50);
+        add(btnDeleteOrder);
+        // Add functionality for deletion here if needed
+        
+        btnPlaceOrder = new JButton("Place Order");
+        btnPlaceOrder.setFont(new Font("Arial", Font.BOLD, 20));
+        btnPlaceOrder.setBackground(new Color(4, 203, 201));
+        btnPlaceOrder.setBounds(50, 360, 200, 80);
+        add(btnPlaceOrder);
+        btnPlaceOrder.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                new PlaceOrderWindow(ordersCollection).setVisible(true);
+            }
+        });
+
+        // ----------------- Image --------------------
+        imageLabel = new JLabel(new ImageIcon("FashipnShopImage.png"));
+        imageLabel.setBounds(250, 80, 230, 360);
+        add(imageLabel);
+
+        // ----------------- Footer Label --------------------
+        copyrightLabel = new JLabel("Copyrights © Nipun 2024", SwingConstants.CENTER);
+        copyrightLabel.setBounds(0, 470, 500, 20);
+        add(copyrightLabel);
     }
 }

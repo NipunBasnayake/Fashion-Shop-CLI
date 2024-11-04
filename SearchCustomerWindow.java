@@ -11,7 +11,7 @@ public class SearchCustomerWindow extends JFrame {
     private JTable table;
     private DefaultTableModel model;
     private JLabel totalLabel;
-    private OrdersCollection ordersCollection; 
+    private OrdersCollection ordersCollection;
 
     SearchCustomerWindow(OrdersCollection ordersCollection) {
         this.ordersCollection = ordersCollection;
@@ -46,36 +46,61 @@ public class SearchCustomerWindow extends JFrame {
 
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                String customerId = txtCusID.getText().trim();
+                String customerId = txtCusID.getText();
                 Order[] foundOrders = ordersCollection.searchCustomerID(customerId);
-        
+
                 model.setRowCount(0);
-        
-                if (foundOrders.length > 0) {
-                    double totalAmount = 0;
+
+                String[] allSizes = { "XS", "S", "M", "L", "XL", "XXL" };
+                double totalAmount = 0;
+
+                for (String size : allSizes) {
+                    boolean sizeFound = false;
+
                     for (Order foundOrder : foundOrders) {
-                        Object[] rowData = {foundOrder.getSize(), foundOrder.getQuantity(), foundOrder.getAmount()};
-                        model.addRow(rowData); 
-                        totalAmount += foundOrder.getAmount();
+                        if (foundOrder.getSize().equals(size)) {
+                            Object[] rowData = { size, foundOrder.getQuantity(), foundOrder.getAmount() };
+                            model.addRow(rowData);
+                            totalAmount += foundOrder.getAmount();
+                            sizeFound = true;
+                            break;
+                        }
                     }
-                    totalLabel.setText(String.format("Total: %.2f", totalAmount));
-                } else {
-                    JOptionPane.showMessageDialog(SearchCustomerWindow.this, "Order not found for Customer ID: " + customerId, "Error", JOptionPane.ERROR_MESSAGE);
-                    totalLabel.setText("Total: 0.00");
+                    if (!sizeFound) {
+                        Object[] rowData = { size, 0, "0.00" };
+                        model.addRow(rowData);
+                    }
+                }
+                totalLabel.setText(String.format("Total: %.2f", totalAmount));
+
+                if (foundOrders.length == 0) {
+                    JOptionPane.showMessageDialog(SearchCustomerWindow.this,
+                            "Order not found for Customer ID: " + customerId, "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
-        
         searchPanel.add(lblEnterID);
         searchPanel.add(txtCusID);
         searchPanel.add(btnSearch);
 
         // ----------------- Table Panel -----------------
-        String[] columnNames = {"Size", "QTY", "Amount"};
+        String[] columnNames = { "Size", "QTY", "Amount" };
         model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
-        table.setRowHeight(30);
+        table.setRowHeight(30); // Set row height
+
+        // Set column widths
+        table.getColumnModel().getColumn(0).setPreferredWidth(50); // "Size" column width
+        table.getColumnModel().getColumn(1).setPreferredWidth(50); // "QTY" column width
+        table.getColumnModel().getColumn(2).setPreferredWidth(100); // "Amount" column width
+
+        // Add table to a scroll pane
         JScrollPane tableScrollPane = new JScrollPane(table);
+        tableScrollPane.setBounds(25, 25, 450, 500); // Set position and size of the scroll pane
+
+        // Add the scroll pane containing the table to the frame or panel
+        add(tableScrollPane);
 
         // ----------------- Center Panel -----------------
         JPanel centerPanel = new JPanel(new BorderLayout());
