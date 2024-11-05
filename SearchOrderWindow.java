@@ -11,7 +11,7 @@ public class SearchOrderWindow extends JFrame {
     private JTextField txtOrderID;
 
     SearchOrderWindow(OrdersCollection ordersCollection) {
-        setSize(500, 600);
+        setSize(500, 550);
         setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -67,36 +67,55 @@ public class SearchOrderWindow extends JFrame {
             }
         });
 
-
-        // ----------------- Detail Panel -----------------
-        JPanel lblPanel = new JPanel(new GridLayout(5, 2, 10, 10));
-
         lblCustID = new JLabel("Customer ID:");
+        lblCustID.setFont(new Font("Arial", Font.BOLD, 16));
+        lblCustID.setBounds(20, 170, 150, 25);
+        add(lblCustID);
+
         lblSize = new JLabel("Size:");
+        lblSize.setFont(new Font("Arial", Font.BOLD, 16));
+        lblSize.setBounds(20, 220, 150, 25);
+        add(lblSize);
+
         lblQTY = new JLabel("Quantity:");
+        lblQTY.setFont(new Font("Arial", Font.BOLD, 16));
+        lblQTY.setBounds(20, 270, 150, 25);
+        add(lblQTY);
+
         lblAmount = new JLabel("Amount:");
+        lblAmount.setFont(new Font("Arial", Font.BOLD, 16));
+        lblAmount.setBounds(20, 320, 150, 25);
+        add(lblAmount);
+
         lblStatus = new JLabel("Status:");
+        lblStatus.setFont(new Font("Arial", Font.BOLD, 16));
+        lblStatus.setBounds(20, 370, 150, 25);
+        add(lblStatus);
 
         lblGetCustID = new JLabel("");
-        lblGetSize = new JLabel("");
-        lblGetQTY = new JLabel("");
-        lblGetAmount = new JLabel("");
-        lblGetStatus = new JLabel("");
-
-        lblCustID.setFont(new Font("Arial", Font.BOLD, 16));
-        lblSize.setFont(new Font("Arial", Font.BOLD, 16));
-        lblQTY.setFont(new Font("Arial", Font.BOLD, 16));
-        lblAmount.setFont(new Font("Arial", Font.BOLD, 16));
-        lblStatus.setFont(new Font("Arial", Font.BOLD, 16));
-
         lblGetCustID.setFont(new Font("Arial", Font.PLAIN, 16));
+        lblGetCustID.setBounds(150, 170, 150, 25);
+        add(lblGetCustID);
+
+        lblGetSize = new JLabel("");
         lblGetSize.setFont(new Font("Arial", Font.PLAIN, 16));
+        lblGetSize.setBounds(150, 220, 150, 25);
+        add(lblGetSize);
+
+        lblGetQTY = new JLabel("");
         lblGetQTY.setFont(new Font("Arial", Font.PLAIN, 16));
+        lblGetQTY.setBounds(150, 270, 150, 25);
+        add(lblGetQTY);
+
+        lblGetAmount = new JLabel("");
         lblGetAmount.setFont(new Font("Arial", Font.PLAIN, 16));
+        lblGetAmount.setBounds(150, 320, 150, 25);
+        add(lblGetAmount);
+
+        lblGetStatus = new JLabel("");
         lblGetStatus.setFont(new Font("Arial", Font.PLAIN, 16));
+        lblGetStatus.setBounds(150, 370, 150, 25);
+        add(lblGetStatus);
 
-
-
-        // add(centerPanel, BorderLayout.CENTER);
     }
 }

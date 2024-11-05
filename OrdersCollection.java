@@ -1,8 +1,10 @@
+import java.util.Arrays;
+
 class OrdersCollection {
     private Order[] orderArray;
 
-    OrdersCollection(){
-        orderArray = new Order[0];    
+    OrdersCollection() {
+        orderArray = new Order[0];
     }
 
     public boolean addOrder(Order order) {
@@ -36,7 +38,7 @@ class OrdersCollection {
         }
         return foundOrders;
     }
-    
+
     public Order[] searchOrderID(String orderID) {
         int count = 0;
         for (Order order : orderArray) {
@@ -56,6 +58,36 @@ class OrdersCollection {
         }
         return foundOrders;
     }
-    
+
+    public Order[] viewCustomers() {
+        Order[] viewCustomers = new Order[orderArray.length];
+        boolean[] equalPass = new boolean[orderArray.length];
+        int count = 0;
+
+        for (int i = 0; i < orderArray.length; i++) {
+            if (equalPass[i]) {
+                continue;
+            }
+            viewCustomers[count] = new Order();
+            int tempQty = orderArray[i].getQuantity();
+            double tempAmount = orderArray[i].getAmount();
+            equalPass[i] = true;
+
+            for (int j = i + 1; j < orderArray.length; j++) {
+                if (orderArray[i].getCustomerID().equals(orderArray[j].getCustomerID())) {
+                    tempQty += orderArray[j].getQuantity();
+                    tempAmount += orderArray[j].getAmount();
+                    equalPass[j] = true;
+                }
+            }
+
+            String cusPhoneNumber = orderArray[i].getCustomerID();
+            viewCustomers[count].setCustomerID(cusPhoneNumber);
+            viewCustomers[count].setQuantity(tempQty);
+            viewCustomers[count].setAmount(tempAmount);
+            count++;
+        }
+        return viewCustomers;
+    }
 
 }

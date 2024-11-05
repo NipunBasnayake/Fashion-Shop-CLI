@@ -25,9 +25,11 @@ public class ViewReportsWindow extends JFrame {
         btnBack.setForeground(Color.WHITE);
         btnBack.setBounds(10, 10, 100, 35);
         add(btnBack);
-        btnBack.addActionListener(evt -> {
-            dispose();
-            new HomeWindow(ordersCollection).setVisible(true);
+        btnBack.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                dispose();
+                new HomeWindow(ordersCollection).setVisible(true);
+            }
         });
 
         int buttonWidth = 250;
@@ -40,9 +42,11 @@ public class ViewReportsWindow extends JFrame {
         ViewCustomers.setForeground(Color.WHITE);
         ViewCustomers.setBounds(centerX, 100, buttonWidth, buttonHeight);
         add(ViewCustomers);
-        ViewCustomers.addActionListener(evt -> {
-            new ViewCustomers(ordersCollection).setVisible(true);
-            dispose();
+        ViewCustomers.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                new ViewCustomers(ordersCollection).setVisible(true);
+                dispose();
+            }
         });
 
         BestInCustomers = new JButton("Best In Customers");
@@ -51,10 +55,11 @@ public class ViewReportsWindow extends JFrame {
         BestInCustomers.setForeground(Color.WHITE);
         BestInCustomers.setBounds(centerX, 150, buttonWidth, buttonHeight);
         add(BestInCustomers);
-        BestInCustomers.addActionListener(evt -> {
-            BestInCustomers bestInCustomers = new BestInCustomers();
-            bestInCustomers.setVisible(true);
-            dispose();
+        BestInCustomers.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                new BestInCustomers().setVisible(true);
+                dispose();
+            }
         });
 
         AllCustomers = new JButton("All Customers");
@@ -63,10 +68,11 @@ public class ViewReportsWindow extends JFrame {
         AllCustomers.setForeground(Color.WHITE);
         AllCustomers.setBounds(centerX, 200, buttonWidth, buttonHeight);
         add(AllCustomers);
-        AllCustomers.addActionListener(evt -> {
-            AllCustomers allCustomers = new AllCustomers();
-            allCustomers.setVisible(true);
+        AllCustomers.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                new AllCustomers().setVisible(true);
             dispose();
+            }
         });
 
         CategorizedByQty = new JButton("Categorized By Qty");
@@ -75,9 +81,11 @@ public class ViewReportsWindow extends JFrame {
         CategorizedByQty.setForeground(Color.WHITE);
         CategorizedByQty.setBounds(centerX, 250, buttonWidth, buttonHeight);
         add(CategorizedByQty);
-        CategorizedByQty.addActionListener(evt -> {
-            new CategorazedByQty(ordersCollection).setVisible(true);
+        CategorizedByQty.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                new CategorazedByQty(ordersCollection).setVisible(true);
             dispose();
+            }
         });
 
         CategorizedByAmount = new JButton("Categorized By Amount");
@@ -86,9 +94,11 @@ public class ViewReportsWindow extends JFrame {
         CategorizedByAmount.setForeground(Color.WHITE);
         CategorizedByAmount.setBounds(centerX, 300, buttonWidth, buttonHeight);
         add(CategorizedByAmount);
-        CategorizedByAmount.addActionListener(evt -> {
-            new CategorazedByAmount(ordersCollection).setVisible(true);
-            dispose();
+        CategorizedByAmount.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                new CategorazedByAmount(ordersCollection).setVisible(true);
+                dispose();
+            }
         });
 
         OrderByAmount = new JButton("Order By Amount");
@@ -97,10 +107,11 @@ public class ViewReportsWindow extends JFrame {
         OrderByAmount.setForeground(Color.WHITE);
         OrderByAmount.setBounds(centerX, 350, buttonWidth, buttonHeight);
         add(OrderByAmount);
-        OrderByAmount.addActionListener(evt -> {
-            OrderByAmount orderByAmount = new OrderByAmount();
-            orderByAmount.setVisible(true);
+        OrderByAmount.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                new OrderByAmount().setVisible(true);
             dispose();
+            }
         });
 
         AllOrders = new JButton("All Orders");
@@ -109,10 +120,11 @@ public class ViewReportsWindow extends JFrame {
         AllOrders.setForeground(Color.WHITE);
         AllOrders.setBounds(centerX, 400, buttonWidth, buttonHeight);
         add(AllOrders);
-        AllOrders.addActionListener(evt -> {
-            AllOrders allOrders = new AllOrders();
-            allOrders.setVisible(true);
-            dispose();
+        AllOrders.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                new AllOrders().setVisible(true);
+                dispose();
+            }
         });
     }
 }
