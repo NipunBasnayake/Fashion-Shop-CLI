@@ -6,8 +6,14 @@ public class Order {
     private String customerID;
     private String orderStatus;
 
-    public Order() {
-    }
+    private int xtraSmall;
+    private int small;
+    private int mediumSize;
+    private int large;
+    private int xtraLarge;
+    private int xtraXl;
+
+    public Order() {}
 
     public Order(String orderId, String size, int quantity, double amount, String customerID, String orderStatus) {
         this.orderId = orderId;
@@ -16,6 +22,54 @@ public class Order {
         this.amount = amount;
         this.customerID = customerID;
         this.orderStatus = orderStatus;
+    }
+
+    public int getXtraSmall() {
+        return xtraSmall;
+    }
+
+    public void setXtraSmall(int xtraSmall) {
+        this.xtraSmall = xtraSmall;
+    }
+
+    public int getSmall() {
+        return small;
+    }
+
+    public void setSmall(int small) {
+        this.small = small;
+    }
+
+    public int getMediumSize() {
+        return mediumSize;
+    }
+
+    public void setMediumSize(int mediumSize) {
+        this.mediumSize = mediumSize;
+    }
+
+    public int getLarge() {
+        return large;
+    }
+
+    public void setLarge(int large) {
+        this.large = large;
+    }
+
+    public int getXtraLarge() {
+        return xtraLarge;
+    }
+
+    public void setXtraLarge(int xtraLarge) {
+        this.xtraLarge = xtraLarge;
+    }
+
+    public int getXtraXl() {
+        return xtraXl;
+    }
+
+    public void setXtraXl(int xtraXl) {
+        this.xtraXl = xtraXl;
     }
 
     public String getOrderId() {

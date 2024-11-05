@@ -117,71 +117,71 @@ class StatusWindow extends JFrame {
         lblStatusShow.setBounds(180, 300, 200, 30);
         add(lblStatusShow);
 
-        btnSearch.addActionListener(evt -> {
-            FashionShopCustomerDetails f1 = ordersCollection.searchOrderId(txtCustomerId.getText());
-            if (f1 != null) {
-                lblOrderIdShow.setText(f1.getPhoneNumber());
-                lblSizeShow.setText(f1.getSize());
-                lblQtyShow.setText(String.valueOf(f1.getQuantity()));
-                lblAmountShow.setText(String.valueOf(f1.getAmount()));
-                lblStatusShow.setText(String.valueOf(f1.printOrderStatus()));
-            } else {
-                JOptionPane.showMessageDialog(null, "Invalid Order ID", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
+        // btnSearch.addActionListener(evt -> {
+        //     FashionShopCustomerDetails f1 = ordersCollection.searchOrderId(txtCustomerId.getText());
+        //     if (f1 != null) {
+        //         lblOrderIdShow.setText(f1.getPhoneNumber());
+        //         lblSizeShow.setText(f1.getSize());
+        //         lblQtyShow.setText(String.valueOf(f1.getQuantity()));
+        //         lblAmountShow.setText(String.valueOf(f1.getAmount()));
+        //         lblStatusShow.setText(String.valueOf(f1.printOrderStatus()));
+        //     } else {
+        //         JOptionPane.showMessageDialog(null, "Invalid Order ID", "Error", JOptionPane.ERROR_MESSAGE);
+        //     }
+        // });
 
-        btnChangeStatus.addActionListener(evt -> {
-            int status = ordersCollection.changeOrderStatus(txtCustomerId.getText());
-            if (status == 0) {
-                Icon qIcon = UIManager.getIcon("JOptionPane.questionIcon");
-                Object[] buttons = {"Delivering", "Delivered"};
+        // btnChangeStatus.addActionListener(evt -> {
+        //     int status = ordersCollection.changeOrderStatus(txtCustomerId.getText());
+        //     if (status == 0) {
+        //         Icon qIcon = UIManager.getIcon("JOptionPane.questionIcon");
+        //         Object[] buttons = {"Delivering", "Delivered"};
 
-                int selection = JOptionPane.showOptionDialog(
-                    null,
-                    "Please Select the Status",
-                    "Status",
-                    JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.PLAIN_MESSAGE,
-                    qIcon,
-                    buttons,
-                    buttons[0]
-                );
-                switch (selection) {
-                    case 0:
-                        ordersCollection.setOrderStatus(1, txtCustomerId.getText());
-                        break;
-                    case 1:
-                        ordersCollection.setOrderStatus(2, txtCustomerId.getText());
-                        break;
-                    default:
-                        System.out.println("default");
-                        break;
-                }
-            } else if (status == 1) {
-                Icon qIcon = UIManager.getIcon("JOptionPane.questionIcon");
-                Object[] button = {"Delivered"};
+        //         int selection = JOptionPane.showOptionDialog(
+        //             null,
+        //             "Please Select the Status",
+        //             "Status",
+        //             JOptionPane.DEFAULT_OPTION,
+        //             JOptionPane.PLAIN_MESSAGE,
+        //             qIcon,
+        //             buttons,
+        //             buttons[0]
+        //         );
+        //         switch (selection) {
+        //             case 0:
+        //                 ordersCollection.setOrderStatus(1, txtCustomerId.getText());
+        //                 break;
+        //             case 1:
+        //                 ordersCollection.setOrderStatus(2, txtCustomerId.getText());
+        //                 break;
+        //             default:
+        //                 System.out.println("default");
+        //                 break;
+        //         }
+        //     } else if (status == 1) {
+        //         Icon qIcon = UIManager.getIcon("JOptionPane.questionIcon");
+        //         Object[] button = {"Delivered"};
 
-                int selection = JOptionPane.showOptionDialog(
-                    null,
-                    "Please select the Status",
-                    "Status",
-                    JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.PLAIN_MESSAGE,
-                    qIcon,
-                    button,
-                    button[0]
-                );
-                switch (selection) {
-                    case 0:
-                        ordersCollection.setOrderStatus(2, txtCustomerId.getText());
-                        break;
-                    default:
-                        System.out.println("Default");
-                        break;
-                }
-            } else if (status == 2) {
-                JOptionPane.showMessageDialog(null, "Can't change this order status... order already delivered...!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
+        //         int selection = JOptionPane.showOptionDialog(
+        //             null,
+        //             "Please select the Status",
+        //             "Status",
+        //             JOptionPane.DEFAULT_OPTION,
+        //             JOptionPane.PLAIN_MESSAGE,
+        //             qIcon,
+        //             button,
+        //             button[0]
+        //         );
+        //         switch (selection) {
+        //             case 0:
+        //                 ordersCollection.setOrderStatus(2, txtCustomerId.getText());
+        //                 break;
+        //             default:
+        //                 System.out.println("Default");
+        //                 break;
+        //         }
+        //     } else if (status == 2) {
+        //         JOptionPane.showMessageDialog(null, "Can't change this order status... order already delivered...!", "Error", JOptionPane.ERROR_MESSAGE);
+        //     }
+        // });
     }
 }
