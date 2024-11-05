@@ -92,7 +92,6 @@ public class SearchCustomerWindow extends JFrame {
         table = new JTable(model);
         table.setRowHeight(30);
 
-        // Center-align cell content
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
