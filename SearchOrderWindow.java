@@ -10,39 +10,41 @@ public class SearchOrderWindow extends JFrame {
     private JLabel lblEnterID;
     private JTextField txtOrderID;
 
-    private OrdersCollection ordersCollection; 
-
     SearchOrderWindow(OrdersCollection ordersCollection) {
-        this.ordersCollection = ordersCollection;
         setSize(500, 600);
         setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        setLayout(null);
 
         // ----------------- Back Button Panel -----------------
-        JPanel pnlBack = new JPanel(new FlowLayout(FlowLayout.LEFT));
         btnBack = new JButton("Back");
         btnBack.setFont(new Font("Arial", Font.BOLD, 16));
-        btnBack.setPreferredSize(new Dimension(100, 35));
         btnBack.setBackground(new Color(255, 102, 102));
         btnBack.setForeground(Color.WHITE);
-
+        btnBack.setBounds(20, 20, 100, 35);
+        add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 dispose();
             }
         });
 
-        pnlBack.add(btnBack);
-        add(pnlBack, BorderLayout.NORTH);
 
         // ----------------- Search Panel -----------------
-        JPanel searchPanel = new JPanel(new FlowLayout());
-        lblEnterID = new JLabel("Enter Order ID:");
-        txtOrderID = new JTextField(15);
-        btnSearch = new JButton("Search");
+        lblEnterID = new JLabel("Enter Order ID");
+        lblEnterID.setFont(new Font("Arial", Font.BOLD, 16));
+        lblEnterID.setBounds(20, 85, 150, 30);
+        add(lblEnterID);
 
+        txtOrderID = new JTextField(15);
+        txtOrderID.setFont(new Font("Arial", Font.BOLD, 16));
+        txtOrderID.setBounds(170, 85, 180, 30);
+        add(txtOrderID);
+
+        btnSearch = new JButton("Search");
+        btnSearch.setBounds(360, 85, 100, 30);
+        add(btnSearch);
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 String orderId = txtOrderID.getText().trim();
@@ -65,9 +67,6 @@ public class SearchOrderWindow extends JFrame {
             }
         });
 
-        searchPanel.add(lblEnterID);
-        searchPanel.add(txtOrderID);
-        searchPanel.add(btnSearch);
 
         // ----------------- Detail Panel -----------------
         JPanel lblPanel = new JPanel(new GridLayout(5, 2, 10, 10));
@@ -96,22 +95,8 @@ public class SearchOrderWindow extends JFrame {
         lblGetAmount.setFont(new Font("Arial", Font.PLAIN, 16));
         lblGetStatus.setFont(new Font("Arial", Font.PLAIN, 16));
 
-        lblPanel.add(lblCustID);
-        lblPanel.add(lblGetCustID);
-        lblPanel.add(lblSize);
-        lblPanel.add(lblGetSize);
-        lblPanel.add(lblQTY);
-        lblPanel.add(lblGetQTY);
-        lblPanel.add(lblAmount);
-        lblPanel.add(lblGetAmount);
-        lblPanel.add(lblStatus);
-        lblPanel.add(lblGetStatus);
 
-        // ----------------- Center Panel -----------------
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.add(searchPanel, BorderLayout.NORTH);
-        centerPanel.add(lblPanel, BorderLayout.CENTER);
 
-        add(centerPanel, BorderLayout.CENTER);
+        // add(centerPanel, BorderLayout.CENTER);
     }
 }

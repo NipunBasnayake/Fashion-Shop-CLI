@@ -48,12 +48,10 @@ class HomeWindow extends JFrame {
 
                 switch (response) {
                     case 0:
-                        SearchCustomerWindow searchCustomerWindow = new SearchCustomerWindow(ordersCollection);
-                        searchCustomerWindow.setVisible(true);
+                        new SearchCustomerWindow(ordersCollection).setVisible(true);
                         break;
                     case 1:
-                        SearchOrderWindow searchOrderWindow = new SearchOrderWindow(ordersCollection);
-                        searchOrderWindow.setVisible(true);
+                        new SearchOrderWindow(ordersCollection).setVisible(true);
                         break;
                     case 2:
                         break;
