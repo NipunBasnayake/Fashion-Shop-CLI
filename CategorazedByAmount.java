@@ -1,12 +1,13 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.awt.event.*;
 class CategorazedByAmount extends JFrame{
     private JButton btnBack;
-    private OrdersCollection ordersCollection;
 
     CategorazedByAmount(OrdersCollection ordersCollection){
-        setSize(500, 600);
+        setSize(500, 550);
         setTitle("Categorazed By Amount");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -16,7 +17,7 @@ class CategorazedByAmount extends JFrame{
         btnBack.setFont(new Font("Arial", Font.BOLD, 16));
         btnBack.setBackground(new Color(255, 102, 102));
         btnBack.setForeground(Color.WHITE);
-        btnBack.setBounds(0, 0, 100, 35);
+        btnBack.setBounds(20, 20, 100, 35);
         add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -26,5 +27,19 @@ class CategorazedByAmount extends JFrame{
                 dispose();
             }
         });
+
+        String[] columns = { "Size", "QTY", "Amount" };
+        DefaultTableModel table = new DefaultTableModel(columns, 0);
+
+        Order[] sortedArray = ordersCollection.sortByAmount();
+        for (int i = 0; i < sortedArray.length; i++) {
+            Object[] rowData = { sortedArray[i].getSize(), sortedArray[i].getQuantity(), sortedArray[i].getAmount() };
+            table.addRow(rowData);
+        }
+
+        JTable custTable = new JTable(table);
+        JScrollPane scrollPane = new JScrollPane(custTable);
+        scrollPane.setBounds(20, 80, 440, 400);
+        add(scrollPane);
     }
 }

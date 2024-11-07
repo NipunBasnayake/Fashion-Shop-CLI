@@ -190,4 +190,171 @@ class OrdersCollection {
         }
         return Arrays.copyOf(aggregatedOrders, count);
     }
+
+    public Order[] sortByQty() {
+        Order[] items = new Order[orderArray.length];
+        int uniqueSizesCount = 0;
+
+        for (Order order : orderArray) {
+            String size = order.getSize();
+            int qty = order.getQuantity();
+            double amount = order.getAmount();
+
+            boolean isNewSize = true;
+            int sizeIndex = -1;
+
+            for (int i = 0; i < uniqueSizesCount; i++) {
+                if (items[i].getSize().equals(size)) {
+                    isNewSize = false;
+                    sizeIndex = i;
+                    break;
+                }
+            }
+
+            if (isNewSize) {
+                Order newItem = new Order();
+                newItem.setSize(size);
+                newItem.setQuantity(qty);
+                newItem.setAmount(amount);
+                items[uniqueSizesCount] = newItem;
+                uniqueSizesCount++;
+            } else {
+                items[sizeIndex].setQuantity(items[sizeIndex].getQuantity() + qty);
+                items[sizeIndex].setAmount(items[sizeIndex].getAmount() + amount);
+            }
+        }
+
+        for (int i = 0; i < uniqueSizesCount - 1; i++) {
+            for (int j = 0; j < uniqueSizesCount - i - 1; j++) {
+                if (items[j].getQuantity() < items[j + 1].getQuantity()) {
+                    Order temp = items[j];
+                    items[j] = items[j + 1];
+                    items[j + 1] = temp;
+                }
+            }
+        }
+        return Arrays.copyOf(items, uniqueSizesCount);
+    }
+
+    public Order[] sortByAmount() {
+        Order[] items = new Order[orderArray.length];
+        int uniqueSizesCount = 0;
+
+        for (Order order : orderArray) {
+            String size = order.getSize();
+            int qty = order.getQuantity();
+            double amount = order.getAmount();
+
+            boolean isNewSize = true;
+            int sizeIndex = -1;
+
+            for (int i = 0; i < uniqueSizesCount; i++) {
+                if (items[i].getSize().equals(size)) {
+                    isNewSize = false;
+                    sizeIndex = i;
+                    break;
+                }
+            }
+
+            if (isNewSize) {
+                Order newItem = new Order();
+                newItem.setSize(size);
+                newItem.setQuantity(qty);
+                newItem.setAmount(amount);
+                items[uniqueSizesCount] = newItem;
+                uniqueSizesCount++;
+            } else {
+                items[sizeIndex].setQuantity(items[sizeIndex].getQuantity() + qty);
+                items[sizeIndex].setAmount(items[sizeIndex].getAmount() + amount);
+            }
+        }
+
+        for (int i = 0; i < uniqueSizesCount - 1; i++) {
+            for (int j = 0; j < uniqueSizesCount - i - 1; j++) {
+                if (items[j].getAmount() < items[j + 1].getAmount()) {
+                    Order temp = items[j];
+                    items[j] = items[j + 1];
+                    items[j + 1] = temp;
+                }
+            }
+        }
+        return Arrays.copyOf(items, uniqueSizesCount);
+    }
+
+    public Order[] ordersByAmount(){
+        Order[] sortByAmountArray = new Order[orderArray.length];
+        for(int i=0; i<orderArray.length; i++){
+            sortByAmountArray[i]=orderArray[i];
+        }        
+
+        for(int i=orderArray.length-1; i>0; i--){
+            for(int j=0; j<i; j++)
+            if(sortByAmountArray[j].getAmount()<sortByAmountArray[j+1].getAmount()){
+                Order temp=orderArray[j];
+                sortByAmountArray[j]=sortByAmountArray[j+1];
+                sortByAmountArray[j+1]=temp;
+            }
+        }
+        return sortByAmountArray;
+    }
+
+    public Order[] getOrderArray(){
+        Order[] copyOrderArray = new Order[orderArray.length];
+        for(int i=0; i<orderArray.length; i++){
+            copyOrderArray[i]=orderArray[i];            
+        }
+        return copyOrderArray;
+    }
+
+    public int changeOrderStatus(String id){
+        for(int i=0; i<orderArray.length; i++){
+            if(id.equalsIgnoreCase(orderArray[i].getOrderId())){
+                if(orderArray[i].getOrderStatus().equalsIgnoreCase("Processing")){
+                    return 0;
+                }else if(orderArray[i].getOrderStatus().equalsIgnoreCase("Delivering")){
+                    return 1;
+                }else if(orderArray[i].getOrderStatus().equalsIgnoreCase("Delivered")){
+                    return 2;
+                }
+            }            
+        }
+        return -1;        
+    }
+
+    public void setOrderStatus(int status,String orderId){
+        for(int i=0; i<orderArray.length; i++){
+            if(orderId.equals(orderArray[i].getOrderId())){
+                if(status==1){
+                    orderArray[i].setOrderStatus("Delivering");
+                    break;                
+                }else if(status==2){
+                    orderArray[i].setOrderStatus("Delivered");
+                    break;
+                }
+            } 
+        }
+    }
+
+    public boolean deleteOrder(String id){
+        int index=-1;
+        for(int i=0; i<orderArray.length; i++){
+            if(id.equalsIgnoreCase(orderArray[i].getOrderId())){
+                index=i;
+                break;
+            }            
+        }
+        if(index==-1){
+            return false;
+        }else{
+            Order[] tempCusDetails = new Order[orderArray.length-1];
+            for(int i=0, j=0; i<orderArray.length; i++){
+                if(i!=index){
+                    tempCusDetails[j]=orderArray[i];
+                    j++;
+                }
+            }
+            orderArray=tempCusDetails;
+            return true;
+        }
+    }
 }
