@@ -6,7 +6,7 @@ import java.awt.event.*;
 class BestInCustomers extends JFrame{
     private JButton btnBack;
 
-    BestInCustomers(OrdersCollection ordersCollection){
+    BestInCustomers(List ordersCollection){
         setSize(500, 550);
         setTitle("Best In Customers");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

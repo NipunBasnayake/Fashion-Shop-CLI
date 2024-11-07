@@ -6,7 +6,7 @@ import java.awt.event.*;
 class AllOrders extends JFrame{
     private JButton btnBack;
 
-    AllOrders(OrdersCollection ordersCollection){
+    AllOrders(List ordersCollection){
         setSize(500, 550);
         setTitle("All Orders");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -31,16 +31,18 @@ class AllOrders extends JFrame{
         DefaultTableModel table = new DefaultTableModel(colNames,0);
         Order[] copyOrderArray = ordersCollection.getOrderArray();
 
-        for (int i = copyOrderArray.length - 1; i >= 0; i--) {
-            Object[] rowData = {
-                copyOrderArray[i].getOrderId(),
-                copyOrderArray[i].getCustomerID(),
-                copyOrderArray[i].getSize(),
-                copyOrderArray[i].getQuantity(),
-                copyOrderArray[i].getAmount(),
-                copyOrderArray[i].getOrderStatus()
-            };
-            table.addRow(rowData);
+        for (Order order : copyOrderArray) {
+            if (order!=null) {
+                Object[] rowData = {
+                    order.getOrderId(),
+                    order.getCustomerID(),
+                    order.getSize(),
+                    order.getQuantity(),
+                    order.getAmount(),
+                    order.getOrderStatus()
+                };
+                table.addRow(rowData);
+            }
         }
 
         JTable cusTable = new JTable(table);

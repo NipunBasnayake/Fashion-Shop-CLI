@@ -14,7 +14,7 @@ public class SearchCustomerWindow extends JFrame {
     private DefaultTableModel model;
     private JLabel totalLabel;
 
-    SearchCustomerWindow(OrdersCollection ordersCollection) {
+    SearchCustomerWindow(List ordersCollection) {
         setSize(500, 550);
         setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -57,6 +57,7 @@ public class SearchCustomerWindow extends JFrame {
                 String customerId = txtCusID.getText();
                 Order[] foundOrders = ordersCollection.searchCustomerID(customerId);
 
+                System.out.println("Found Order comes");
                 model.setRowCount(0);
 
                 String[] allSizes = { "XS", "S", "M", "L", "XL", "XXL" };
@@ -66,7 +67,7 @@ public class SearchCustomerWindow extends JFrame {
                     boolean sizeFound = false;
 
                     for (Order foundOrder : foundOrders) {
-                        if (foundOrder.getSize().equals(size)) {
+                        if (foundOrder != null && size.equals(foundOrder.getSize())) {
                             Object[] rowData = { size, foundOrder.getQuantity(), foundOrder.getAmount() };
                             model.addRow(rowData);
                             totalAmount += foundOrder.getAmount();
@@ -79,6 +80,7 @@ public class SearchCustomerWindow extends JFrame {
                         model.addRow(rowData);
                     }
                 }
+
                 totalLabel.setText(String.format("Total: %.2f", totalAmount));
 
                 if (foundOrders.length == 0) {

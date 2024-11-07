@@ -10,7 +10,7 @@ class PlaceOrderWindow extends JFrame {
     private JTextField txtPhoneNumber, txtTShirtSize, txtQTY;
     private JButton btnPlace, btnBack;
 
-    PlaceOrderWindow(OrdersCollection ordersCollection) {
+    PlaceOrderWindow(List ordersCollection) {
         setSize(500, 550);
         setTitle("Place Order");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -35,10 +35,17 @@ class PlaceOrderWindow extends JFrame {
                 String orderStatus = "Processing";
 
                 Order newOrder = new Order(orderID, size, qty, amount, cusID, orderStatus);
-                ordersCollection.addOrder(newOrder);
-                orderNumber++;
-                JOptionPane.showMessageDialog(this, "Order placed!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                clearFields();
+                // boolean isAdded = ordersCollection.addOrder(newOrder);
+                boolean isAdded = ordersCollection.add(newOrder);
+                if (isAdded) {
+                    orderNumber++;
+                    JOptionPane.showMessageDialog(this, "Order placed!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    clearFields();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Order not placed!", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+                }
+                
             }
         });
 
@@ -50,6 +57,7 @@ class PlaceOrderWindow extends JFrame {
         add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
+                new HomeWindow(ordersCollection).setVisible(true);
                 dispose();
             }
         });

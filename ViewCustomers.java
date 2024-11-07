@@ -6,7 +6,7 @@ import java.awt.event.*;
 class ViewCustomers extends JFrame {
     private JButton btnBack;
 
-    ViewCustomers(OrdersCollection ordersCollection) {
+    ViewCustomers(List ordersCollection) {
         setSize(500, 550);
         setTitle("View Customers");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -28,17 +28,19 @@ class ViewCustomers extends JFrame {
 
         String[] columns = { "Customer ID", "QTY", "Amount" };
         DefaultTableModel table = new DefaultTableModel(columns, 0);
-
+        
         Order[] orders = ordersCollection.viewCustomers();
-
+        
         for (Order order : orders) {
-            Object[] rowData = { order.getCustomerID(), order.getQuantity(), order.getAmount() };
-            table.addRow(rowData);
+            if (order != null) {
+                Object[] rowData = { order.getCustomerID(), order.getQuantity(), order.getAmount() };
+                table.addRow(rowData);
+            }
         }
-
+        
         JTable cusTable = new JTable(table);
         JScrollPane scrollPane = new JScrollPane(cusTable);
         scrollPane.setBounds(20, 80, 440, 400);
-        add(scrollPane);
+        add(scrollPane);        
     }
 }

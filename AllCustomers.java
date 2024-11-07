@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 class AllCustomers extends JFrame {
     private JButton btnBack;
 
-    AllCustomers(OrdersCollection ordersCollection) {
+    AllCustomers(List ordersCollection) {
         setSize(500, 550);
         setTitle("All Customers");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

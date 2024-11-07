@@ -9,7 +9,7 @@ class StatusWindow extends JFrame {
     private JLabel lblEnterID;
     private JTextField txtOrderID;
 
-    StatusWindow(OrdersCollection ordersCollection) {
+    StatusWindow(List ordersCollection) {
         setSize(500, 550);
         setTitle("Change Order Status");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -24,8 +24,7 @@ class StatusWindow extends JFrame {
         add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                ViewReportsWindow viewReportsWindow = new ViewReportsWindow(ordersCollection);
-                viewReportsWindow.setVisible(true);
+                new HomeWindow(ordersCollection).setVisible(true);
                 dispose();
             }
         });

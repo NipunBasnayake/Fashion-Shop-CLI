@@ -119,4 +119,8 @@ public class Order {
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
+
+    public boolean equals(Order order){
+        return this.orderId.equalsIgnoreCase(order.orderId);
+    }
 }

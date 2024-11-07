@@ -12,7 +12,7 @@ class HomeWindow extends JFrame {
     private JButton btnDeleteOrder;
     private JButton btnPlaceOrder;
 
-    HomeWindow(OrdersCollection ordersCollection) {
+    HomeWindow(List ordersCollection) {
         setSize(500, 550);
         setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
