@@ -57,7 +57,7 @@ public class ViewReportsWindow extends JFrame {
         add(BestInCustomers);
         BestInCustomers.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new BestInCustomers().setVisible(true);
+                new BestInCustomers(ordersCollection).setVisible(true);
                 dispose();
             }
         });
@@ -70,7 +70,7 @@ public class ViewReportsWindow extends JFrame {
         add(AllCustomers);
         AllCustomers.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new AllCustomers().setVisible(true);
+                new AllCustomers(ordersCollection).setVisible(true);
             dispose();
             }
         });
@@ -109,7 +109,7 @@ public class ViewReportsWindow extends JFrame {
         add(OrderByAmount);
         OrderByAmount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new OrderByAmount().setVisible(true);
+                new OrderByAmount(ordersCollection).setVisible(true);
             dispose();
             }
         });
@@ -122,7 +122,7 @@ public class ViewReportsWindow extends JFrame {
         add(AllOrders);
         AllOrders.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new AllOrders().setVisible(true);
+                new AllOrders(ordersCollection).setVisible(true);
                 dispose();
             }
         });

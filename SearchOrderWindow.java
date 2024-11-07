@@ -17,7 +17,6 @@ public class SearchOrderWindow extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
 
-        // ----------------- Back Button Panel -----------------
         btnBack = new JButton("Back");
         btnBack.setFont(new Font("Arial", Font.BOLD, 16));
         btnBack.setBackground(new Color(255, 102, 102));
@@ -30,8 +29,6 @@ public class SearchOrderWindow extends JFrame {
             }
         });
 
-
-        // ----------------- Search Panel -----------------
         lblEnterID = new JLabel("Enter Order ID");
         lblEnterID.setFont(new Font("Arial", Font.BOLD, 16));
         lblEnterID.setBounds(20, 85, 150, 30);

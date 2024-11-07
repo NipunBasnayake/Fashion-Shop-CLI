@@ -88,7 +88,12 @@ class HomeWindow extends JFrame {
         btnDeleteOrder.setFont(new Font("Arial", Font.BOLD, 16));
         btnDeleteOrder.setBounds(50, 290, 200, 50);
         add(btnDeleteOrder);
-        // Add functionality for deletion here if needed
+        btnDeleteOrder.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                new DeleteOrderWindow(ordersCollection).setVisible(true);
+                dispose();
+            }
+        });
         
         btnPlaceOrder = new JButton("Place Order");
         btnPlaceOrder.setFont(new Font("Arial", Font.BOLD, 20));
@@ -98,6 +103,7 @@ class HomeWindow extends JFrame {
         btnPlaceOrder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 new PlaceOrderWindow(ordersCollection).setVisible(true);
+                dispose();
             }
         });
 
