@@ -1,59 +1,62 @@
-import java.util.*;
-
 public class List {
     private Order[] orderArray;
     private int nextIndex;
     private double loadFactor;
     private int initSize;
 
-    List(int initSize, double loadFactor) {
+    public List(int initSize, double loadFactor) {
         this.initSize = initSize;
         orderArray = new Order[initSize];
         nextIndex = 0;
         this.loadFactor = loadFactor;
     }
 
-    // ------------------- Add Methods -------------------
-
     public boolean add(Order newOrder) {
         if (nextIndex >= orderArray.length) {
-            exetendsArray();
+            extendArray();
         }
         orderArray[nextIndex++] = newOrder;
-        System.out.println("List Add works     " + nextIndex);
+        System.out.println("Order added to List: " + newOrder.getOrderId());
         return true;
     }
 
-    public boolean add(int index, Order newOrder) {
-        if (index >= 0 && index < nextIndex) {
-            for (int i = nextIndex - 1; i >= index; i--) {
-                orderArray[i + 1] = orderArray[i];
-            }
-            orderArray[index] = newOrder;
-            nextIndex++;
-            return true;
-        }
-        return false;
+    public void clear() {
+        orderArray = new Order[initSize];
+        nextIndex = 0;
+        System.out.println("List cleared");
     }
 
-    public void addFirst(Order newOrder) {
-        if (nextIndex >= orderArray.length) {
-            exetendsArray();
-        }
-        for (int i = nextIndex - 1; i >= 0; i--) {
-            orderArray[i + 1] = orderArray[i];
-        }
-        orderArray[0] = newOrder;
-        nextIndex++;
+    private void extendArray() {
+        int newSize = (int) (orderArray.length * (1 + loadFactor));
+        Order[] newArray = new Order[newSize];
+        System.arraycopy(orderArray, 0, newArray, 0, orderArray.length);
+        orderArray = newArray;
+        System.out.println("Array extended to size " + newSize);
     }
 
-    public void exetendsArray() {
-        Order[] tempArray = new Order[orderArray.length + (int) (orderArray.length * loadFactor)];
-        for (int i = 0; i < tempArray.length; i++) {
-            tempArray[i] = orderArray[i];
-        }
-        orderArray = tempArray;
-    }
+
+    // public boolean add(int index, Order newOrder) {
+    // if (index >= 0 && index < nextIndex) {
+    // for (int i = nextIndex - 1; i >= index; i--) {
+    // orderArray[i + 1] = orderArray[i];
+    // }
+    // orderArray[index] = newOrder;
+    // nextIndex++;
+    // return true;
+    // }
+    // return false;
+    // }
+
+    // public void addFirst(Order newOrder) {
+    // if (nextIndex >= orderArray.length) {
+    // exetendsArray();
+    // }
+    // for (int i = nextIndex - 1; i >= 0; i--) {
+    // orderArray[i + 1] = orderArray[i];
+    // }
+    // orderArray[0] = newOrder;
+    // nextIndex++;
+    // }
 
     // ------------------- Get Methods -------------------
 
@@ -86,14 +89,14 @@ public class List {
         return false;
     }
 
-    public void removeLast() {
-        if (nextIndex <= 0) {
-            for (int i = 0; i < nextIndex - 1; i++) {
-                orderArray[i] = orderArray[i + 1];
-            }
-            nextIndex--;
-        }
-    }
+    // public void removeLast() {
+    // if (nextIndex <= 0) {
+    // for (int i = 0; i < nextIndex - 1; i++) {
+    // orderArray[i] = orderArray[i + 1];
+    // }
+    // nextIndex--;
+    // }
+    // }
 
     // ------------------- Search Methods -------------------
 
