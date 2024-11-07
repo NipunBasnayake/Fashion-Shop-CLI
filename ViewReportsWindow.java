@@ -12,7 +12,7 @@ public class ViewReportsWindow extends JFrame {
     private JButton OrderByAmount;
     private JButton AllOrders;
 
-    ViewReportsWindow(OrdersCollection ordersCollection) {
+    ViewReportsWindow(List ordersCollection) {
         setSize(500, 550);
         setTitle("View Reports");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

@@ -7,7 +7,7 @@ import java.awt.event.*;
 class CategorazedByQty extends JFrame {
     private JButton btnBack;
 
-    CategorazedByQty(OrdersCollection ordersCollection) {
+    CategorazedByQty(List ordersCollection) {
         setSize(500, 550);
         setTitle("Categorazed By Qty");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

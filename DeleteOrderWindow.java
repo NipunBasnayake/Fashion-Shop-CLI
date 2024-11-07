@@ -9,9 +9,9 @@ class DeleteOrderWindow extends JFrame {
     private JLabel lblEnterID;
     private JTextField txtOrderID;
 
-    DeleteOrderWindow(OrdersCollection ordersCollection) {
+    DeleteOrderWindow(List ordersCollection) {
         setSize(500, 550);
-        setTitle("Change Order Status");
+        setTitle("Delete Order");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
@@ -24,8 +24,7 @@ class DeleteOrderWindow extends JFrame {
         add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                ViewReportsWindow viewReportsWindow = new ViewReportsWindow(ordersCollection);
-                viewReportsWindow.setVisible(true);
+                new HomeWindow(ordersCollection).setVisible(true);
                 dispose();
             }
         });
@@ -114,7 +113,7 @@ class DeleteOrderWindow extends JFrame {
         lblGetStatus.setBounds(150, 370, 150, 25);
         add(lblGetStatus);
 
-        btnDeleteOrder = new JButton("CHANGE STATUS");
+        btnDeleteOrder = new JButton("Delete Order");
         btnDeleteOrder.setFont(new Font("Arial",Font.BOLD,12));
         btnDeleteOrder.setBackground(new Color(135,193,255));
         btnDeleteOrder.setForeground(Color.WHITE);
@@ -125,6 +124,11 @@ class DeleteOrderWindow extends JFrame {
                 boolean isDelete = ordersCollection.deleteOrder(txtOrderID.getText());
                 if(isDelete){
                     JOptionPane.showMessageDialog(null,"Order Delete Succesfull","Delete Order",JOptionPane.INFORMATION_MESSAGE);
+                    lblGetCustID.setText("");
+                    lblGetSize.setText("");
+                    lblGetQTY.setText("");
+                    lblGetAmount.setText("");
+                    lblGetStatus.setText("");
                 }else{
                     JOptionPane.showMessageDialog(null,"Order Delete Unsuccesfull.!","Delete Order",JOptionPane.ERROR_MESSAGE);
                 }
