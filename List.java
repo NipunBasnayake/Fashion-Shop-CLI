@@ -71,7 +71,7 @@ public class List {
             for (int i = index; i < nextIndex - 1; i++) {
                 orderArray[i] = orderArray[i + 1];
             }
-            orderArray[nextIndex - 1] = null; // Clear the last element
+            orderArray[nextIndex - 1] = null;
             nextIndex--;
         }
     }
