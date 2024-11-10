@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 
 class PlaceOrderWindow extends JFrame {
     static int orderNumber = 1;
@@ -16,6 +17,12 @@ class PlaceOrderWindow extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
+
+        lblOrderID = new JLabel();
+        lblOrderID.setFont(new Font("Arial", Font.PLAIN, 16));
+        lblOrderID.setBounds(180, 100, 250, 35);
+        add(lblOrderID);
+        lblOrderID.setText(generateOrderId());
 
         btnPlace = new JButton("Place");
         btnPlace.setFont(new Font("Arial", Font.BOLD, 16));
@@ -33,19 +40,22 @@ class PlaceOrderWindow extends JFrame {
                 int qty = Integer.parseInt(txtQTY.getText());
                 String cusID = txtPhoneNumber.getText();
                 String orderStatus = "Processing";
-
                 Order newOrder = new Order(orderID, size, qty, amount, cusID, orderStatus);
-                // boolean isAdded = ordersCollection.addOrder(newOrder);
-                boolean isAdded = ordersCollection.add(newOrder);
-                if (isAdded) {
-                    orderNumber++;
-                    JOptionPane.showMessageDialog(this, "Order placed!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                    clearFields();
-                }else{
-                    JOptionPane.showMessageDialog(this, "Order not placed!", "Information", JOptionPane.INFORMATION_MESSAGE);
 
+                try {
+                    FileWriter fw = new FileWriter("OrdersDoc.txt", true);
+                    fw.write(newOrder.toString() + "\n");
+                    fw.close();
+                    JOptionPane.showMessageDialog(this, "Order placed!", "Information",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "Order not placed!", "Information",
+                            JOptionPane.INFORMATION_MESSAGE);
                 }
-                
+                lblOrderID.setText(generateOrderId());
+                txtPhoneNumber.setText("");
+                txtTShirtSize.setText("");
+                txtQTY.setText("");
             }
         });
 
@@ -66,11 +76,6 @@ class PlaceOrderWindow extends JFrame {
         lblOrderId.setFont(new Font("Arial", Font.BOLD, 16));
         lblOrderId.setBounds(50, 100, 150, 35);
         add(lblOrderId);
-
-        lblOrderID = new JLabel(generateOrderID());
-        lblOrderID.setFont(new Font("Arial", Font.PLAIN, 16));
-        lblOrderID.setBounds(180, 100, 250, 35);
-        add(lblOrderID);
 
         lblPhoneNumber = new JLabel("Phone Number:");
         lblPhoneNumber.setFont(new Font("Arial", Font.BOLD, 16));
@@ -110,8 +115,26 @@ class PlaceOrderWindow extends JFrame {
         add(lblgetAmount);
     }
 
-    public String generateOrderID() {
-        return "ODR#" + String.format("%05d", orderNumber);
+    private String generateOrderId() {
+        String lastLine = null;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("OrdersDoc.txt"));
+            String line = br.readLine();
+            while (line != null) {
+                lastLine = line;
+                line = br.readLine();
+            }
+            br.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        if (lastLine == null || lastLine.length() < 9) {
+            return "ODR#00001";
+        } else {
+            int lastIdNumber = Integer.parseInt(lastLine.substring(4, 9));
+            return String.format("ODR#%05d", lastIdNumber + 1);
+        }
     }
 
     public boolean validateSize() {
@@ -151,13 +174,5 @@ class PlaceOrderWindow extends JFrame {
 
     public double calculateAmount() {
         return Integer.parseInt(txtQTY.getText()) * 1500.00;
-    }
-
-    public void clearFields() {
-        lblOrderID.setText(generateOrderID());
-        txtPhoneNumber.setText("");
-        txtTShirtSize.setText("");
-        txtQTY.setText("");
-        lblgetAmount.setText("");
     }
 }

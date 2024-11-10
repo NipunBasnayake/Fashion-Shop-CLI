@@ -123,4 +123,8 @@ public class Order {
     public boolean equals(Order order){
         return this.orderId.equalsIgnoreCase(order.orderId);
     }
+
+    public String toString(){
+		return orderId+","+size+","+quantity+","+amount+","+customerID+","+orderStatus;
+	}
 }
