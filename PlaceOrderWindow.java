@@ -84,6 +84,7 @@ class PlaceOrderWindow extends JFrame {
 
         txtPhoneNumber = new JTextField();
         txtPhoneNumber.setBounds(180, 170, 250, 35);
+        txtPhoneNumber.setFont(new Font("Arial", Font.BOLD, 16));
         add(txtPhoneNumber);
 
         lblTShirtSize = new JLabel("T-Shirt Size:");
@@ -93,6 +94,7 @@ class PlaceOrderWindow extends JFrame {
 
         txtTShirtSize = new JTextField();
         txtTShirtSize.setBounds(180, 240, 250, 35);
+        txtTShirtSize.setFont(new Font("Arial", Font.BOLD, 16));
         add(txtTShirtSize);
 
         lblQTY = new JLabel("Quantity:");
@@ -102,6 +104,7 @@ class PlaceOrderWindow extends JFrame {
 
         txtQTY = new JTextField();
         txtQTY.setBounds(180, 310, 250, 35);
+        txtQTY.setFont(new Font("Arial", Font.BOLD, 16));
         add(txtQTY);
 
         lblAmount = new JLabel("Amount:");
