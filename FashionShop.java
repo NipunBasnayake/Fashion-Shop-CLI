@@ -1,13 +1,53 @@
 public class FashionShop {
     public static void main(String[] args) {
         List ordersCollection = new List(100, 0.5);
-        OrderController orderController = new OrderController(ordersCollection);
-        
-        orderController.loadToDoc();
-
         new HomeWindow(ordersCollection).setVisible(true);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 		// ---------------------- Write ----------------------
