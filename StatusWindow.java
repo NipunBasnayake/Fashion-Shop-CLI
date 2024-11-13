@@ -1,10 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -15,11 +13,11 @@ class StatusWindow extends JFrame {
     private JButton btnBack, btnSearch, btnChangeStatus;
     private JLabel lblEnterID;
     private JTextField txtOrderID;
-    private List orderList; // This is assumed to be a custom List class
+    private List orderList;
 
     StatusWindow(List ordersCollection) {
-        // Initialize orderList
-        this.orderList = ordersCollection; // Ensure this is initialized
+
+        this.orderList = ordersCollection;
 
         try {
             Scanner input = new Scanner(new File("OrdersDoc.txt"));
@@ -79,7 +77,7 @@ class StatusWindow extends JFrame {
                         lblGetCustID.setText(order.getCustomerID());
                         lblGetStatus.setText(order.getOrderStatus());
                         isFound = true;
-                        break; // Stop loop when found
+                        break;
                     }
                 }
                 if (!isFound) {

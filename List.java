@@ -79,6 +79,18 @@ public class List {
         return nextIndex;
     }
 
+    public Order[] getOrderArray() {
+        if (orderArray == null) {
+            throw new IllegalStateException("Order array is null");
+        }
+
+        Order[] copyOrderArray = new Order[orderArray.length];
+        for (int i = 0; i < orderArray.length; i++) {
+            copyOrderArray[i] = orderArray[i];
+        }
+        return copyOrderArray;
+    }
+
     // public Order[] searchCustomerID(String custId) {
     //     int count = 0;
     //     for (Order order : orderArray) {
@@ -400,17 +412,7 @@ public class List {
     //     return sortByAmountArray;
     // }
 
-    public Order[] getOrderArray() {
-        if (orderArray == null) {
-            throw new IllegalStateException("Order array is null");
-        }
 
-        Order[] copyOrderArray = new Order[orderArray.length];
-        for (int i = 0; i < orderArray.length; i++) {
-            copyOrderArray[i] = orderArray[i];
-        }
-        return copyOrderArray;
-    }
 
     // public void setOrderStatus(int status, String orderId) {
     //     for (int i = 0; i < orderArray.length; i++) {
