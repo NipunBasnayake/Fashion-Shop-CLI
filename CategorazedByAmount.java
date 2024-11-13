@@ -11,7 +11,7 @@ class CategorazedByAmount extends JFrame {
 
     CategorazedByAmount(List ordersCollection) {
         setSize(500, 550);
-        setTitle("Categorazed By Amount");
+        setTitle("Categorized By Amount");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
@@ -24,7 +24,6 @@ class CategorazedByAmount extends JFrame {
         add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-
                 ViewReportsWindow viewReportsWindow = new ViewReportsWindow(ordersCollection);
                 viewReportsWindow.setVisible(true);
                 dispose();
@@ -64,7 +63,7 @@ class CategorazedByAmount extends JFrame {
     }
 
     public Order[] sortByAmount(List orderList) {
-
+        Order[] orderArray = orderList.getOrderArray();
         Order[] items = new Order[orderArray.length];
         int uniqueSizesCount = 0;
 
@@ -110,6 +109,7 @@ class CategorazedByAmount extends JFrame {
                 }
             }
         }
+
         Order[] result = new Order[uniqueSizesCount];
         System.arraycopy(items, 0, result, 0, uniqueSizesCount);
         return result;
