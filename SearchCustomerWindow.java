@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.Scanner;
+
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -14,7 +16,7 @@ public class SearchCustomerWindow extends JFrame {
     private DefaultTableModel model;
     private JLabel totalLabel;
 
-    SearchCustomerWindow() {
+    SearchCustomerWindow(List ordersCollection) {
         setSize(500, 600);
         setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -43,75 +45,64 @@ public class SearchCustomerWindow extends JFrame {
         btnSearch.setBounds(360, 85, 100, 30);
         add(btnSearch);
 
-        String[] columnNames = {"Size", "QTY", "Amount"};
+        String[] columnNames = { "Size", "QTY", "Amount" };
         model = new DefaultTableModel(columnNames, 0);
-        
+
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 String customerId = txtCusID.getText().trim();
-                Order[] ordersCollection = new Order[100];
+                Order[] orderList = new Order[100];
                 int orderCount = 0;
         
-                try (BufferedReader br = new BufferedReader(new FileReader("OrdersDoc.txt"))) {
-                    String line;
-                    System.out.println("Searching for Customer ID: " + customerId);
-                    while ((line = br.readLine()) != null) {
-                        String[] fields = line.split(",");
-                        if (fields.length < 4) continue;
+                model.setRowCount(0);
         
-                        String fileCustomerId = fields[0].trim();
-                        String size = fields[1].trim();
-                        int quantity = Integer.parseInt(fields[2].trim());
-                        double amount = Double.parseDouble(fields[3].trim());
+                try (Scanner input = new Scanner(new File("OrdersDoc.txt"))) {
+                    while (input.hasNext()) {
+                        String line = input.nextLine();
+                        String[] rowData = line.split(",");
         
-                        System.out.println("Comparing entered ID '" + customerId + "' with file ID '" + fileCustomerId + "'");
-                        
-                        if (fileCustomerId.equals(customerId) && orderCount < ordersCollection.length) {
-                            Order newOrder = new Order();
-                            newOrder.setCustomerID(fileCustomerId);
-                            newOrder.setSize(size);
-                            newOrder.setQuantity(quantity);
-                            newOrder.setAmount(amount);
-                            ordersCollection[orderCount] = newOrder;
-                            orderCount++;
+                        Order newOrder = new Order(rowData[0], rowData[1], Integer.parseInt(rowData[2]),
+                                Double.parseDouble(rowData[3]), rowData[4], rowData[5]);
+        
+                        if (newOrder.getCustomerID().equals(customerId)) {
+                            orderList[orderCount++] = newOrder;
                         }
                     }
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "Error reading OrdersDoc.txt file.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(SearchCustomerWindow.this,
+                            "Error reading orders file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
         
-                model.setRowCount(0);
-                String[] allSizes = {"XS", "S", "M", "L", "XL", "XXL"};
+                String[] allSizes = { "XS", "S", "M", "L", "XL", "XXL" };
                 double totalAmount = 0;
         
                 for (String size : allSizes) {
-                    boolean sizeFound = false;
+                    int totalQtyForSize = 0;
+                    double totalAmountForSize = 0;
+        
                     for (int i = 0; i < orderCount; i++) {
-                        Order order = ordersCollection[i];
-                        if (order != null && size.equals(order.getSize())) {
-                            Object[] rowData = {size, order.getQuantity(), order.getAmount()};
-                            model.addRow(rowData);
-                            totalAmount += order.getAmount();
-                            sizeFound = true;
-                            break;
+                        Order foundOrder = orderList[i];
+                        if (foundOrder.getSize().equals(size)) {
+                            totalQtyForSize += foundOrder.getQuantity();
+                            totalAmountForSize += foundOrder.getAmount();
                         }
                     }
-                    if (!sizeFound) {
-                        Object[] rowData = {size, 0, "0.00"};
-                        model.addRow(rowData);
+        
+                    if (totalQtyForSize > 0) {
+                        model.addRow(new Object[] { size, totalQtyForSize, String.format("%.2f", totalAmountForSize) });
+                        totalAmount += totalAmountForSize;
+                    } else {
+                        model.addRow(new Object[] { size, 0, "0.00" });
                     }
                 }
-        
                 totalLabel.setText(String.format("Total: %.2f", totalAmount));
         
                 if (orderCount == 0) {
-                    JOptionPane.showMessageDialog(SearchCustomerWindow.this,
-                            "Order not found for Customer ID: " + customerId, "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(SearchCustomerWindow.this, "Order not found for Customer ID: " + customerId, "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
+        
 
         table = new JTable(model);
         table.setRowHeight(30);
