@@ -16,7 +16,6 @@ public class List {
             extendArray();
         }
         orderArray[nextIndex++] = newOrder;
-        System.out.println("Order added to List: " + newOrder.getOrderId());
         return true;
     }
 
