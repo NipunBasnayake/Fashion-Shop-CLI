@@ -372,29 +372,29 @@ public class List {
     //     return result;
     // }
 
-    public Order[] ordersByAmount() {
-        if (orderArray == null) {
-            throw new IllegalStateException("Order array is null");
-        }
+    // public Order[] ordersByAmount() {
+    //     if (orderArray == null) {
+    //         throw new IllegalStateException("Order array is null");
+    //     }
 
-        Order[] sortByAmountArray = new Order[orderArray.length];
-        for (int i = 0; i < orderArray.length; i++) {
-            sortByAmountArray[i] = orderArray[i];
-        }
+    //     Order[] sortByAmountArray = new Order[orderArray.length];
+    //     for (int i = 0; i < orderArray.length; i++) {
+    //         sortByAmountArray[i] = orderArray[i];
+    //     }
 
-        for (int i = orderArray.length - 1; i > 0; i--) {
-            for (int j = 0; j < i; j++) {
-                if (sortByAmountArray[j] != null && sortByAmountArray[j + 1] != null &&
-                        sortByAmountArray[j].getAmount() < sortByAmountArray[j + 1].getAmount()) {
+    //     for (int i = orderArray.length - 1; i > 0; i--) {
+    //         for (int j = 0; j < i; j++) {
+    //             if (sortByAmountArray[j] != null && sortByAmountArray[j + 1] != null &&
+    //                     sortByAmountArray[j].getAmount() < sortByAmountArray[j + 1].getAmount()) {
 
-                    Order temp = sortByAmountArray[j];
-                    sortByAmountArray[j] = sortByAmountArray[j + 1];
-                    sortByAmountArray[j + 1] = temp;
-                }
-            }
-        }
-        return sortByAmountArray;
-    }
+    //                 Order temp = sortByAmountArray[j];
+    //                 sortByAmountArray[j] = sortByAmountArray[j + 1];
+    //                 sortByAmountArray[j + 1] = temp;
+    //             }
+    //         }
+    //     }
+    //     return sortByAmountArray;
+    // }
 
     public Order[] getOrderArray() {
         if (orderArray == null) {
