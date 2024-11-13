@@ -1,6 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 
 class StatusWindow extends JFrame {
     private JLabel lblCustID, lblSize, lblQTY, lblAmount, lblStatus;
@@ -8,8 +13,27 @@ class StatusWindow extends JFrame {
     private JButton btnBack, btnSearch, btnChangeStatus;
     private JLabel lblEnterID;
     private JTextField txtOrderID;
+    private List orderList;
 
     StatusWindow(List ordersCollection) {
+
+        this.orderList = ordersCollection;
+
+        try {
+            Scanner input = new Scanner(new File("OrdersDoc.txt"));
+            while (input.hasNext()) {
+                String line = input.nextLine();
+                String[] rowData = line.split(",");
+                Order newOrder = new Order(rowData[0], rowData[1], Integer.parseInt(rowData[2]),
+                        Double.parseDouble(rowData[3]), rowData[4], rowData[5]);
+
+                orderList.add(newOrder);
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error reading orders file: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
         setSize(500, 550);
         setTitle("Change Order Status");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -24,7 +48,7 @@ class StatusWindow extends JFrame {
         add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new HomeWindow(ordersCollection).setVisible(true);
+                new HomeWindow(orderList).setVisible(true);
                 dispose();
             }
         });
@@ -44,21 +68,20 @@ class StatusWindow extends JFrame {
         add(btnSearch);
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                String orderId = txtOrderID.getText().trim();
-                Order[] foundOrders = ordersCollection.searchOrderID(orderId);
-
-                if (foundOrders.length > 0) {
-                    lblGetCustID.setText(foundOrders[0].getCustomerID());
-                    lblGetSize.setText(foundOrders[0].getSize());
-                    lblGetQTY.setText(String.valueOf(foundOrders[0].getQuantity()));
-                    lblGetAmount.setText(String.valueOf(foundOrders[0].getAmount()));
-                    lblGetStatus.setText(foundOrders[0].getOrderStatus());
-                } else {
-                    JOptionPane.showMessageDialog(
-                            StatusWindow.this,
-                            "Invalid Order ID",
-                            "Error",
-                            JOptionPane.WARNING_MESSAGE);
+                boolean isFound = false;
+                for (Order order : orderList.getOrderArray()) {
+                    if (txtOrderID.getText().equalsIgnoreCase(order.getOrderId())) {
+                        lblGetSize.setText(order.getSize());
+                        lblGetQTY.setText(String.valueOf(order.getQuantity()));
+                        lblGetAmount.setText(String.valueOf(order.getAmount()));
+                        lblGetCustID.setText(order.getCustomerID());
+                        lblGetStatus.setText(order.getOrderStatus());
+                        isFound = true;
+                        break;
+                    }
+                }
+                if (!isFound) {
+                    JOptionPane.showMessageDialog(null, "Order not Found");
                 }
             }
         });
@@ -114,66 +137,114 @@ class StatusWindow extends JFrame {
         add(lblGetStatus);
 
         btnChangeStatus = new JButton("CHANGE STATUS");
-        btnChangeStatus.setFont(new Font("Arial",Font.BOLD,12));
-        btnChangeStatus.setBackground(new Color(135,193,255));
+        btnChangeStatus.setFont(new Font("Arial", Font.BOLD, 12));
+        btnChangeStatus.setBackground(new Color(135, 193, 255));
         btnChangeStatus.setForeground(Color.WHITE);
-        btnChangeStatus.setBounds(320,400,150,30);
+        btnChangeStatus.setBounds(320, 400, 150, 30);
         add(btnChangeStatus);
-        btnChangeStatus.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
-                int status = ordersCollection.changeOrderStatus(txtOrderID.getText());
-                if(status==0){
-                    Icon qIcon = UIManager.getIcon("JOptionPane.questionIcon");
-                    Object[] buttons = {"Delivering","Delivered"};
 
-                    int selection=JOptionPane.showOptionDialog(
-                        null,
-                        "Please Select the Status",
-                        "Status",
-                        JOptionPane.DEFAULT_OPTION,
-                        JOptionPane.PLAIN_MESSAGE,
-                        qIcon,
-                        buttons,
-                        buttons[0]
-                    );
+        btnChangeStatus.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                int status = changeOrderStatus(txtOrderID.getText());
+                if (status == 0) {
+                    Icon qIcon = UIManager.getIcon("JOptionPane.questionIcon");
+                    Object[] buttons = { "Delivering", "Delivered" };
+
+                    int selection = JOptionPane.showOptionDialog(
+                            null,
+                            "Please Select the Status",
+                            "Status",
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.PLAIN_MESSAGE,
+                            qIcon,
+                            buttons,
+                            buttons[0]);
                     switch (selection) {
                         case 0:
-                            ordersCollection.setOrderStatus(1,(txtOrderID.getText()));                            
+                            setOrderStatus(1, (txtOrderID.getText()));
                             break;
                         case 1:
-                            ordersCollection.setOrderStatus(2,(txtOrderID.getText()));
-                            break;                    
+                            setOrderStatus(2, (txtOrderID.getText()));
+                            break;
                         default:
                             System.out.println("default");
                             break;
                     }
-                }else if(status==1){
+                } else if (status == 1) {
                     Icon qIcon = UIManager.getIcon("JOptionPane.questionIcon");
-                    Object[] button = {"Delivered"};
+                    Object[] button = { "Delivered" };
 
-                    int selection=JOptionPane.showOptionDialog(
-                        null,
-                        "Please select the Status",
-                        "Status",
-                        JOptionPane.DEFAULT_OPTION,
-                        JOptionPane.PLAIN_MESSAGE,
-                        qIcon,
-                        button,
-                        button[0]
-                    );
+                    int selection = JOptionPane.showOptionDialog(
+                            null,
+                            "Please select the Status",
+                            "Status",
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.PLAIN_MESSAGE,
+                            qIcon,
+                            button,
+                            button[0]);
                     switch (selection) {
                         case 0:
-                            ordersCollection.setOrderStatus(2,(txtOrderID.getText()));                            
-                            break;                    
+                            setOrderStatus(2, (txtOrderID.getText()));
+                            break;
                         default:
                             System.out.println("Default");
                             break;
                     }
-                }else if(status==2){
-                    JOptionPane.showMessageDialog(null,"Cant Change this order status...order already delivered...!","Error",JOptionPane.ERROR_MESSAGE);
-                }              
+                } else if (status == 2) {
+                    JOptionPane.showMessageDialog(null, "Can't change this order status...order already delivered...!",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                writeDataToFile();
             }
         });
-
     }
+
+    public void setOrderStatus(int status, String orderId) {
+        Order[] orderArray = orderList.getOrderArray();
+        for (int i = 0; i < orderArray.length; i++) {
+            if (orderArray[i].getOrderId() != null && orderId.equals(orderArray[i].getOrderId())) {
+                if (status == 1) {
+                    orderArray[i].setOrderStatus("Delivering");
+                    break;
+                } else if (status == 2) {
+                    orderArray[i].setOrderStatus("Delivered");
+                    break;
+                }
+            }
+        }
+    }
+
+    public int changeOrderStatus(String id) {
+        Order[] orderArray = orderList.getOrderArray();
+        for (int i = 0; i < orderArray.length; i++) {
+            if (orderArray[i].getOrderId() != null && orderArray[i].getOrderId().equalsIgnoreCase(id)) {
+                if (orderArray[i].getOrderStatus().equals("Processing")) {
+                    return 0;
+                } else if (orderArray[i].getOrderStatus().equals("Delivering")) {
+                    return 1;
+                } else if (orderArray[i].getOrderStatus().equals("Delivered")) {
+                    return 2;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public void writeDataToFile() {
+        try (FileWriter writer = new FileWriter("OrdersDoc.txt", false);
+                BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
+
+            for (Order order : orderList.getOrderArray()) {
+                if (order != null) {
+                    bufferedWriter.write(order.getOrderId() + "," + order.getSize() + "," + order.getQuantity() + ","
+                            + order.getAmount() + "," + order.getCustomerID() + "," + order.getOrderStatus());
+                    bufferedWriter.newLine();
+                }
+            }
+        } catch (IOException e) {
+
+        }
+    }
+
 }

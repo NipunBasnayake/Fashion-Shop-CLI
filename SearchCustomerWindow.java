@@ -51,8 +51,7 @@ public class SearchCustomerWindow extends JFrame {
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 String customerId = txtCusID.getText().trim();
-                Order[] orderList = new Order[100];
-                int orderCount = 0;
+                List searchCustomerList = new List(100, 0.25);
         
                 model.setRowCount(0);
         
@@ -65,7 +64,7 @@ public class SearchCustomerWindow extends JFrame {
                                 Double.parseDouble(rowData[3]), rowData[4], rowData[5]);
         
                         if (newOrder.getCustomerID().equals(customerId)) {
-                            orderList[orderCount++] = newOrder;
+                            searchCustomerList.add(newOrder);
                         }
                     }
                 } catch (Exception e) {
@@ -80,8 +79,8 @@ public class SearchCustomerWindow extends JFrame {
                     int totalQtyForSize = 0;
                     double totalAmountForSize = 0;
         
-                    for (int i = 0; i < orderCount; i++) {
-                        Order foundOrder = orderList[i];
+                    for (int i = 0; i < searchCustomerList.size(); i++) {
+                        Order foundOrder = searchCustomerList.getOrderArray()[i];
                         if (foundOrder.getSize().equals(size)) {
                             totalQtyForSize += foundOrder.getQuantity();
                             totalAmountForSize += foundOrder.getAmount();
@@ -97,12 +96,12 @@ public class SearchCustomerWindow extends JFrame {
                 }
                 totalLabel.setText(String.format("Total: %.2f", totalAmount));
         
-                if (orderCount == 0) {
-                    JOptionPane.showMessageDialog(SearchCustomerWindow.this, "Order not found for Customer ID: " + customerId, "Error", JOptionPane.ERROR_MESSAGE);
+                if (searchCustomerList.size() == 0) {
+                    JOptionPane.showMessageDialog(SearchCustomerWindow.this,
+                            "Order not found for Customer ID: " + customerId, "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
-        
 
         table = new JTable(model);
         table.setRowHeight(30);
