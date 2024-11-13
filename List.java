@@ -75,192 +75,192 @@ public class List {
         return -1;
     }
 
-    public Order[] searchCustomerID(String custId) {
-        int count = 0;
-        for (Order order : orderArray) {
-            if (order != null && order.getCustomerID().equalsIgnoreCase(custId)) {
-                count++;
-            }
-        }
-        if (count == 0) {
-            return new Order[0];
-        }
-        Order[] foundOrders = new Order[count];
-        int index = 0;
-        for (Order order : orderArray) {
-            if (order != null && order.getCustomerID().equalsIgnoreCase(custId)) {
-                foundOrders[index++] = order;
-            }
-        }
-        return foundOrders;
-    }
+    // public Order[] searchCustomerID(String custId) {
+    //     int count = 0;
+    //     for (Order order : orderArray) {
+    //         if (order != null && order.getCustomerID().equalsIgnoreCase(custId)) {
+    //             count++;
+    //         }
+    //     }
+    //     if (count == 0) {
+    //         return new Order[0];
+    //     }
+    //     Order[] foundOrders = new Order[count];
+    //     int index = 0;
+    //     for (Order order : orderArray) {
+    //         if (order != null && order.getCustomerID().equalsIgnoreCase(custId)) {
+    //             foundOrders[index++] = order;
+    //         }
+    //     }
+    //     return foundOrders;
+    // }
 
-    public Order[] searchOrderID(String orderID) {
-        int count = 0;
-        for (Order order : orderArray) {
-            if (order != null && order.getOrderId().equalsIgnoreCase(orderID)) {
-                count++;
-            }
-        }
-        if (count == 0) {
-            return new Order[0];
-        }
-        Order[] foundOrders = new Order[count];
-        int index = 0;
-        for (Order order : orderArray) {
-            if (order != null && order.getOrderId().equalsIgnoreCase(orderID)) {
-                foundOrders[index++] = order;
-            }
-        }
-        return foundOrders;
-    }
+    // public Order[] searchOrderID(String orderID) {
+    //     int count = 0;
+    //     for (Order order : orderArray) {
+    //         if (order != null && order.getOrderId().equalsIgnoreCase(orderID)) {
+    //             count++;
+    //         }
+    //     }
+    //     if (count == 0) {
+    //         return new Order[0];
+    //     }
+    //     Order[] foundOrders = new Order[count];
+    //     int index = 0;
+    //     for (Order order : orderArray) {
+    //         if (order != null && order.getOrderId().equalsIgnoreCase(orderID)) {
+    //             foundOrders[index++] = order;
+    //         }
+    //     }
+    //     return foundOrders;
+    // }
 
-    public Order[] viewCustomers() {
-        Order[] viewCustomers = new Order[orderArray.length];
-        boolean[] equalPass = new boolean[orderArray.length];
-        int count = 0;
+    // public Order[] viewCustomers() {
+    //     Order[] viewCustomers = new Order[orderArray.length];
+    //     boolean[] equalPass = new boolean[orderArray.length];
+    //     int count = 0;
 
-        for (int i = 0; i < orderArray.length; i++) {
-            if (equalPass[i] || orderArray[i] == null) {
-                continue;
-            }
+    //     for (int i = 0; i < orderArray.length; i++) {
+    //         if (equalPass[i] || orderArray[i] == null) {
+    //             continue;
+    //         }
 
-            viewCustomers[count] = new Order();
-            int tempQty = orderArray[i].getQuantity();
-            double tempAmount = orderArray[i].getAmount();
-            equalPass[i] = true;
+    //         viewCustomers[count] = new Order();
+    //         int tempQty = orderArray[i].getQuantity();
+    //         double tempAmount = orderArray[i].getAmount();
+    //         equalPass[i] = true;
 
-            for (int j = i + 1; j < orderArray.length; j++) {
-                if (orderArray[j] != null && orderArray[i].getCustomerID().equals(orderArray[j].getCustomerID())) {
-                    tempQty += orderArray[j].getQuantity();
-                    tempAmount += orderArray[j].getAmount();
-                    equalPass[j] = true;
-                }
-            }
+    //         for (int j = i + 1; j < orderArray.length; j++) {
+    //             if (orderArray[j] != null && orderArray[i].getCustomerID().equals(orderArray[j].getCustomerID())) {
+    //                 tempQty += orderArray[j].getQuantity();
+    //                 tempAmount += orderArray[j].getAmount();
+    //                 equalPass[j] = true;
+    //             }
+    //         }
 
-            String cusPhoneNumber = orderArray[i].getCustomerID();
-            viewCustomers[count].setCustomerID(cusPhoneNumber);
-            viewCustomers[count].setQuantity(tempQty);
-            viewCustomers[count].setAmount(tempAmount);
-            count++;
-        }
-        return viewCustomers;
-    }
+    //         String cusPhoneNumber = orderArray[i].getCustomerID();
+    //         viewCustomers[count].setCustomerID(cusPhoneNumber);
+    //         viewCustomers[count].setQuantity(tempQty);
+    //         viewCustomers[count].setAmount(tempAmount);
+    //         count++;
+    //     }
+    //     return viewCustomers;
+    // }
 
-    public Order[] bestInCustomers() {
-        Order[] viewBestCustomers = new Order[orderArray.length];
-        boolean[] equalPass = new boolean[orderArray.length];
-        int count = 0;
+    // public Order[] bestInCustomers() {
+    //     Order[] viewBestCustomers = new Order[orderArray.length];
+    //     boolean[] equalPass = new boolean[orderArray.length];
+    //     int count = 0;
 
-        for (int i = 0; i < orderArray.length; i++) {
-            if (equalPass[i] || orderArray[i] == null) {
-                continue;
-            }
+    //     for (int i = 0; i < orderArray.length; i++) {
+    //         if (equalPass[i] || orderArray[i] == null) {
+    //             continue;
+    //         }
 
-            viewBestCustomers[count] = new Order();
-            int tempQty = orderArray[i].getQuantity();
-            double tempAmount = orderArray[i].getAmount();
-            equalPass[i] = true;
+    //         viewBestCustomers[count] = new Order();
+    //         int tempQty = orderArray[i].getQuantity();
+    //         double tempAmount = orderArray[i].getAmount();
+    //         equalPass[i] = true;
 
-            for (int j = i + 1; j < orderArray.length; j++) {
-                if (orderArray[j] != null && orderArray[i].getCustomerID().equals(orderArray[j].getCustomerID())) {
-                    tempQty += orderArray[j].getQuantity();
-                    tempAmount += orderArray[j].getAmount();
-                    equalPass[j] = true;
-                }
-            }
+    //         for (int j = i + 1; j < orderArray.length; j++) {
+    //             if (orderArray[j] != null && orderArray[i].getCustomerID().equals(orderArray[j].getCustomerID())) {
+    //                 tempQty += orderArray[j].getQuantity();
+    //                 tempAmount += orderArray[j].getAmount();
+    //                 equalPass[j] = true;
+    //             }
+    //         }
 
-            String customerPhoneNumber = orderArray[i].getCustomerID();
-            viewBestCustomers[count].setCustomerID(customerPhoneNumber);
-            viewBestCustomers[count].setQuantity(tempQty);
-            viewBestCustomers[count].setAmount(tempAmount);
-            count++;
-        }
+    //         String customerPhoneNumber = orderArray[i].getCustomerID();
+    //         viewBestCustomers[count].setCustomerID(customerPhoneNumber);
+    //         viewBestCustomers[count].setQuantity(tempQty);
+    //         viewBestCustomers[count].setAmount(tempAmount);
+    //         count++;
+    //     }
 
-        for (int i = count - 1; i > 0; i--) {
-            for (int j = 0; j < i; j++) {
-                if (viewBestCustomers[j] != null && viewBestCustomers[j + 1] != null) {
-                    if (viewBestCustomers[j].getAmount() < viewBestCustomers[j + 1].getAmount()) {
-                        Order temp = viewBestCustomers[j];
-                        viewBestCustomers[j] = viewBestCustomers[j + 1];
-                        viewBestCustomers[j + 1] = temp;
-                    }
-                }
-            }
-        }
+    //     for (int i = count - 1; i > 0; i--) {
+    //         for (int j = 0; j < i; j++) {
+    //             if (viewBestCustomers[j] != null && viewBestCustomers[j + 1] != null) {
+    //                 if (viewBestCustomers[j].getAmount() < viewBestCustomers[j + 1].getAmount()) {
+    //                     Order temp = viewBestCustomers[j];
+    //                     viewBestCustomers[j] = viewBestCustomers[j + 1];
+    //                     viewBestCustomers[j + 1] = temp;
+    //                 }
+    //             }
+    //         }
+    //     }
 
-        return viewBestCustomers;
-    }
+    //     return viewBestCustomers;
+    // }
 
-    public Order[] allCustomers() {
-        if (orderArray == null) {
-            throw new IllegalStateException("Order array is null");
-        }
+    // public Order[] allCustomers() {
+    //     if (orderArray == null) {
+    //         throw new IllegalStateException("Order array is null");
+    //     }
 
-        Order[] orders = new Order[orderArray.length];
-        boolean[] processed = new boolean[orderArray.length];
-        int count = 0;
+    //     Order[] orders = new Order[orderArray.length];
+    //     boolean[] processed = new boolean[orderArray.length];
+    //     int count = 0;
 
-        for (int i = 0; i < orderArray.length; i++) {
-            if (processed[i] || orderArray[i] == null) {
-                continue;
-            }
+    //     for (int i = 0; i < orderArray.length; i++) {
+    //         if (processed[i] || orderArray[i] == null) {
+    //             continue;
+    //         }
 
-            String customerId = orderArray[i].getCustomerID();
-            if (customerId == null) {
-                continue;
-            }
+    //         String customerId = orderArray[i].getCustomerID();
+    //         if (customerId == null) {
+    //             continue;
+    //         }
 
-            Order aggregatedOrder = new Order();
-            aggregatedOrder.setCustomerID(customerId);
-            double totalAmount = 0;
-            int xsQty = 0, sQty = 0, mQty = 0, lQty = 0, xlQty = 0, xxlQty = 0;
+    //         Order aggregatedOrder = new Order();
+    //         aggregatedOrder.setCustomerID(customerId);
+    //         double totalAmount = 0;
+    //         int xsQty = 0, sQty = 0, mQty = 0, lQty = 0, xlQty = 0, xxlQty = 0;
 
-            for (int j = i; j < orderArray.length; j++) {
-                if (orderArray[j] != null && customerId.equals(orderArray[j].getCustomerID())) {
-                    String size = orderArray[j].getSize();
-                    if (size != null) {
-                        switch (size) {
-                            case "XS":
-                                xsQty += orderArray[j].getQuantity();
-                                break;
-                            case "S":
-                                sQty += orderArray[j].getQuantity();
-                                break;
-                            case "M":
-                                mQty += orderArray[j].getQuantity();
-                                break;
-                            case "L":
-                                lQty += orderArray[j].getQuantity();
-                                break;
-                            case "XL":
-                                xlQty += orderArray[j].getQuantity();
-                                break;
-                            case "XXL":
-                                xxlQty += orderArray[j].getQuantity();
-                                break;
-                        }
-                    }
-                    totalAmount += orderArray[j].getAmount();
-                    processed[j] = true;
-                }
-            }
+    //         for (int j = i; j < orderArray.length; j++) {
+    //             if (orderArray[j] != null && customerId.equals(orderArray[j].getCustomerID())) {
+    //                 String size = orderArray[j].getSize();
+    //                 if (size != null) {
+    //                     switch (size) {
+    //                         case "XS":
+    //                             xsQty += orderArray[j].getQuantity();
+    //                             break;
+    //                         case "S":
+    //                             sQty += orderArray[j].getQuantity();
+    //                             break;
+    //                         case "M":
+    //                             mQty += orderArray[j].getQuantity();
+    //                             break;
+    //                         case "L":
+    //                             lQty += orderArray[j].getQuantity();
+    //                             break;
+    //                         case "XL":
+    //                             xlQty += orderArray[j].getQuantity();
+    //                             break;
+    //                         case "XXL":
+    //                             xxlQty += orderArray[j].getQuantity();
+    //                             break;
+    //                     }
+    //                 }
+    //                 totalAmount += orderArray[j].getAmount();
+    //                 processed[j] = true;
+    //             }
+    //         }
 
-            aggregatedOrder.setXtraSmall(xsQty);
-            aggregatedOrder.setSmall(sQty);
-            aggregatedOrder.setMediumSize(mQty);
-            aggregatedOrder.setLarge(lQty);
-            aggregatedOrder.setXtraLarge(xlQty);
-            aggregatedOrder.setXtraXl(xxlQty);
-            aggregatedOrder.setAmount(totalAmount);
+    //         aggregatedOrder.setXtraSmall(xsQty);
+    //         aggregatedOrder.setSmall(sQty);
+    //         aggregatedOrder.setMediumSize(mQty);
+    //         aggregatedOrder.setLarge(lQty);
+    //         aggregatedOrder.setXtraLarge(xlQty);
+    //         aggregatedOrder.setXtraXl(xxlQty);
+    //         aggregatedOrder.setAmount(totalAmount);
 
-            orders[count++] = aggregatedOrder;
-        }
+    //         orders[count++] = aggregatedOrder;
+    //     }
 
-        Order[] result = new Order[count];
-        System.arraycopy(orders, 0, result, 0, count);
-        return result;
-    }
+    //     Order[] result = new Order[count];
+    //     System.arraycopy(orders, 0, result, 0, count);
+    //     return result;
+    // }
 
     public Order[] sortByQty() {
         if (orderArray == null) {
