@@ -75,6 +75,10 @@ public class List {
         return -1;
     }
 
+    public int size(){
+        return nextIndex;
+    }
+
     // public Order[] searchCustomerID(String custId) {
     //     int count = 0;
     //     for (Order order : orderArray) {
@@ -408,37 +412,35 @@ public class List {
         return copyOrderArray;
     }
 
-    public void setOrderStatus(int status, String orderId) {
-        for (int i = 0; i < orderArray.length; i++) {
-            if (orderArray[i].getOrderId() != null && orderId.equals(orderArray[i].getOrderId())) {
-                if (status == 1) {
-                    orderArray[i].setOrderStatus("Delivering");
-                    break;
-                } else if (status == 2) {
-                    orderArray[i].setOrderStatus("Delivered");
-                    break;
-                }
-            }
-        }
-    }
+    // public void setOrderStatus(int status, String orderId) {
+    //     for (int i = 0; i < orderArray.length; i++) {
+    //         if (orderArray[i].getOrderId() != null && orderId.equals(orderArray[i].getOrderId())) {
+    //             if (status == 1) {
+    //                 orderArray[i].setOrderStatus("Delivering");
+    //                 break;
+    //             } else if (status == 2) {
+    //                 orderArray[i].setOrderStatus("Delivered");
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
 
-    public int changeOrderStatus(String id) {
-        for (int i = 0; i < orderArray.length; i++) {
-            if (orderArray[i].getOrderId() != null && id.equalsIgnoreCase(orderArray[i].getOrderId())) {
-                if (orderArray[i].getOrderStatus().equalsIgnoreCase("Processing")) {
-                    return 0;
-                } else if (orderArray[i].getOrderStatus().equalsIgnoreCase("Delivering")) {
-                    return 1;
-                } else if (orderArray[i].getOrderStatus().equalsIgnoreCase("Delivered")) {
-                    return 2;
-                }
-            }
-        }
-        return -1;
-    }
+    // public int changeOrderStatus(String id) {
+    //     for (int i = 0; i < orderArray.length; i++) {
+    //         if (orderArray[i].getOrderId() != null && id.equalsIgnoreCase(orderArray[i].getOrderId())) {
+    //             if (orderArray[i].getOrderStatus().equalsIgnoreCase("Processing")) {
+    //                 return 0;
+    //             } else if (orderArray[i].getOrderStatus().equalsIgnoreCase("Delivering")) {
+    //                 return 1;
+    //             } else if (orderArray[i].getOrderStatus().equalsIgnoreCase("Delivered")) {
+    //                 return 2;
+    //             }
+    //         }
+    //     }
+    //     return -1;
+    // }
 
-    public int size(){
-        return nextIndex;
-    }
+
 
 }
