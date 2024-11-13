@@ -438,4 +438,8 @@ public class List {
         return -1;
     }
 
+    public int size(){
+        return nextIndex;
+    }
+
 }
