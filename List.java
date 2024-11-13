@@ -34,30 +34,6 @@ public class List {
         System.out.println("Array extended to size " + newSize);
     }
 
-
-    // public boolean add(int index, Order newOrder) {
-    // if (index >= 0 && index < nextIndex) {
-    // for (int i = nextIndex - 1; i >= index; i--) {
-    // orderArray[i + 1] = orderArray[i];
-    // }
-    // orderArray[index] = newOrder;
-    // nextIndex++;
-    // return true;
-    // }
-    // return false;
-    // }
-
-    // public void addFirst(Order newOrder) {
-    // if (nextIndex >= orderArray.length) {
-    // exetendsArray();
-    // }
-    // for (int i = nextIndex - 1; i >= 0; i--) {
-    // orderArray[i + 1] = orderArray[i];
-    // }
-    // orderArray[0] = newOrder;
-    // nextIndex++;
-    // }
-
     // ------------------- Get Methods -------------------
 
     public Order get(int index) {
@@ -88,15 +64,6 @@ public class List {
         }
         return false;
     }
-
-    // public void removeLast() {
-    // if (nextIndex <= 0) {
-    // for (int i = 0; i < nextIndex - 1; i++) {
-    // orderArray[i] = orderArray[i + 1];
-    // }
-    // nextIndex--;
-    // }
-    // }
 
     // ------------------- Search Methods -------------------
 

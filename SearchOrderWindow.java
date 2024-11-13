@@ -126,6 +126,5 @@ public class SearchOrderWindow extends JFrame {
         lblGetStatus.setFont(new Font("Arial", Font.PLAIN, 16));
         lblGetStatus.setBounds(150, 370, 150, 25);
         add(lblGetStatus);
-
     }
 }
