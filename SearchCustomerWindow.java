@@ -46,72 +46,67 @@ public class SearchCustomerWindow extends JFrame {
         String[] columnNames = {"Size", "QTY", "Amount"};
         model = new DefaultTableModel(columnNames, 0);
         
-        btnSearch.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                String customerId = txtCusID.getText().trim();
-                Order[] ordersCollection = new Order[100];
-                int orderCount = 0;
+        // btnSearch.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent evt) {
+        //         String newLine  = null;
+        //         try (BufferedReader br = new BufferedReader(new FileReader("OrdersDoc.txt"))) {
+        //             String line = br.readLine();
+
+        //             while (line != null) {
+        //                 String[] fields = line.split(",");
+        //                 if (fields.length < 4) continue;
         
-                try (BufferedReader br = new BufferedReader(new FileReader("OrdersDoc.txt"))) {
-                    String line;
-                    System.out.println("Searching for Customer ID: " + customerId);
-                    while ((line = br.readLine()) != null) {
-                        String[] fields = line.split(",");
-                        if (fields.length < 4) continue;
+        //                 String fileCustomerId = fields[0].trim();
+        //                 String size = fields[1].trim();
+        //                 int quantity = Integer.parseInt(fields[2].trim());
+        //                 double amount = Double.parseDouble(fields[3].trim());
         
-                        String fileCustomerId = fields[0].trim();
-                        String size = fields[1].trim();
-                        int quantity = Integer.parseInt(fields[2].trim());
-                        double amount = Double.parseDouble(fields[3].trim());
-        
-                        System.out.println("Comparing entered ID '" + customerId + "' with file ID '" + fileCustomerId + "'");
+        //                 System.out.println("Comparing entered ID '" + customerId + "' with file ID '" + fileCustomerId + "'");
                         
-                        if (fileCustomerId.equals(customerId) && orderCount < ordersCollection.length) {
-                            Order newOrder = new Order();
-                            newOrder.setCustomerID(fileCustomerId);
-                            newOrder.setSize(size);
-                            newOrder.setQuantity(quantity);
-                            newOrder.setAmount(amount);
-                            ordersCollection[orderCount] = newOrder;
-                            orderCount++;
-                        }
-                    }
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "Error reading OrdersDoc.txt file.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+        //                 if (fileCustomerId.equals(customerId) && orderCount < ordersCollection.length) {
+        //                     Order newOrder = new Order();
+        //                     newOrder.setCustomerID(fileCustomerId);
+        //                     newOrder.setSize(size);
+        //                     newOrder.setQuantity(quantity);
+        //                     newOrder.setAmount(amount);
+        //                     ordersCollection[orderCount] = newOrder;
+        //                     orderCount++;
+        //                 }
+        //             }
+        //         } catch (IOException e) {
+        //             JOptionPane.showMessageDialog(null, "Error reading OrdersDoc.txt file.", "Error", JOptionPane.ERROR_MESSAGE);
+        //             return;
+        //         }
         
-                model.setRowCount(0);
-                String[] allSizes = {"XS", "S", "M", "L", "XL", "XXL"};
-                double totalAmount = 0;
+        //         model.setRowCount(0);
+        //         String[] allSizes = {"XS", "S", "M", "L", "XL", "XXL"};
+        //         double totalAmount = 0;
         
-                for (String size : allSizes) {
-                    boolean sizeFound = false;
-                    for (int i = 0; i < orderCount; i++) {
-                        Order order = ordersCollection[i];
-                        if (order != null && size.equals(order.getSize())) {
-                            Object[] rowData = {size, order.getQuantity(), order.getAmount()};
-                            model.addRow(rowData);
-                            totalAmount += order.getAmount();
-                            sizeFound = true;
-                            break;
-                        }
-                    }
-                    if (!sizeFound) {
-                        Object[] rowData = {size, 0, "0.00"};
-                        model.addRow(rowData);
-                    }
-                }
+        //         for (String size : allSizes) {
+        //             boolean sizeFound = false;
+        //             for (int i = 0; i < orderCount; i++) {
+        //                 Order order = ordersCollection[i];
+        //                 if (order != null && size.equals(order.getSize())) {
+        //                     Object[] rowData = {size, order.getQuantity(), order.getAmount()};
+        //                     model.addRow(rowData);
+        //                     totalAmount += order.getAmount();
+        //                     sizeFound = true;
+        //                     break;
+        //                 }
+        //             }
+        //             if (!sizeFound) {
+        //                 Object[] rowData = {size, 0, "0.00"};
+        //                 model.addRow(rowData);
+        //             }
+        //         }
         
-                totalLabel.setText(String.format("Total: %.2f", totalAmount));
+        //         totalLabel.setText(String.format("Total: %.2f", totalAmount));
         
-                if (orderCount == 0) {
-                    JOptionPane.showMessageDialog(SearchCustomerWindow.this,
-                            "Order not found for Customer ID: " + customerId, "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
+        //         if (orderCount == 0) {
+        //             JOptionPane.showMessageDialog(SearchCustomerWindow.this, "Order not found for Customer ID: " + customerId, "Error", JOptionPane.ERROR_MESSAGE);
+        //         }
+        //     }
+        // });
 
         table = new JTable(model);
         table.setRowHeight(30);

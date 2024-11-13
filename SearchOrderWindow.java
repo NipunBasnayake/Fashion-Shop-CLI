@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class SearchOrderWindow extends JFrame {
 
@@ -44,22 +47,32 @@ public class SearchOrderWindow extends JFrame {
         add(btnSearch);
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                String orderId = txtOrderID.getText().trim();
-                Order[] foundOrders = ordersCollection.searchOrderID(orderId);
+                String newLine = null;
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader("OrdersDoc.txt"));
+                    String line = br.readLine();
 
-                if (foundOrders.length > 0) {
-                    lblGetCustID.setText(foundOrders[0].getCustomerID());
-                    lblGetSize.setText(foundOrders[0].getSize());
-                    lblGetQTY.setText(String.valueOf(foundOrders[0].getQuantity()));
-                    lblGetAmount.setText(String.valueOf(foundOrders[0].getAmount()));
-                    lblGetStatus.setText(foundOrders[0].getOrderStatus());
-                } else {
-                    JOptionPane.showMessageDialog(
-                    SearchOrderWindow.this,
-                    "Invalid Order ID",
-                    "Error",
-                    JOptionPane.WARNING_MESSAGE
-                );
+                    while (line != null) {
+                        String orderId = line.substring(0,9);
+                        if (orderId.equalsIgnoreCase(txtOrderID.getText())) {
+                            newLine = line;
+                            break;
+                        }
+                        line = br.readLine();
+                    }
+
+                } catch (IOException ex) {
+                    
+                }
+                if (newLine != null) {
+                    String[] rowData = newLine.split(",");
+                    lblGetSize.setText(rowData[1]);
+                    lblGetQTY.setText(rowData[2]);
+                    lblGetAmount.setText(rowData[3]);
+                    lblGetCustID.setText(rowData[4]);
+                    lblGetStatus.setText(rowData[5]);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Customer not Found");
                 }
             }
         });
