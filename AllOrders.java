@@ -3,10 +3,13 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
 import java.awt.event.*;
-class AllOrders extends JFrame{
+import java.io.File;
+import java.util.Scanner;
+
+class AllOrders extends JFrame {
     private JButton btnBack;
 
-    AllOrders(List ordersCollection){
+    AllOrders(List ordersCollection) {
         setSize(500, 550);
         setTitle("All Orders");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -21,25 +24,42 @@ class AllOrders extends JFrame{
         add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                ViewReportsWindow viewReportsWindow = new ViewReportsWindow(ordersCollection);
-                viewReportsWindow.setVisible(true);
+                new ViewReportsWindow(ordersCollection).setVisible(true);
                 dispose();
             }
         });
 
-        String[] colNames = {"Order ID","Customer ID","Size","Quantity","Amount","Status"};
-        DefaultTableModel table = new DefaultTableModel(colNames,0);
-        Order[] copyOrderArray = ordersCollection.getOrderArray();
+        String[] colNames = { "Order ID", "Customer ID", "Size", "Quantity", "Amount", "Status" };
+        DefaultTableModel table = new DefaultTableModel(colNames, 0);
+
+        List orderList = new List(100, 0.25);
+
+        try {
+            Scanner input = new Scanner(new File("OrdersDoc.txt"));
+            while (input.hasNext()) {
+                String line = input.nextLine();
+                String[] rowData = line.split(",");
+                Order newOrder = new Order(rowData[0], rowData[1], Integer.parseInt(rowData[2]),
+                        Double.parseDouble(rowData[3]), rowData[4], rowData[5]);
+
+                orderList.add(newOrder);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error reading orders file: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        Order[] copyOrderArray = orderList.getOrderArray();
 
         for (Order order : copyOrderArray) {
-            if (order!=null) {
+            if (order != null) {
                 Object[] rowData = {
-                    order.getOrderId(),
-                    order.getCustomerID(),
-                    order.getSize(),
-                    order.getQuantity(),
-                    order.getAmount(),
-                    order.getOrderStatus()
+                        order.getOrderId(),
+                        order.getCustomerID(),
+                        order.getSize(),
+                        order.getQuantity(),
+                        order.getAmount(),
+                        order.getOrderStatus()
                 };
                 table.addRow(rowData);
             }
@@ -51,4 +71,3 @@ class AllOrders extends JFrame{
         add(scrollPane);
     }
 }
-
