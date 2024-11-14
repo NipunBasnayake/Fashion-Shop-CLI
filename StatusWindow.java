@@ -148,17 +148,9 @@ class StatusWindow extends JFrame {
                 int status = changeOrderStatus(txtOrderID.getText());
                 if (status == 0) {
                     Icon qIcon = UIManager.getIcon("JOptionPane.questionIcon");
-                    Object[] buttons = { "Delivering", "Delivered" };
+                    Object[] buttons = {"Delivering", "Delivered"};
 
-                    int selection = JOptionPane.showOptionDialog(
-                            null,
-                            "Please Select the Status",
-                            "Status",
-                            JOptionPane.DEFAULT_OPTION,
-                            JOptionPane.PLAIN_MESSAGE,
-                            qIcon,
-                            buttons,
-                            buttons[0]);
+                    int selection = JOptionPane.showOptionDialog(null, "Please Select the Status", "Status", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, qIcon, buttons, buttons[0]);
                     switch (selection) {
                         case 0:
                             setOrderStatus(1, (txtOrderID.getText()));
@@ -174,15 +166,7 @@ class StatusWindow extends JFrame {
                     Icon qIcon = UIManager.getIcon("JOptionPane.questionIcon");
                     Object[] button = { "Delivered" };
 
-                    int selection = JOptionPane.showOptionDialog(
-                            null,
-                            "Please select the Status",
-                            "Status",
-                            JOptionPane.DEFAULT_OPTION,
-                            JOptionPane.PLAIN_MESSAGE,
-                            qIcon,
-                            button,
-                            button[0]);
+                    int selection = JOptionPane.showOptionDialog(null, "Please select the Status", "Status", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, qIcon, button, button[0]);
                     switch (selection) {
                         case 0:
                             setOrderStatus(2, (txtOrderID.getText()));
@@ -192,8 +176,7 @@ class StatusWindow extends JFrame {
                             break;
                     }
                 } else if (status == 2) {
-                    JOptionPane.showMessageDialog(null, "Can't change this order status...order already delivered...!",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Can't change this order status...order already delivered...!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 writeDataToFile();
             }
