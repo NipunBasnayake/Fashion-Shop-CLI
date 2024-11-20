@@ -29,7 +29,7 @@ class AllCustomers extends JFrame {
             }
         });
 
-        List orderList = new List(100, 0.25);
+        List orderList = new List();
 
         try {
             Scanner input = new Scanner(new File("OrdersDoc.txt"));
@@ -75,7 +75,7 @@ class AllCustomers extends JFrame {
 
     public Order[] allCustomers(List orderList) {
 
-        Order[] orderArray = orderList.getOrderArray();
+        Order[] orderArray = orderList.toArray();
 
         Order[] orders = new Order[orderArray.length];
         boolean[] processed = new boolean[orderArray.length];

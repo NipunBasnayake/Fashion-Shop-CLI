@@ -104,19 +104,18 @@ class PlaceOrderWindow extends JFrame {
                 Order newOrder = new Order(orderID, size, qty, amount, cusID, orderStatus);
 
                 try {
-                    FileWriter fw = new FileWriter("OrdersDoc.txt", true);
-                    fw.write(newOrder.toString() + "\n");
-                    fw.close();
-                    JOptionPane.showMessageDialog(this, "Order placed!", "Information",
-                            JOptionPane.INFORMATION_MESSAGE);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, "Order not placed!", "Information",
-                            JOptionPane.INFORMATION_MESSAGE);
-                }
-                lblOrderID.setText(generateOrderId());
-                txtPhoneNumber.setText("");
-                txtTShirtSize.setText("");
-                txtQTY.setText("");
+
+                    boolean isPlaced = OrderController.placeOrder(newOrder);
+                    if (isPlaced) {
+                        JOptionPane.showMessageDialog(this, "Order placed!", "Information", JOptionPane.INFORMATION_MESSAGE); 
+                        lblOrderID.setText(generateOrderId());
+                        txtPhoneNumber.setText("");
+                        txtTShirtSize.setText("");
+                        txtQTY.setText("");
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Order not placed!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    }                    
+                } catch (IOException ex) {}
             }
         });
     }

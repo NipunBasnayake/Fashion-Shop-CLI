@@ -1,93 +1,99 @@
 public class List {
-    private Order[] orderArray;
-    private int nextIndex;
-    private double loadFactor;
-    private int initSize;
+    private Node start;
 
-    public List(int initSize, double loadFactor) {
-        this.initSize = initSize;
-        orderArray = new Order[initSize];
-        nextIndex = 0;
-        this.loadFactor = loadFactor;
-    }
-
-    public boolean add(Order newOrder) {
-        if (nextIndex >= orderArray.length) {
-            extendArray();
+    public boolean add(Order order){
+        if (isEmpty()) {
+            return addFirst(order);
+        }else{
+            return addLast(order);
         }
-        orderArray[nextIndex++] = newOrder;
-        return true;
     }
 
-    public void clear() {
-        orderArray = new Order[initSize];
-        nextIndex = 0;
-        System.out.println("List cleared");
-    }
-
-    private void extendArray() {
-        int newSize = (int) (orderArray.length * (1 + loadFactor));
-        Order[] newArray = new Order[newSize];
-        System.arraycopy(orderArray, 0, newArray, 0, orderArray.length);
-        orderArray = newArray;
-        System.out.println("Array extended to size " + newSize);
-    }
-
-    // ------------------- Get Methods -------------------
-
-    public Order get(int index) {
-        if (index >= 0 && index < nextIndex) {
-            return orderArray[index];
-        }
-        return null;
-    }
-
-    // ------------------- Remove Methods -------------------
-
-    public void remove(int index) {
-        if (index >= 0 && index < nextIndex) {
-            for (int i = index; i < nextIndex - 1; i++) {
-                orderArray[i] = orderArray[i + 1];
+    public boolean addLast(Order order){
+        if (isEmpty()) {
+            return addFirst(order);
+        }else{
+            Node n1 = new Node(order);
+            Node lastNode = start;
+            while (lastNode.next != null) {
+                lastNode.next=n1;
             }
-            orderArray[nextIndex - 1] = null;
-            nextIndex--;
+            lastNode.next = n1;
+            return true;
         }
     }
 
-    public boolean deleteOrder(String orderID) {
-        for (int i = 0; i < nextIndex; i++) {
-            if (orderArray[i] != null && orderID.equalsIgnoreCase(orderArray[i].getOrderId())) {
-                remove(i);
+    public boolean add(int index, Order order){
+        if (index>=0 && index<=size()) {
+            if (index==0) {
+                return addFirst(order);
+            }else{
+                int count = 0;
+                Node temp=start;
+                Node n1 = new Node(order);
+                while (count<index-1) {
+                    temp=temp.next;
+                    count++;
+                }
+                n1.next= temp.next;
+                temp.next=n1;
                 return true;
             }
         }
         return false;
     }
 
-    // ------------------- Search Methods -------------------
-
-    public int search(Order order) {
-        for (int i = 0; i < nextIndex - 1; i++) {
-            if (orderArray[i].equals(order)) {
-                return i;
-            }
-        }
-        return -1;
+    public boolean addFirst(Order order){
+        Node n1 = new Node(order);
+        n1.next = start;
+        start=n1;
+        return true;
     }
+
+    public Order get(int index){
+        if (index>=0 && index<=size()) {
+            int count=0;
+            Node temp = start;
+            while (count>index) {
+                count++;
+                temp=temp.next;
+            }
+            return temp.order;
+        }
+        return null;
+    }
+
+    public Order[] toArray(){
+        Order[] tempOrderArray = new Order[size()];
+        Node temp = start;
+        for (int i = 0; i < tempOrderArray.length; i++) {
+            tempOrderArray[i]=temp.order;
+            temp=temp.next;
+        }
+        return tempOrderArray;
+    }
+
+    public boolean isEmpty(){
+		return start==null;
+	}
 
     public int size(){
-        return nextIndex;
+        Node temp = start;
+        int count=0;
+        while (temp != null) {
+            count++;
+            temp = temp.next;
+        }
+        return count;
     }
 
-    public Order[] getOrderArray() {
-        if (orderArray == null) {
-            throw new IllegalStateException("Order array is null");
-        }
 
-        Order[] copyOrderArray = new Order[orderArray.length];
-        for (int i = 0; i < orderArray.length; i++) {
-            copyOrderArray[i] = orderArray[i];
+    class Node{
+        private Order order;
+        private Node next;
+        
+        private Node(Order order){
+            this.order=order;
         }
-        return copyOrderArray;
     }
 }

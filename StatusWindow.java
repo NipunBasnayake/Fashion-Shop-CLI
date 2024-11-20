@@ -69,7 +69,7 @@ class StatusWindow extends JFrame {
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 boolean isFound = false;
-                for (Order order : orderList.getOrderArray()) {
+                for (Order order : orderList.toArray()) {
                     if (txtOrderID.getText().equalsIgnoreCase(order.getOrderId())) {
                         lblGetSize.setText(order.getSize());
                         lblGetQTY.setText(String.valueOf(order.getQuantity()));
@@ -184,7 +184,7 @@ class StatusWindow extends JFrame {
     }
 
     public void setOrderStatus(int status, String orderId) {
-        Order[] orderArray = orderList.getOrderArray();
+        Order[] orderArray = orderList.toArray();
         for (int i = 0; i < orderArray.length; i++) {
             if (orderArray[i].getOrderId() != null && orderId.equals(orderArray[i].getOrderId())) {
                 if (status == 1) {
@@ -199,7 +199,7 @@ class StatusWindow extends JFrame {
     }
 
     public int changeOrderStatus(String id) {
-        Order[] orderArray = orderList.getOrderArray();
+        Order[] orderArray = orderList.toArray();
         for (int i = 0; i < orderArray.length; i++) {
             if (orderArray[i].getOrderId() != null && orderArray[i].getOrderId().equalsIgnoreCase(id)) {
                 if (orderArray[i].getOrderStatus().equals("Processing")) {
@@ -218,7 +218,7 @@ class StatusWindow extends JFrame {
         try (FileWriter writer = new FileWriter("OrdersDoc.txt", false);
                 BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
 
-            for (Order order : orderList.getOrderArray()) {
+            for (Order order : orderList.toArray()) {
                 if (order != null) {
                     bufferedWriter.write(order.getOrderId() + "," + order.getSize() + "," + order.getQuantity() + ","
                             + order.getAmount() + "," + order.getCustomerID() + "," + order.getOrderStatus());

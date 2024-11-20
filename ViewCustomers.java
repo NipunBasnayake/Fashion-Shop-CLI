@@ -31,14 +31,14 @@ class ViewCustomers extends JFrame {
         String[] columns = { "Customer ID", "QTY", "Amount" };
         DefaultTableModel table = new DefaultTableModel(columns, 0);
 
-        List orderList = new List(100, 0.25);
+        List orderList = new List();
 
         try {
             Scanner input = new Scanner(new File("OrdersDoc.txt"));
-            while (input.hasNext()) {
+            while (input.hasNextLine()) {
                 String line = input.nextLine();
                 String[] rowData = line.split(",");
-                Order newOrder = new Order(rowData[0], rowData[1], Integer.parseInt(rowData[2]), 
+                Order newOrder = new Order(rowData[0], rowData[1], Integer.parseInt(rowData[2]),
                         Double.parseDouble(rowData[3]), rowData[4], rowData[5]);
 
                 orderList.add(newOrder);
@@ -48,7 +48,7 @@ class ViewCustomers extends JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        Order[] uniqueOrders = new Order[orderList.getOrderArray().length];
+        Order[] uniqueOrders = new Order[orderList.toArray().length];
         int uniqueCustomerCount = 0;
 
         for (int i = 0; i < orderList.size(); i++) {
