@@ -32,7 +32,7 @@ class AllOrders extends JFrame {
         String[] colNames = { "Order ID", "Customer ID", "Size", "Quantity", "Amount", "Status" };
         DefaultTableModel table = new DefaultTableModel(colNames, 0);
 
-        List orderList = new List(100, 0.25);
+        List orderList = new List();
 
         try {
             Scanner input = new Scanner(new File("OrdersDoc.txt"));
@@ -49,7 +49,7 @@ class AllOrders extends JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        Order[] copyOrderArray = orderList.getOrderArray();
+        Order[] copyOrderArray = orderList.toArray();
 
         for (Order order : copyOrderArray) {
             if (order != null) {

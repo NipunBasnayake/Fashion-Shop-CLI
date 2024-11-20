@@ -33,7 +33,7 @@ class CategorazedByAmount extends JFrame {
         String[] columns = { "Size", "QTY", "Amount" };
         DefaultTableModel table = new DefaultTableModel(columns, 0);
 
-        List orderList = new List(100, 0.25);
+        List orderList = new List();
 
         try {
             Scanner input = new Scanner(new File("OrdersDoc.txt"));
@@ -63,7 +63,7 @@ class CategorazedByAmount extends JFrame {
     }
 
     public Order[] sortByAmount(List orderList) {
-        Order[] orderArray = orderList.getOrderArray();
+        Order[] orderArray = orderList.toArray();
         Order[] items = new Order[orderArray.length];
         int uniqueSizesCount = 0;
 

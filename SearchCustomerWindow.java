@@ -17,7 +17,7 @@ public class SearchCustomerWindow extends JFrame {
     private JLabel totalLabel;
 
     SearchCustomerWindow(List ordersCollection) {
-        setSize(500, 600);
+        setSize(500, 550);
         setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -43,15 +43,18 @@ public class SearchCustomerWindow extends JFrame {
 
         btnSearch = new JButton("Search");
         btnSearch.setBounds(360, 85, 100, 30);
+        btnSearch.setBackground(new Color(4, 203, 201));
+        btnSearch.setForeground(Color.WHITE);
+        btnSearch.setFont(new Font("Arial", Font.BOLD, 16));
         add(btnSearch);
 
         String[] columnNames = { "Size", "QTY", "Amount" };
         model = new DefaultTableModel(columnNames, 0);
-
+        
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 String customerId = txtCusID.getText().trim();
-                List searchCustomerList = new List(100, 0.25);
+                List searchCustomerList = new List();
         
                 model.setRowCount(0);
         
@@ -80,7 +83,7 @@ public class SearchCustomerWindow extends JFrame {
                     double totalAmountForSize = 0;
         
                     for (int i = 0; i < searchCustomerList.size(); i++) {
-                        Order foundOrder = searchCustomerList.getOrderArray()[i];
+                        Order foundOrder = searchCustomerList.get(i);
                         if (foundOrder.getSize().equals(size)) {
                             totalQtyForSize += foundOrder.getQuantity();
                             totalAmountForSize += foundOrder.getAmount();
@@ -113,12 +116,12 @@ public class SearchCustomerWindow extends JFrame {
         }
 
         JScrollPane tableScrollPane = new JScrollPane(table);
-        tableScrollPane.setBounds(20, 140, 440, 350);
+        tableScrollPane.setBounds(20, 140, 440, 300);
         add(tableScrollPane);
 
         totalLabel = new JLabel("Total: 0.00");
         totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        totalLabel.setBounds(20, 500, 200, 30);
+        totalLabel.setBounds(20, 450, 200, 30);
         add(totalLabel);
     }
 }

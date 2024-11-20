@@ -68,7 +68,7 @@ class DeleteOrderWindow extends JFrame {
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 boolean isFound = false;
-                for (Order order : orderList.getOrderArray()) {
+                for (Order order : orderList.toArray()) {
                     if (txtOrderID.getText().equalsIgnoreCase(order.getOrderId())) {
                         lblGetSize.setText(order.getSize());
                         lblGetQTY.setText(String.valueOf(order.getQuantity()));
@@ -145,7 +145,7 @@ class DeleteOrderWindow extends JFrame {
             public void actionPerformed(ActionEvent evt) {
                 String id = txtOrderID.getText();
         
-                List updatedOrderList = new List(100, 0.25);
+                List updatedOrderList = new List();
                 try (Scanner input = new Scanner(new File("OrdersDoc.txt"))) {
                     while (input.hasNext()) {
                         String line = input.nextLine();
@@ -158,7 +158,7 @@ class DeleteOrderWindow extends JFrame {
                         updatedOrderList.add(order);
                     }
                     try (FileWriter fw = new FileWriter("OrdersDoc.txt")) {
-                        for (Order order : updatedOrderList.getOrderArray()) {
+                        for (Order order : updatedOrderList.toArray()) {
                             fw.write(order.toString() + "\n");
                         }
                     }

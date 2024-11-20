@@ -32,7 +32,7 @@ class CategorazedByQty extends JFrame {
         String[] columns = { "Size", "QTY", "Amount" };
         DefaultTableModel table = new DefaultTableModel(columns, 0);
 
-        List orderList = new List(100, 0.25);
+        List orderList = new List();
 
         try {
             Scanner input = new Scanner(new File("OrdersDoc.txt"));
@@ -62,7 +62,7 @@ class CategorazedByQty extends JFrame {
     }
 
     public Order[] sortByQty(List orderList) {
-        Order[] orderArray = orderList.getOrderArray(); // Access the order array from List
+        Order[] orderArray = orderList.toArray(); // Access the order array from List
         Order[] items = new Order[orderArray.length];
         int uniqueSizesCount = 0;
 

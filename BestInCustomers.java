@@ -32,7 +32,7 @@ class BestInCustomers extends JFrame {
         String[] columns = { "Customer ID", "QTY", "Amount" };
         DefaultTableModel table = new DefaultTableModel(columns, 0);
 
-        List orderList = new List(100, 0.25);
+        List orderList = new List();
 
         try {
             Scanner input = new Scanner(new File("OrdersDoc.txt"));
@@ -49,7 +49,7 @@ class BestInCustomers extends JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        Order[] uniqueOrders = new Order[orderList.getOrderArray().length];
+        Order[] uniqueOrders = new Order[orderList.toArray().length];
         int uniqueCustomerCount = 0;
 
         for (int i = 0; i < orderList.size(); i++) {

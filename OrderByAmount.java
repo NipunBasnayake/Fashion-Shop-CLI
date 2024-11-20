@@ -33,7 +33,7 @@ class OrderByAmount extends JFrame {
         String[] columns = { "Order ID", "Customer ID", "Size", "Quantity", "Amount", "Status" };
         DefaultTableModel table = new DefaultTableModel(columns, 0);
 
-        List orderList = new List(100, 0.25);
+        List orderList = new List();
 
         try {
             Scanner input = new Scanner(new File("OrdersDoc.txt"));
@@ -69,7 +69,7 @@ class OrderByAmount extends JFrame {
 
     public Order[] ordersByAmount(List orderList) {
         
-        Order[] orderArray = orderList.getOrderArray();
+        Order[] orderArray = orderList.toArray();
         Order[] sortByAmountArray = new Order[orderArray.length];
         for (int i = 0; i < orderArray.length; i++) {
             sortByAmountArray[i] = orderArray[i];

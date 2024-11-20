@@ -24,41 +24,6 @@ class PlaceOrderWindow extends JFrame {
         add(lblOrderID);
         lblOrderID.setText(generateOrderId());
 
-        btnPlace = new JButton("Place");
-        btnPlace.setFont(new Font("Arial", Font.BOLD, 16));
-        btnPlace.setBackground(new Color(4, 203, 201));
-        btnPlace.setForeground(Color.WHITE);
-        btnPlace.setBounds(300, 430, 125, 50);
-        add(btnPlace);
-        btnPlace.addActionListener(evt -> {
-            if (validatePhoneNumber() && validateSize() && validateQty()) {
-                double amount = calculateAmount();
-                lblgetAmount.setText(String.format("%.2f", amount));
-
-                String orderID = lblOrderID.getText();
-                String size = txtTShirtSize.getText();
-                int qty = Integer.parseInt(txtQTY.getText());
-                String cusID = txtPhoneNumber.getText();
-                String orderStatus = "Processing";
-                Order newOrder = new Order(orderID, size, qty, amount, cusID, orderStatus);
-
-                try {
-                    FileWriter fw = new FileWriter("OrdersDoc.txt", true);
-                    fw.write(newOrder.toString() + "\n");
-                    fw.close();
-                    JOptionPane.showMessageDialog(this, "Order placed!", "Information",
-                            JOptionPane.INFORMATION_MESSAGE);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, "Order not placed!", "Information",
-                            JOptionPane.INFORMATION_MESSAGE);
-                }
-                lblOrderID.setText(generateOrderId());
-                txtPhoneNumber.setText("");
-                txtTShirtSize.setText("");
-                txtQTY.setText("");
-            }
-        });
-
         btnBack = new JButton("Back");
         btnBack.setFont(new Font("Arial", Font.BOLD, 16));
         btnBack.setBackground(new Color(255, 102, 102));
@@ -106,6 +71,9 @@ class PlaceOrderWindow extends JFrame {
         txtQTY.setBounds(180, 310, 250, 35);
         txtQTY.setFont(new Font("Arial", Font.BOLD, 16));
         add(txtQTY);
+        txtQTY.addActionListener(evt -> {
+            lblgetAmount.setText(String.format("%.2f", calculateAmount(txtTShirtSize.getText(), txtQTY.getText().isEmpty() ? 0 : Integer.parseInt(txtQTY.getText()))));
+        });
 
         lblAmount = new JLabel("Amount:");
         lblAmount.setFont(new Font("Arial", Font.BOLD, 16));
@@ -116,6 +84,39 @@ class PlaceOrderWindow extends JFrame {
         lblgetAmount.setFont(new Font("Arial", Font.PLAIN, 16));
         lblgetAmount.setBounds(180, 380, 250, 35);
         add(lblgetAmount);
+
+        lblgetAmount.setText(String.format("%.2f", calculateAmount(txtTShirtSize.getText(), txtQTY.getText().isEmpty() ? 0 : Integer.parseInt(txtQTY.getText()))));
+
+        btnPlace = new JButton("Place");
+        btnPlace.setFont(new Font("Arial", Font.BOLD, 16));
+        btnPlace.setBackground(new Color(4, 203, 201));
+        btnPlace.setForeground(Color.WHITE);
+        btnPlace.setBounds(300, 430, 125, 50);
+        add(btnPlace);
+        btnPlace.addActionListener(evt -> {
+            if (validatePhoneNumber() && validateSize() && validateQty()) {
+                String orderID = lblOrderID.getText();
+                String size = txtTShirtSize.getText();
+                int qty = Integer.parseInt(txtQTY.getText());
+                double amount = Double.parseDouble(lblgetAmount.getText());
+                String cusID = txtPhoneNumber.getText();
+                String orderStatus = "Processing";
+                Order newOrder = new Order(orderID, size, qty, amount, cusID, orderStatus);
+
+                try {
+                    boolean isPlaced = OrderController.placeOrder(newOrder);
+                    if (isPlaced) {
+                        JOptionPane.showMessageDialog(this, "Order placed!", "Information", JOptionPane.INFORMATION_MESSAGE); 
+                        lblOrderID.setText(generateOrderId());
+                        txtPhoneNumber.setText("");
+                        txtTShirtSize.setText("");
+                        txtQTY.setText("");
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Order not placed!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    }                    
+                } catch (IOException ex) {}
+            }
+        });
     }
 
     private String generateOrderId() {
@@ -155,15 +156,12 @@ class PlaceOrderWindow extends JFrame {
     }
 
     public boolean validateQty() {
-        try {
-            int qty = Integer.parseInt(txtQTY.getText());
-            if (qty < 1)
-                throw new NumberFormatException();
-            return true;
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Quantity must be a valid integer", "Error", JOptionPane.ERROR_MESSAGE);
+        String qtyText = txtQTY.getText();
+        if (qtyText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Quantity cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+        return true;
     }
 
     public boolean validatePhoneNumber() {
@@ -175,7 +173,28 @@ class PlaceOrderWindow extends JFrame {
         return true;
     }
 
-    public double calculateAmount() {
-        return Integer.parseInt(txtQTY.getText()) * 1500.00;
+    public double calculateAmount(String tShirtSize, int qty) {
+        double amount = 0;
+        switch (tShirtSize) {
+            case "XS":
+                amount = qty * 600.00;
+                break;
+            case "S":
+                amount = qty * 800.00;
+                break;
+            case "M":
+                amount = qty * 900.00;
+                break;
+            case "L":
+                amount = qty * 1000.00;
+                break;
+            case "XL":
+                amount = qty * 1100.00;
+                break;
+            case "XXL":
+                amount = qty * 1200.00;
+                break;
+        }
+        return amount;
     }
 }

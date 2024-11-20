@@ -44,6 +44,9 @@ public class SearchOrderWindow extends JFrame {
 
         btnSearch = new JButton("Search");
         btnSearch.setBounds(360, 85, 100, 30);
+        btnSearch.setBackground(new Color(4, 203, 201));
+        btnSearch.setForeground(Color.WHITE);
+        btnSearch.setFont(new Font("Arial", Font.BOLD, 16));
         add(btnSearch);
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
