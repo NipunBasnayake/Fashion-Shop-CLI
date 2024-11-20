@@ -73,7 +73,6 @@ public class List {
         return tempOrderArray;
     }
 
-
     public boolean isEmpty(){
 		return start==null;
 	}

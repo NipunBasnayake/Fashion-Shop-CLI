@@ -104,6 +104,7 @@ class PlaceOrderWindow extends JFrame {
                 Order newOrder = new Order(orderID, size, qty, amount, cusID, orderStatus);
 
                 try {
+
                     boolean isPlaced = OrderController.placeOrder(newOrder);
                     if (isPlaced) {
                         JOptionPane.showMessageDialog(this, "Order placed!", "Information", JOptionPane.INFORMATION_MESSAGE); 
@@ -163,6 +164,7 @@ class PlaceOrderWindow extends JFrame {
         }
         return true;
     }
+    
 
     public boolean validatePhoneNumber() {
         String phone = txtPhoneNumber.getText();
