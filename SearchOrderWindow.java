@@ -11,7 +11,7 @@ public class SearchOrderWindow extends JFrame {
     private JLabel lblEnterID;
     private JTextField txtOrderID;
 
-    SearchOrderWindow(List ordersCollection) {
+    SearchOrderWindow() {
         setSize(500, 550);
         setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

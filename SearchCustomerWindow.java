@@ -1,9 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 
 public class SearchCustomerWindow extends JFrame {
     private JButton btnBack;
@@ -14,7 +12,7 @@ public class SearchCustomerWindow extends JFrame {
     private DefaultTableModel model;
     private JLabel totalLabel;
 
-    SearchCustomerWindow(List ordersCollection) {
+    SearchCustomerWindow() {
         setSize(500, 550);
         setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

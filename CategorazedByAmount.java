@@ -1,15 +1,12 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.util.Scanner;
 
 class CategorazedByAmount extends JFrame {
     private JButton btnBack;
 
-    CategorazedByAmount(List ordersCollection) {
+    CategorazedByAmount() {
         setSize(500, 550);
         setTitle("Categorized By Amount");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -24,7 +21,7 @@ class CategorazedByAmount extends JFrame {
         add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                ViewReportsWindow viewReportsWindow = new ViewReportsWindow(ordersCollection);
+                ViewReportsWindow viewReportsWindow = new ViewReportsWindow();
                 viewReportsWindow.setVisible(true);
                 dispose();
             }
@@ -33,29 +30,21 @@ class CategorazedByAmount extends JFrame {
         String[] columns = { "Size", "QTY", "Amount" };
         DefaultTableModel table = new DefaultTableModel(columns, 0);
 
-        List orderList = new List();
-
         try {
-            Scanner input = new Scanner(new File("OrdersDoc.txt"));
-            while (input.hasNext()) {
-                String line = input.nextLine();
-                String[] rowData = line.split(",");
-                Order newOrder = new Order(rowData[0], rowData[1], Integer.parseInt(rowData[2]),
-                        Double.parseDouble(rowData[3]), rowData[4], rowData[5]);
+            List orderList = OrderController.viewCustomers();
+            if (orderList!=null) {
+                Order[] sortedArray = sortByAmount(orderList);
+                for (int i = 0; i < sortedArray.length; i++) {
+                    Object[] rowData = { sortedArray[i].getSize(), sortedArray[i].getQuantity(), sortedArray[i].getAmount() };
+                    table.addRow(rowData);
+                }
+            }else{
 
-                orderList.add(newOrder);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error reading orders file: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        Order[] sortedArray = sortByAmount(orderList);
-        for (int i = 0; i < sortedArray.length; i++) {
-            Object[] rowData = { sortedArray[i].getSize(), sortedArray[i].getQuantity(), sortedArray[i].getAmount() };
-            table.addRow(rowData);
-        }
-
         JTable custTable = new JTable(table);
         JScrollPane scrollPane = new JScrollPane(custTable);
         scrollPane.setBounds(20, 80, 440, 400);

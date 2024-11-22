@@ -1,7 +1,6 @@
 public class FashionShop {
     public static void main(String[] args) {
-        List ordersCollection = new List();
-        new HomeWindow(ordersCollection).setVisible(true);
+        new HomeWindow().setVisible(true);
     }
 }
 

@@ -1,15 +1,12 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.util.Scanner;
 
 class AllOrders extends JFrame {
     private JButton btnBack;
 
-    AllOrders(List ordersCollection) {
+    AllOrders() {
         setSize(500, 550);
         setTitle("All Orders");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -24,7 +21,7 @@ class AllOrders extends JFrame {
         add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new ViewReportsWindow(ordersCollection).setVisible(true);
+                new ViewReportsWindow().setVisible(true);
                 dispose();
             }
         });
@@ -32,38 +29,28 @@ class AllOrders extends JFrame {
         String[] colNames = { "Order ID", "Customer ID", "Size", "Quantity", "Amount", "Status" };
         DefaultTableModel table = new DefaultTableModel(colNames, 0);
 
-        List orderList = new List();
-
         try {
-            Scanner input = new Scanner(new File("OrdersDoc.txt"));
-            while (input.hasNext()) {
-                String line = input.nextLine();
-                String[] rowData = line.split(",");
-                Order newOrder = new Order(rowData[0], rowData[1], Integer.parseInt(rowData[2]),
-                        Double.parseDouble(rowData[3]), rowData[4], rowData[5]);
+            List orderList = OrderController.viewCustomers();
+            if(orderList!=null){
+                Order[] copyOrderArray = orderList.toArray();
 
-                orderList.add(newOrder);
+                for (Order order : copyOrderArray) {
+                    if (order != null) {
+                        Object[] rowData = {
+                                order.getOrderId(),
+                                order.getCustomerID(),
+                                order.getSize(),
+                                order.getQuantity(),
+                                order.getAmount(),
+                                order.getOrderStatus()
+                        };
+                        table.addRow(rowData);
+                    }
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Customers are not added to the system");
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error reading orders file: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        Order[] copyOrderArray = orderList.toArray();
-
-        for (Order order : copyOrderArray) {
-            if (order != null) {
-                Object[] rowData = {
-                        order.getOrderId(),
-                        order.getCustomerID(),
-                        order.getSize(),
-                        order.getQuantity(),
-                        order.getAmount(),
-                        order.getOrderStatus()
-                };
-                table.addRow(rowData);
-            }
-        }
+        } catch (Exception e) {}
 
         JTable cusTable = new JTable(table);
         JScrollPane scrollPane = new JScrollPane(cusTable);

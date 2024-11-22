@@ -11,7 +11,7 @@ class PlaceOrderWindow extends JFrame {
     private JTextField txtPhoneNumber, txtTShirtSize, txtQTY;
     private JButton btnPlace, btnBack;
 
-    PlaceOrderWindow(List ordersCollection) {
+    PlaceOrderWindow() {
         setSize(500, 550);
         setTitle("Place Order");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -32,7 +32,7 @@ class PlaceOrderWindow extends JFrame {
         add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new HomeWindow(ordersCollection).setVisible(true);
+                new HomeWindow().setVisible(true);
                 dispose();
             }
         });

@@ -1,14 +1,12 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.util.Scanner;
 
 class CategorazedByQty extends JFrame {
     private JButton btnBack;
 
-    CategorazedByQty(List ordersCollection) {
+    CategorazedByQty() {
         setSize(500, 550);
         setTitle("Categorized By Qty");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -23,7 +21,7 @@ class CategorazedByQty extends JFrame {
         add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                ViewReportsWindow viewReportsWindow = new ViewReportsWindow(ordersCollection);
+                ViewReportsWindow viewReportsWindow = new ViewReportsWindow();
                 viewReportsWindow.setVisible(true);
                 dispose();
             }
@@ -32,27 +30,20 @@ class CategorazedByQty extends JFrame {
         String[] columns = { "Size", "QTY", "Amount" };
         DefaultTableModel table = new DefaultTableModel(columns, 0);
 
-        List orderList = new List();
-
         try {
-            Scanner input = new Scanner(new File("OrdersDoc.txt"));
-            while (input.hasNext()) {
-                String line = input.nextLine();
-                String[] rowData = line.split(",");
-                Order newOrder = new Order(rowData[0], rowData[1], Integer.parseInt(rowData[2]),
-                        Double.parseDouble(rowData[3]), rowData[4], rowData[5]);
-
-                orderList.add(newOrder);
+            List orderList = OrderController.viewCustomers();
+            if(orderList!=null){
+                Order[] sortedArray = sortByQty(orderList);
+                for (int i = 0; i < sortedArray.length; i++) {
+                    Object[] rowData = { sortedArray[i].getSize(), sortedArray[i].getQuantity(), sortedArray[i].getAmount() };
+                    table.addRow(rowData);
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Customers are not added to the system");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error reading orders file: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        Order[] sortedArray = sortByQty(orderList);
-        for (int i = 0; i < sortedArray.length; i++) {
-            Object[] rowData = { sortedArray[i].getSize(), sortedArray[i].getQuantity(), sortedArray[i].getAmount() };
-            table.addRow(rowData);
         }
 
         JTable custTable = new JTable(table);
@@ -62,7 +53,7 @@ class CategorazedByQty extends JFrame {
     }
 
     public Order[] sortByQty(List orderList) {
-        Order[] orderArray = orderList.toArray(); // Access the order array from List
+        Order[] orderArray = orderList.toArray(); 
         Order[] items = new Order[orderArray.length];
         int uniqueSizesCount = 0;
 
@@ -108,8 +99,6 @@ class CategorazedByQty extends JFrame {
                 }
             }
         }
-
-        // Return the sorted array with the correct size
         Order[] result = new Order[uniqueSizesCount];
         System.arraycopy(items, 0, result, 0, uniqueSizesCount);
         return result;

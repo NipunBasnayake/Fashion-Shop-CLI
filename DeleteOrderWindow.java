@@ -1,10 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
+import java.io.*;
 
 class DeleteOrderWindow extends JFrame {
     private JLabel lblCustID, lblSize, lblQTY, lblAmount, lblStatus;
@@ -12,27 +9,9 @@ class DeleteOrderWindow extends JFrame {
     private JButton btnBack, btnSearch, btnDeleteOrder;
     private JLabel lblEnterID;
     private JTextField txtOrderID;
-    private List orderList;
+    static Order searchedResult;
 
-    DeleteOrderWindow(List ordersCollection) {
-
-        this.orderList = ordersCollection;
-
-        try {
-            Scanner input = new Scanner(new File("OrdersDoc.txt"));
-            while (input.hasNext()) {
-                String line = input.nextLine();
-                String[] rowData = line.split(",");
-                Order newOrder = new Order(rowData[0], rowData[1], Integer.parseInt(rowData[2]),
-                        Double.parseDouble(rowData[3]), rowData[4], rowData[5]);
-
-                orderList.add(newOrder);
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error reading orders file: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
+    DeleteOrderWindow() {
         setSize(500, 550);
         setTitle("Delete Order");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -47,7 +26,7 @@ class DeleteOrderWindow extends JFrame {
         add(btnBack);
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new HomeWindow(ordersCollection).setVisible(true);
+                new HomeWindow().setVisible(true);
                 dispose();
             }
         });
@@ -67,20 +46,23 @@ class DeleteOrderWindow extends JFrame {
         add(btnSearch);
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                boolean isFound = false;
-                for (Order order : orderList.toArray()) {
-                    if (txtOrderID.getText().equalsIgnoreCase(order.getOrderId())) {
-                        lblGetSize.setText(order.getSize());
-                        lblGetQTY.setText(String.valueOf(order.getQuantity()));
-                        lblGetAmount.setText(String.valueOf(order.getAmount()));
-                        lblGetCustID.setText(order.getCustomerID());
-                        lblGetStatus.setText(order.getOrderStatus());
-                        isFound = true;
-                        break;
+                try {
+                    searchedResult = OrderController.searchOrderId(txtOrderID.getText());
+                    if (searchedResult != null) {
+                        lblGetSize.setText(searchedResult.getSize());
+                        lblGetQTY.setText(String.valueOf(searchedResult.getQuantity()));
+                        lblGetAmount.setText(String.valueOf(searchedResult.getAmount()));
+                        lblGetCustID.setText(searchedResult.getCustomerID());
+                        lblGetStatus.setText(searchedResult.getOrderStatus());
+                    } else {
+                        JOptionPane.showMessageDialog(null, "OrderId Not Found.!");
+                        lblGetSize.setText("");
+                        lblGetQTY.setText("");
+                        lblGetAmount.setText("");
+                        lblGetCustID.setText("");
+                        lblGetStatus.setText("");
                     }
-                }
-                if (!isFound) {
-                    JOptionPane.showMessageDialog(null, "Order not Found");
+                } catch (IOException ex) {
                 }
             }
         });
@@ -143,29 +125,20 @@ class DeleteOrderWindow extends JFrame {
         add(btnDeleteOrder);
         btnDeleteOrder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                String id = txtOrderID.getText();
-        
-                List updatedOrderList = new List();
-                try (Scanner input = new Scanner(new File("OrdersDoc.txt"))) {
-                    while (input.hasNext()) {
-                        String line = input.nextLine();
-                        String[] rowData = line.split(",");
-                        if (rowData[0].equalsIgnoreCase(id)) {
-                            continue;
-                        }
-                        Order order = new Order(rowData[0], rowData[1], Integer.parseInt(rowData[2]),
-                                Double.parseDouble(rowData[3]), rowData[4], rowData[5]);
-                        updatedOrderList.add(order);
+                try {
+                    boolean isDeleted = OrderController.deleteOrder(searchedResult);
+                    if (isDeleted) {
+                        JOptionPane.showMessageDialog(null, "Order Deleted.!");
+                        txtOrderID.setText("");
+                        lblGetSize.setText("");
+                        lblGetQTY.setText("");
+                        lblGetAmount.setText("");
+                        lblGetCustID.setText("");
+                        lblGetStatus.setText("");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Order Not Deleted.!");
                     }
-                    try (FileWriter fw = new FileWriter("OrdersDoc.txt")) {
-                        for (Order order : updatedOrderList.toArray()) {
-                            fw.write(order.toString() + "\n");
-                        }
-                    }
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Error deleting order: " + ex.getMessage(),
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                } catch (IOException e) {}
             }
         });
         
