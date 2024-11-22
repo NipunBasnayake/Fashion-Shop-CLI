@@ -12,14 +12,13 @@ class HomeWindow extends JFrame {
     private JButton btnDeleteOrder;
     private JButton btnPlaceOrder;
 
-    HomeWindow(List ordersCollection) {
+    HomeWindow() {
         setSize(500, 550);
         setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
 
-        // ----------------- Title --------------------
         lblTitle = new JLabel("Fashion Shop", JLabel.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 36));
         lblTitle.setForeground(Color.WHITE);
@@ -28,7 +27,6 @@ class HomeWindow extends JFrame {
         lblTitle.setBounds(0, 0, 500, 50);
         add(lblTitle);
         
-        // ----------------- Buttons --------------------
         btnSearch = new JButton("Search");
         btnSearch.setFont(new Font("Arial", Font.BOLD, 16));
         btnSearch.setBounds(50, 80, 200, 50);
@@ -48,10 +46,10 @@ class HomeWindow extends JFrame {
 
                 switch (response) {
                     case 0:
-                        new SearchCustomerWindow(ordersCollection).setVisible(true);
+                        new SearchCustomerWindow().setVisible(true);
                         break;
                     case 1:
-                        new SearchOrderWindow(ordersCollection).setVisible(true);
+                        new SearchOrderWindow().setVisible(true);
                         break;
                     case 2:
                         break;
@@ -68,7 +66,7 @@ class HomeWindow extends JFrame {
         add(btnViewReports);
         btnViewReports.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new ViewReportsWindow(ordersCollection).setVisible(true);
+                new ViewReportsWindow().setVisible(true);
                 dispose();
             }
         });
@@ -79,7 +77,7 @@ class HomeWindow extends JFrame {
         add(btnSetOrderStatus);
         btnSetOrderStatus.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new StatusWindow(ordersCollection).setVisible(true);
+                new StatusWindow().setVisible(true);
                 dispose();
             }
         });
@@ -90,7 +88,7 @@ class HomeWindow extends JFrame {
         add(btnDeleteOrder);
         btnDeleteOrder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new DeleteOrderWindow(ordersCollection).setVisible(true);
+                new DeleteOrderWindow().setVisible(true);
                 dispose();
             }
         });
@@ -102,7 +100,7 @@ class HomeWindow extends JFrame {
         add(btnPlaceOrder);
         btnPlaceOrder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new PlaceOrderWindow(ordersCollection).setVisible(true);
+                new PlaceOrderWindow().setVisible(true);
                 dispose();
             }
         });

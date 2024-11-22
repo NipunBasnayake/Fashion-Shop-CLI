@@ -12,7 +12,7 @@ public class ViewReportsWindow extends JFrame {
     private JButton OrderByAmount;
     private JButton AllOrders;
 
-    ViewReportsWindow(List ordersCollection) {
+    ViewReportsWindow() {
         setSize(500, 550);
         setTitle("View Reports");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -28,7 +28,7 @@ public class ViewReportsWindow extends JFrame {
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 dispose();
-                new HomeWindow(ordersCollection).setVisible(true);
+                new HomeWindow().setVisible(true);
             }
         });
 
@@ -44,7 +44,7 @@ public class ViewReportsWindow extends JFrame {
         add(ViewCustomers);
         ViewCustomers.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new ViewCustomers(ordersCollection).setVisible(true);
+                new ViewCustomers().setVisible(true);
                 dispose();
             }
         });
@@ -57,7 +57,7 @@ public class ViewReportsWindow extends JFrame {
         add(BestInCustomers);
         BestInCustomers.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new BestInCustomers(ordersCollection).setVisible(true);
+                new BestInCustomers().setVisible(true);
                 dispose();
             }
         });
@@ -70,7 +70,7 @@ public class ViewReportsWindow extends JFrame {
         add(AllCustomers);
         AllCustomers.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new AllCustomers(ordersCollection).setVisible(true);
+                new AllCustomers().setVisible(true);
             dispose();
             }
         });
@@ -83,7 +83,7 @@ public class ViewReportsWindow extends JFrame {
         add(CategorizedByQty);
         CategorizedByQty.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new CategorazedByQty(ordersCollection).setVisible(true);
+                new CategorazedByQty().setVisible(true);
             dispose();
             }
         });
@@ -96,7 +96,7 @@ public class ViewReportsWindow extends JFrame {
         add(CategorizedByAmount);
         CategorizedByAmount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new CategorazedByAmount(ordersCollection).setVisible(true);
+                new CategorazedByAmount().setVisible(true);
                 dispose();
             }
         });
@@ -109,7 +109,7 @@ public class ViewReportsWindow extends JFrame {
         add(OrderByAmount);
         OrderByAmount.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new OrderByAmount(ordersCollection).setVisible(true);
+                new OrderByAmount().setVisible(true);
             dispose();
             }
         });
@@ -122,7 +122,7 @@ public class ViewReportsWindow extends JFrame {
         add(AllOrders);
         AllOrders.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                new AllOrders(ordersCollection).setVisible(true);
+                new AllOrders().setVisible(true);
                 dispose();
             }
         });

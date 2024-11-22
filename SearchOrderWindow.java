@@ -1,9 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class SearchOrderWindow extends JFrame {
 
@@ -13,7 +11,7 @@ public class SearchOrderWindow extends JFrame {
     private JLabel lblEnterID;
     private JTextField txtOrderID;
 
-    SearchOrderWindow(List ordersCollection) {
+    SearchOrderWindow() {
         setSize(500, 550);
         setTitle("Fashion Shop");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -50,33 +48,24 @@ public class SearchOrderWindow extends JFrame {
         add(btnSearch);
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                String newLine = null;
+                
                 try {
-                    BufferedReader br = new BufferedReader(new FileReader("OrdersDoc.txt"));
-                    String line = br.readLine();
-
-                    while (line != null) {
-                        String orderId = line.substring(0,9);
-                        if (orderId.equalsIgnoreCase(txtOrderID.getText())) {
-                            newLine = line;
-                            break;
-                        }
-                        line = br.readLine();
+                    Order searchedResult = OrderController.searchOrderId(txtOrderID.getText());
+                    if (searchedResult!=null) {
+                        lblGetSize.setText(searchedResult.getSize());
+                        lblGetQTY.setText(String.valueOf(searchedResult.getQuantity()));
+                        lblGetAmount.setText(String.valueOf(searchedResult.getAmount()));
+                        lblGetCustID.setText(searchedResult.getCustomerID());
+                        lblGetStatus.setText(searchedResult.getOrderStatus());
+                    }else{
+                        JOptionPane.showMessageDialog(null, "OrderId Not Found.!");
+                        lblGetSize.setText("");
+                        lblGetQTY.setText("");
+                        lblGetAmount.setText("");
+                        lblGetCustID.setText("");
+                        lblGetStatus.setText("");
                     }
-
-                } catch (IOException ex) {
-                    
-                }
-                if (newLine != null) {
-                    String[] rowData = newLine.split(",");
-                    lblGetSize.setText(rowData[1]);
-                    lblGetQTY.setText(rowData[2]);
-                    lblGetAmount.setText(rowData[3]);
-                    lblGetCustID.setText(rowData[4]);
-                    lblGetStatus.setText(rowData[5]);
-                }else{
-                    JOptionPane.showMessageDialog(null, "Customer not Found");
-                }
+                } catch (IOException ex) {}
             }
         });
 
